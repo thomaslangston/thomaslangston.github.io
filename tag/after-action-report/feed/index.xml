@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	
+	xmlns:georss="http://www.georss.org/georss"
+	xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
+	>
+
+<channel>
+	<title>After Action Report &#8211; Langston Software</title>
+	<atom:link href="/tag/after-action-report/feed/" rel="self" type="application/rss+xml" />
+	<link>/</link>
+	<description>Full Stack Web Development</description>
+	<lastBuildDate>Tue, 28 Jun 2016 13:07:54 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.6.1</generator>
+
+<image>
+	<url>https://i0.wp.com/langstonsoftware.com/wp-content/uploads/2017/03/cropped-profilePic-2.jpg?fit=32%2C32&#038;ssl=1</url>
+	<title>After Action Report &#8211; Langston Software</title>
+	<link>/</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+<site xmlns="com-wordpress:feed-additions:1">100682242</site>	<item>
+		<title>How I did it: Sql Server Transactional Replication</title>
+		<link>/2016/06/21/how-i-did-it-sql-server-transactional-replication/</link>
+					<comments>/2016/06/21/how-i-did-it-sql-server-transactional-replication/#respond</comments>
+		
+		<dc:creator><![CDATA[Thomas Langston]]></dc:creator>
+		<pubDate>Tue, 21 Jun 2016 23:05:39 +0000</pubDate>
+				<category><![CDATA[SQL]]></category>
+		<category><![CDATA[After Action Report]]></category>
+		<guid isPermaLink="false">/?p=46</guid>
+
+					<description><![CDATA[Configuring SQL server replication isn&#8217;t something I do every day, so I thought I might enjoy some breadcrumbs to follow the next time I travel down this path. My client needed to have a number of tables and views replicated to a reporting server. The reporting server needed near real-time data, as small a deployment ...]]></description>
+										<content:encoded><![CDATA[<p>Configuring SQL server replication isn&#8217;t something I do every day, so I thought I might enjoy some breadcrumbs to follow the next time I travel down this path.</p>
+<p>My client needed to have a number of tables and views replicated to a reporting server. The reporting server needed near real-time data, as small a deployment downtime window as possible, and minimal regular performance degradation. </p>
+<p>For these reasons I selected MS SQL server&#8217;s transactional replication. This would provide the near real-time data. With a few configuration choices it has a small deployment downtime window. Finally performance degradation is manageable, with few locks, and plenty of knobs to adjust to fix any issues.</p>
+<p>I had the replication components installed on sql servers during day.<br />
+<a href="https://msdn.microsoft.com/en-us/library/ms143677.aspx">https://msdn.microsoft.com/en-us/library/ms143677.aspx</a></p>
+<p>Then I created destination database in subscribing server. I gave it the same name as the publisher so existing scripts should work without many modifications.</p>
+<p>Next I created new publication using a deprecated table. I choose the publishing server to act as the distributor. In the future, a separate server can be designated as the distributor if additional publications degrade performance. There is an option to use the SQL server agent&#8217;s security settings, but it is not recommended. I ran the snapshot immediately because I wanted to see any potential issues.<br />
+<a href="https://msdn.microsoft.com/en-us/library/ms151160.aspx">https://msdn.microsoft.com/en-us/library/ms151160.aspx</a></p>
+<p>I immediately discovered a wrinkle. The compatibility levels were not the same, since the existing database had been moved from older versions of SQL server. We could have lowered the compatibility level on the reporting server to match, but the error messages didn&#8217;t seem to indicate that would have solved the problem. Our errors were around datatypes which were not supported in older versions. For this reason, and because of the possible performance improvements with updated compatibility levels, we moved forward with updating the publisher database.</p>
+<p>In order to discover any issues with upgrading the compatibility level, we did several things. First, we tried to use SQL upgrade advisor, but could not get it to work with the already upgraded server.<br />
+<a href="https://msdn.microsoft.com/en-us/library/ms144256(v=sql.120).aspx">https://msdn.microsoft.com/en-us/library/ms144256(v=sql.120).aspx</a><br />
+Second, we went through major issues on compatibility level checklist, spot checking the databse for potential issues.<br />
+<a href="https://msdn.microsoft.com/en-us/library/bb510680.aspx">https://msdn.microsoft.com/en-us/library/bb510680.aspx</a><br />
+Finally, we updated compatibility level in test environment. After several hours of running at the new compatibility level, we then updated the compatibility level in production after hours.</p>
+<p>Returning to replication, we created a new subscription on the reporting server.<br />
+<a href="https://msdn.microsoft.com/en-us/library/ms152566.aspx">https://msdn.microsoft.com/en-us/library/ms152566.aspx</a><br />
+We exclusively chose push subscriptions because of reported lock behavior.<br />
+<a href="http://dba.stackexchange.com/questions/73629/how-to-generate-replication-snapshot-without-locking-tables">http://dba.stackexchange.com/questions/73629/how-to-generate-replication-snapshot-without-locking-tables</a><br />
+Pull subscription reduces demand on publisher, so we&#8217;ll switch to using it later if performance requirements demand.</p>
+<p>A linked server had to be added on the reporting server for a view, since all the components of a view must be available for replication to occur.</p>
+<p>After all of these changes, the replication monitor showed success, the event viewer showed no additional errors, and the databases were populated on the reporting server.</p>
+<p>Even after all the compatibility level checks, we still encountered timeout issues later that week that appeared to be compatibility level related. New indexes had to be created to alleviate these issues. Also, additional tables have been identified that will have to replicated for reporting, which should also continue to reduce load on the server.</p>
+<p>If you have any additions, thoughts, or comments about SQL replication or updating compatibility levels, please add them below. I&#8217;d love to hear from you.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>/2016/06/21/how-i-did-it-sql-server-transactional-replication/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">46</post-id>	</item>
+	</channel>
+</rss>

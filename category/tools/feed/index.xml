@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	
+	xmlns:georss="http://www.georss.org/georss"
+	xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
+	>
+
+<channel>
+	<title>Tools &#8211; Langston Software</title>
+	<atom:link href="/category/tools/feed/" rel="self" type="application/rss+xml" />
+	<link>/</link>
+	<description>Full Stack Web Development</description>
+	<lastBuildDate>Wed, 21 Sep 2016 14:44:54 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.6.1</generator>
+
+<image>
+	<url>https://i0.wp.com/langstonsoftware.com/wp-content/uploads/2017/03/cropped-profilePic-2.jpg?fit=32%2C32&#038;ssl=1</url>
+	<title>Tools &#8211; Langston Software</title>
+	<link>/</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+<site xmlns="com-wordpress:feed-additions:1">100682242</site>	<item>
+		<title>Why Resharper? Code Formatting</title>
+		<link>/2016/08/30/why-resharper-code-formatting/</link>
+					<comments>/2016/08/30/why-resharper-code-formatting/#respond</comments>
+		
+		<dc:creator><![CDATA[Thomas Langston]]></dc:creator>
+		<pubDate>Wed, 31 Aug 2016 00:24:47 +0000</pubDate>
+				<category><![CDATA[Tools]]></category>
+		<guid isPermaLink="false">/?p=63</guid>
+
+					<description><![CDATA[While Visual Studio is often made fun of for being bloated, and has more functionality than a single developer could hope to create in a career, it still has a few missing features. This is where Resharper from JetBrains steps in. In particular today I want to talk about just one feature Resharper has, and ...]]></description>
+										<content:encoded><![CDATA[<p>While Visual Studio is often made fun of for being bloated, and has more functionality than a single developer could hope to create in a career, it still has a few missing features. This is where Resharper from JetBrains steps in.</p>
+<p>In particular today I want to talk about just one feature Resharper has, and many developers don&#8217;t use, to both their own and their team&#8217;s detriment. Consider this post both overview and entreaty to those who don&#8217;t use this feature.</p>
+<p>That feature is automatic code formatting.</p>
+<p>Visual Studio by default tries to give you a lot of automatic code completion and indention. One of the simplest things it won&#8217;t do however, it break your lines as you write large statements. LINQ practically becomes unreadable as variable names become larger and conditionals become more complicated. Methods and constructors that take a large number of arguments become unwieldy. While you can and should tackle these problems with factoring out new methods and variables to contain their incidental complexity, sometimes you just need to see how the brick is made inline.</p>
+<p>You can apply automatic code formatting across a whole solution, a file, or as I often do in existing projects, just the hairiest parts of the code you are working on that day. In order to really get the most of your code formatting, you should configure the options to match your team&#8217;s coding guidelines, and then save those options in the repository so that they can be picked up automatically both other developer&#8217;s Resharper installations. You have these formatting changes be applied silently after you&#8217;ve set them up, removing the need to go thru the wizard on each run.</p>
+<p>Some settings I particularly suggest you look at are those that handle those automatic breaks after opening a new block or method argument list. Having these being treated more consistently make reviewing changes much more palatable in a diff tool. I&#8217;m also a fan of creating automatic breaks in long chained method calls, ternary operators, or string concatenations, keeping operators at the beginning of lines, letting the human reader front load the meaning of any given line. These are just calls made from personal experience. One of my favorite programming books, Code Complete 2, backs many of these positions. While many development coding guidelines might be based on terminal interfaces, it turns out there are plenty of reasons based in science on why humans can&#8217;t read lines over 80 characters very well, especially when those lines are full of difficult mathematical logic.</p>
+<p>I hope this has whet your appetite for nicely presented code in your projects. Luckily Resharper is the utensil you need to cut into this problem. If you&#8217;ve already installed Resharper, or this post has convinced you to try it out, please let me know how your experience with code formatting goes in the comments.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>/2016/08/30/why-resharper-code-formatting/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">63</post-id>	</item>
+	</channel>
+</rss>

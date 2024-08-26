@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	
+	xmlns:georss="http://www.georss.org/georss"
+	xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
+	>
+
+<channel>
+	<title>ASP.NET MVC &#8211; Langston Software</title>
+	<atom:link href="/category/frameworks-libraries/asp-net-mvc/feed/" rel="self" type="application/rss+xml" />
+	<link>/</link>
+	<description>Full Stack Web Development</description>
+	<lastBuildDate>Wed, 31 Jan 2024 00:09:16 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.6.1</generator>
+
+<image>
+	<url>https://i0.wp.com/langstonsoftware.com/wp-content/uploads/2017/03/cropped-profilePic-2.jpg?fit=32%2C32&#038;ssl=1</url>
+	<title>ASP.NET MVC &#8211; Langston Software</title>
+	<link>/</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+<site xmlns="com-wordpress:feed-additions:1">100682242</site>	<item>
+		<title>Automatic Versioning of C# MVC Applications</title>
+		<link>/2017/06/05/automatic-versioning-of-csharp-mvc-applications/</link>
+		
+		<dc:creator><![CDATA[Thomas Langston]]></dc:creator>
+		<pubDate>Mon, 05 Jun 2017 13:00:08 +0000</pubDate>
+				<category><![CDATA[ASP.NET MVC]]></category>
+		<category><![CDATA[Bamboo]]></category>
+		<category><![CDATA[C#]]></category>
+		<category><![CDATA[Continuous Integration]]></category>
+		<category><![CDATA[PowerShell]]></category>
+		<guid isPermaLink="false">/?p=185</guid>
+
+					<description><![CDATA[I recently had a project that had me delving into the following blog post on assembly versioning: https://blogs.msdn.microsoft.com/jjameson/2009/04/03/best-practices-for-net-assembly-versioning/ The blog post had a couple of problems. The first that came to mind was that the linked examples were using Team Foundation Server, while I was using Atlassian Bamboo. The second is that it seemed like ...]]></description>
+										<content:encoded><![CDATA[<p>I recently had a project that had me delving into the following blog post on assembly versioning: <a href="https://blogs.msdn.microsoft.com/jjameson/2009/04/03/best-practices-for-net-assembly-versioning/" target="_blank" rel="noopener">https://blogs.msdn.microsoft.com/jjameson/2009/04/03/best-practices-for-net-assembly-versioning/</a></p>
+<p>The blog post had a couple of problems. The first that came to mind was that the linked examples were using Team Foundation Server, while I was using Atlassian Bamboo. The second is that it seemed like a lot of work, especially when dealing with a large number of existing projects in a legacy solution all churning version numbers. Jumping back into Google I found a new blog post: <a href="https://blogs.msdn.microsoft.com/jjameson/2009/04/03/shared-assembly-info-in-visual-studio-projects/" target="_blank" rel="noopener">https://blogs.msdn.microsoft.com/jjameson/2009/04/03/shared-assembly-info-in-visual-studio-projects/</a></p>
+<p>This seemed better, but I was not sure that putting all the assembly version information into one shared file is correct either. It seems like we&#8217;d be doing fine keeping our dlls at the default 1.0.0.0 version, I just wanted to tag the dlls with our Git commit SHA.  Otherwise our repo would churn on build. Also, I&#8217;d prefer to do a full replace during my build on a file that only contains the information I want to change across my entire repo, leaving the rest alone. So I decided that modifying the AssemblyInformationalVersion in a CI script made the most sense for what I was trying to accomplish.</p>
+<p>I searched further and found the <a href="https://github.com/loresoft/msbuildtasks" target="_blank" rel="noopener">MSBuild Community Tasks</a> repo. However, I prefer PowerShell to MSBuild target XML &#8220;programming&#8221;.</p>
+<p>Example below is using Bamboo build environment variables, but can easily be tailored to your CI build system. For those who know Bamboo, you might notice the <a href="https://stackoverflow.com/questions/15987684/are-bamboo-variables-automatically-available-as-environment-variables" target="_blank" rel="noopener">Bamboo variables look a little different in PowerShell</a>. For those new to Powershell, I&#8217;m using the backtick (`) as the string escape character.</p>
+<pre class="brush: powershell; title: ; notranslate">$revision = $Env:bamboo_planRepository_revision
+$buildNumber = $Env:bamboo_buildNumber
+$text = &quot;$revision - $buildNumber&quot;
+$text &gt; 'Version.txt'
+
+$assemblyText = &quot;using System.Reflection;`n&#x5B;assembly: AssemblyInformationalVersion(`&quot;$text`&quot;)]&quot; 
+
+$assemblyText &gt; 'SharedAssemblyInfo.cs'</pre>
+<p>You can add the Version.txt file as an ignored route in MVC if you&#8217;d like it to be served by ASP.NET. I created two dummy files in the top of my repo that whose contents would be replaced by this script. I <a href="https://blogs.msdn.microsoft.com/jjameson/2009/04/02/linked-files-in-visual-studio-solutions/" target="_blank" rel="noopener">included these shared files in all the projects by linking to them</a>. I did move my dummy SharedAssemblyInfo.cs file into the Properties folder of my projects so it could sit side-by-side with the default AssemblyInfo.cs file. Now I can either look at Version.txt from a browser, or right click the dll directly on the machine to see the &#8220;Product Version&#8221; under the Details tab of the Properties modal.</p>
+<h3>Before You Go</h3>
+&nbsp;<p>
+Was this post was incorrect or incomplete?  Leave a comment.
+</p>
+<style>
+#callToAction {color:red}
+</style>
+<p>
+Was this post helpful to you? <a id="callToAction" class="button" href="http://eepurl.com/bYVEJj"><em>Subscribe for emails on full stack web development.</em></a>
+</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">185</post-id>	</item>
+	</channel>
+</rss>

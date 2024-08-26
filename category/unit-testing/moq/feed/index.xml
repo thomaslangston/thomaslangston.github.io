@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	
+	xmlns:georss="http://www.georss.org/georss"
+	xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
+	>
+
+<channel>
+	<title>Moq &#8211; Langston Software</title>
+	<atom:link href="/category/unit-testing/moq/feed/" rel="self" type="application/rss+xml" />
+	<link>/</link>
+	<description>Full Stack Web Development</description>
+	<lastBuildDate>Tue, 06 Sep 2016 19:07:49 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.6.1</generator>
+
+<image>
+	<url>https://i0.wp.com/langstonsoftware.com/wp-content/uploads/2017/03/cropped-profilePic-2.jpg?fit=32%2C32&#038;ssl=1</url>
+	<title>Moq &#8211; Langston Software</title>
+	<link>/</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+<site xmlns="com-wordpress:feed-additions:1">100682242</site>	<item>
+		<title>Moq can&#8217;t setup methods with anonymous object arguments</title>
+		<link>/2016/09/06/moq-cant-setup-methods-with-anonymous-object-arguments/</link>
+					<comments>/2016/09/06/moq-cant-setup-methods-with-anonymous-object-arguments/#respond</comments>
+		
+		<dc:creator><![CDATA[Thomas Langston]]></dc:creator>
+		<pubDate>Tue, 06 Sep 2016 23:07:03 +0000</pubDate>
+				<category><![CDATA[C#]]></category>
+		<category><![CDATA[Moq]]></category>
+		<category><![CDATA[Unit Testing]]></category>
+		<guid isPermaLink="false">/?p=65</guid>
+
+					<description><![CDATA[Something frustrating I learned today about my favorite Mocking tool today, or at least in version 4.0 that I have installed, it can&#8217;t handle anonymous objects in method parameters. This is very depressing in web programming where it doesn&#8217;t make much sense to create a static DTO type for every version of a API call. ...]]></description>
+										<content:encoded><![CDATA[<p>Something frustrating I learned today about my favorite Mocking tool today, or at least in version 4.0 that I have installed, it can&#8217;t handle anonymous objects in method parameters. This is very depressing in web programming where it doesn&#8217;t make much sense to create a static DTO type for every version of a API call.</p>
+<pre class="brush: plain; title: ; notranslate">
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+//Moq version 4.0.10827
+
+namespace AX.Test.Common
+{
+    public class ExampleAnonObjMockSetup
+    {
+        public interface IThing
+        {
+            string DoIt&lt;T&gt;(T it);
+        }
+
+        public class Subject
+        {
+            private readonly IThing _thing;
+
+            public Subject(IThing thing)
+            {
+                _thing = thing;
+            }
+
+            public string Execute()
+            {
+                var param = new
+                {
+                    Foo = &quot;bar&quot;,
+                    Baz = 23
+                };
+                return _thing.DoIt(param);
+            }
+        }
+
+        &#x5B;TestClass]
+        public class SubjectTest
+        {
+            &#x5B;TestMethod]
+            public void Test()
+            {
+                var mockThing = new Mock&lt;IThing&gt;();
+                mockThing.Setup(t =&gt; t.DoIt(It.IsAny&lt;object&gt;()))
+                    .Returns(&quot;expectedResult&quot;);
+
+                var subject = new Subject(mockThing.Object);
+                var result = subject.Execute();
+
+                Assert.AreEqual(&quot;expectedResult&quot;, result);
+                //Assert.AreEqual failed. Expected:&lt;expectedResult&gt;. Actual:&lt;(null)&gt;
+            }
+        }
+    }
+}
+</pre>
+<p>I&#8217;ve played with this code some more this Gist: <a href="https://gist.github.com/thomaslangston/46734b4577d1d3eac8c9d2c331f9e278">https://gist.github.com/thomaslangston/46734b4577d1d3eac8c9d2c331f9e278</a></p>
+<p>Others have reported that this behavior is fixed in Moq 4.1, but I have not yet verified. <a href="http://stackoverflow.com/questions/34185691/moq-setup-method-with-generic-anonymous-parameter">http://stackoverflow.com/questions/34185691/moq-setup-method-with-generic-anonymous-parameter</a></p>
+]]></content:encoded>
+					
+					<wfw:commentRss>/2016/09/06/moq-cant-setup-methods-with-anonymous-object-arguments/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">65</post-id>	</item>
+	</channel>
+</rss>

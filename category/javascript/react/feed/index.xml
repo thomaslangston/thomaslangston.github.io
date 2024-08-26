@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	
+	xmlns:georss="http://www.georss.org/georss"
+	xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
+	>
+
+<channel>
+	<title>React &#8211; Langston Software</title>
+	<atom:link href="/category/javascript/react/feed/" rel="self" type="application/rss+xml" />
+	<link>/</link>
+	<description>Full Stack Web Development</description>
+	<lastBuildDate>Wed, 31 Jan 2024 00:09:16 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.6.1</generator>
+
+<image>
+	<url>https://i0.wp.com/langstonsoftware.com/wp-content/uploads/2017/03/cropped-profilePic-2.jpg?fit=32%2C32&#038;ssl=1</url>
+	<title>React &#8211; Langston Software</title>
+	<link>/</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+<site xmlns="com-wordpress:feed-additions:1">100682242</site>	<item>
+		<title>How I Am Learning React</title>
+		<link>/2017/08/06/how-i-am-learning-react/</link>
+		
+		<dc:creator><![CDATA[Thomas Langston]]></dc:creator>
+		<pubDate>Sun, 06 Aug 2017 15:29:07 +0000</pubDate>
+				<category><![CDATA[JavaScript]]></category>
+		<category><![CDATA[React]]></category>
+		<guid isPermaLink="false">/?p=253</guid>
+
+					<description><![CDATA[I&#8217;ve recently gotten a new project where I&#8217;m having to pick up a slew of new skills, including Facebook&#8217;s React JS library. As with learning any new library, it can be easy to get &#8220;tutorialized&#8221;, but harder to get truly proficient. Effectively you need to move to a third system or Goldilocks architectural thinking with ...]]></description>
+										<content:encoded><![CDATA[<p>I&#8217;ve recently gotten a new project where I&#8217;m having to pick up a slew of new skills, including <a href="https://facebook.github.io/react/" target="_blank" rel="noopener">Facebook&#8217;s React JS library</a>. As with learning any new library, it can be easy to get &#8220;tutorialized&#8221;, but harder to get truly proficient. Effectively you need to move to a <a href="https://en.wikipedia.org/wiki/Second-system_effect" target="_blank" rel="noopener">third system or Goldilocks architectural thinking</a> with any new tool as soon as possible, which means trying out the tool multiple times to get a feel for it.</p>
+<p>I wanted a way to practice the React skills I picked up in <a href="https://facebook.github.io/react/tutorial/tutorial.html" target="_blank" rel="noopener">Facebook&#8217;s tutorials</a> to that end. And I wanted a way to see the basics of HTML 5 local storage, which I&#8217;ve long read about but never used. And I wanted to quickly flip through different versions of the code that used different skills.</p>
+<p>But the tutorials hid their important bits in multiple different demos, with links buried within paragraphs of text. Their Git repos required you to setup either multiple repos, piece together changes from logs, or switch between branches to see the differences at a glace. You couldn&#8217;t see the shape of the program grow in the tutorial. You missed the forest for the trees.</p>
+<p>There had to be a way to put everything together in one place. Easily indexed and referenced. You could see a project grow organically over time, using additional concepts as they were required. The code wouldn&#8217;t be lost in the text.</p>
+<p>That&#8217;s when I decided to make this collection of versions of my React TODO app. It is a very basic app, much like many that you can already find on Codepen.io. But instead of a single complete demo, I&#8217;m snapshotting each new feature I make into a separate pen in the collection. So you can flip from the most basic, to my most advanced. The app is also intentionally CSS starved at the moment, to focus on the mechanics of React and local storage, making it a better tutorial app than other demos. I feel much better about my understanding of React now, and I bet my app could help other&#8217;s learn React too. I plan to continue adding to these demos for a while, so remember to check them out again in a couple of weeks if you find them useful.</p>
+<p><a href="https://codepen.io/collection/DNdPRZ/" target="_blank" rel="noopener"><em style="color:red">Check out the React TODO app collection.</em></a></p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">253</post-id>	</item>
+	</channel>
+</rss>

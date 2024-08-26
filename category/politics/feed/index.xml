@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	
+	xmlns:georss="http://www.georss.org/georss"
+	xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
+	>
+
+<channel>
+	<title>Politics &#8211; Langston Software</title>
+	<atom:link href="/category/politics/feed/" rel="self" type="application/rss+xml" />
+	<link>/</link>
+	<description>Full Stack Web Development</description>
+	<lastBuildDate>Wed, 31 Jan 2024 00:09:16 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.6.1</generator>
+
+<image>
+	<url>https://i0.wp.com/langstonsoftware.com/wp-content/uploads/2017/03/cropped-profilePic-2.jpg?fit=32%2C32&#038;ssl=1</url>
+	<title>Politics &#8211; Langston Software</title>
+	<link>/</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+<site xmlns="com-wordpress:feed-additions:1">100682242</site>	<item>
+		<title>Why should the CIA disclose security vulnerabilities?</title>
+		<link>/2017/03/10/why-should-the-cia-disclose-security-vulnerabilities/</link>
+		
+		<dc:creator><![CDATA[Thomas Langston]]></dc:creator>
+		<pubDate>Fri, 10 Mar 2017 23:42:03 +0000</pubDate>
+				<category><![CDATA[Politics]]></category>
+		<category><![CDATA[Security]]></category>
+		<guid isPermaLink="false">/?p=136</guid>
+
+					<description><![CDATA[The CIA and other United States intelligence and law enforcement agencies have valid cause to research and exploit digital security vulnerabilities to further the national interest and the public welfare. But when it comes to the hoarding of undisclosed vulnerabilities, they&#8217;ve recently made choices that undermine both. https://www.nytimes.com/2017/03/07/world/europe/wikileaks-cia-hacking.html But Ben Wizner, the director of the ...]]></description>
+										<content:encoded><![CDATA[<p>The CIA and other United States intelligence and law enforcement agencies have valid cause to research and exploit digital security vulnerabilities to further the national interest and the public welfare. But when it comes to the hoarding of undisclosed vulnerabilities, they&#8217;ve recently made choices that undermine both.</p>
+<p><a href="https://www.nytimes.com/2017/03/07/world/europe/wikileaks-cia-hacking.html" target="_blank" rel="noopener">https://www.nytimes.com/2017/03/07/world/europe/wikileaks-cia-hacking.html</a></p>
+<blockquote><p>
+But Ben Wizner, the director of the American Civil Liberties Union’s Speech, Privacy, and Technology Project, said the documents suggest that the government has deliberately allowed vulnerabilities in phones and other devices to persist to make spying easier.</p>
+<p>“Those vulnerabilities will be exploited not just by our security agencies, but by hackers and governments around the world,” Mr. Wizner said. “Patching security holes immediately, not stockpiling them, is the best way to make everyone’s digital life safer.”</p></blockquote>
+<p>Disclosure is both ethical and pragmatic. It protects citizens and companies from criminals and foreign powers. And the CIA is aware of these trade offs and has even a standard Vulnerabilities Equities Process. However, they appear to have failed to follow this procedure in the latest leak.</p>
+<p><a href="https://www.eff.org/deeplinks/2017/03/hey-cia-you-held-security-flaw-information-now-its-out-thats-not-how-it-should" target="_blank" rel="noopener">https://www.eff.org/deeplinks/2017/03/hey-cia-you-held-security-flaw-information-now-its-out-thats-not-how-it-should</a></p>
+<blockquote><p>The dark side of this story is that the documents confirm that the CIA holds on to security vulnerabilities in software and devices—including Android phones, iPhones, and Samsung televisions—that millions of people around the world rely on. The agency appears to have failed to accurately assess the risk of not disclosing vulnerabilities to responsible vendors and failed to follow even the limited Vulnerabilities Equities Process. As these leaks show, we&#8217;re all made less safe by the CIA&#8217;s decision to keep &#8212;  rather than ensure the patching of &#8212; vulnerabilities. Even spy agencies like the CIA have a responsibility to protect the security and privacy of Americans. </p></blockquote>
+<p>Security experts have long rallied to the call for disclosure, seeing it as a necessary part of maintaining digital security and by extension U.S. dominance of  the computer and web services market. Failure to protect, and furthermore active undermining of trust in U.S. technology companies could be disastrous for our economy, and therefore both our bread and our bullets.</p>
+<p><a href="https://www.schneier.com/essays/archives/2007/01/schneier_full_disclo.html" target="_blank" rel="noopener">https://www.schneier.com/essays/archives/2007/01/schneier_full_disclo.html</a></p>
+<blockquote><p>The moral here doesn&#8217;t just apply to software; it&#8217;s very general. Public scrutiny is how security improves, whether we&#8217;re talking about software or airport security or government counterterrorism measures. Yes, there are trade-offs. Full disclosure means that the bad guys learn about the vulnerability at the same time as the rest of us &#8212; unless, of course, they knew about it beforehand &#8212; but most of the time the benefits far outweigh the disadvantages.</p>
+<p>Secrecy prevents people from accurately assessing their own risk. Secrecy precludes public debate about security, and inhibits security education that leads to improvements. Secrecy doesn&#8217;t improve security; it stifles it.</p></blockquote>
+<p>Beyond this there is a question of integrity. If the government paid researchers to find discoveries in health or environmental science, would we accept their failure to disclose issues that posed a severe cost to the nation&#8217;s health, even if their were military or law enforcement applications if those discoveries were kept secret? Of course not. Why would you consider digital security researchers exempt from the same academic ethics requirements?</p>
+<p>Have we forgotten so quickly that our nation&#8217;s democratic process was tampered with via a failure in digital security?</p>
+<p>Or the risk of ransomware has for business, the true cost only hinted at by the ransoms paid that are reported.</p>
+<p><a href="https://www.fbi.gov/contact-us/field-offices/cleveland/news/press-releases/ransomware-latest-cyber-extortion-tool" target="_blank" rel="noopener">https://www.fbi.gov/contact-us/field-offices/cleveland/news/press-releases/ransomware-latest-cyber-extortion-tool</a></p>
+<blockquote><p>Ransomware has become a significant threat to U.S. businesses and individuals. In 2014, over 1,800 complaints were filed regarding ransomware, resulting in a loss of more than $23 million. In 2015, that number grew to more than 2,400 complaints with a reported loss of more than $24 million.</p></blockquote>
+<p>These aren&#8217;t just numbers, they affect real businesses, real people, real lives. Not those of just of employees and customers. Doctors and patients.</p>
+<p><a href="http://www.beckershospitalreview.com/healthcare-information-technology/12-healthcare-ransomware-attacks-of-2016.html" target="_blank" rel="noopener">http://www.beckershospitalreview.com/healthcare-information-technology/12-healthcare-ransomware-attacks-of-2016.html</a></p>
+<blockquote><p>Henderson, Ky.-based Methodist Hospital was hit with a ransomware virus that limited its use of electronic web-based services and prompted it to declare an internal state of emergency.</p>
+<p>After five days, Methodist Hospital emerged from the state of emergency and regained control of its computer systems.</p></blockquote>
+<p>From the same article.</p>
+<blockquote><p>After being hit with a ransomware attack, a failed backup system caused Marin General Healthcare District and Prima Medical Group to lose clinical information collected in a two-week window at the Greenbrae, Calif.-based district&#8217;s nine medical centers. The incident affected 2,292 patients of Marin Healthcare District and 2,934 patients of physicians with Prima Medical Group who work with Marin General Hospital.</p></blockquote>
+<p>I&#8217;ve heard arguments that disclosure is not required, because the abundance of vulnerabilities and lack of patching makes it ineffective. But that argument cuts both ways. There is no reason not to disclose because the government can used disclosed vulnerabilities just as easily in most situations. The difference that disclosure doesn&#8217;t come with a cost to our digital security or our integrity. In particular when the CIA is not following it&#8217;s own rules and the administration and public media are clashing over Twitter posts, we need to force disclosure as a part of strong democratic oversight.</p>
+<p>I&#8217;ve also heard arguments that boil down to a dismissal of web security at all, saying privacy is dead. Of course doctors losing weeks of their patients&#8217; data or causing a hospital to declare a state of emergency should make you understand privacy is not the only thing at stake. But privacy matters too.</p>
+<p><a href="https://www.ted.com/talks/glenn_greenwald_why_privacy_matters/transcript?language=en" target="_blank" rel="noopener">https://www.ted.com/talks/glenn_greenwald_why_privacy_matters/transcript?language=en</a></p>
+<blockquote><p>&#8220;It&#8217;s only those who are dissidents, who challenge power, who have something to worry about. &#8230; You may be a person who, right now, doesn&#8217;t want to engage in that behavior, but at some point in the future you might. Even if you&#8217;re somebody who decides that you never want to, the fact that there are other people who are willing to and able to resist and be adversarial to those in power — dissidents and journalists and activists and a whole range of others — is something that brings us all collective good that we should want to preserve.&#8221;</p></blockquote>
+<p>And the U.S. national security and public welfare is very much strengthened on the whole by empowering dissidents, activists, and journalists. We depend on these actors to win the hearts and minds of those who would otherwise call us enemies. We rely on them to remove propaganda and lies that state ran media across the world tells about our country. They are an essential part of both our national security apparatus and our democratic system.</p>
+<p>The final argument I&#8217;ve heard is that it is fine as long as the good guys only have the exploits. But we&#8217;ve already read how that&#8217;s not how it works. If the good guys can find a hole, the bad guys have probably already dug there too, or will soon. We&#8217;re better served by filling it. And being public about it. Because the good guys aren&#8217;t always so good.</p>
+<p><a href="https://www.nytimes.com/2014/11/16/magazine/what-an-uncensored-letter-to-mlk-reveals.html" target="_blank" rel="noopener">https://www.nytimes.com/2014/11/16/magazine/what-an-uncensored-letter-to-mlk-reveals.html</a></p>
+<blockquote><p>The unnamed author suggests intimate knowledge of his correspondent’s sex life, identifying one possible lover by name and claiming to have specific evidence about others. Another passage hints of an audiotape accompanying the letter, apparently a recording of “immoral conduct” in action. “Lend your sexually psychotic ear to the enclosure,” the letter demands. It concludes with a deadline of 34 days “before your filthy, abnormal fraudulent self is bared to the nation.”</p>
+<p>“There is only one thing left for you to do,” the author warns vaguely in the final paragraph. “You know what it is.”</p>
+<p>When the Rev. Dr. Martin Luther King Jr. received this letter, nearly 50 years ago, he quietly informed friends that someone wanted him to kill himself — and he thought he knew who that someone was. Despite its half-baked prose, self-conscious amateurism and other attempts at misdirection, King was certain the letter had come from the F.B.I. Its infamous director, J. Edgar Hoover, made no secret of his desire to see King discredited. A little more than a decade later, the Senate’s Church Committee on intelligence overreach confirmed King’s suspicion.</p></blockquote>
+<p>I understand the choice to disclose comes with costs, big costs. Lessening our offensive capabilities of intelligence and law enforcement communities. But it also isn&#8217;t a hard choice. The costs for failure to disclose, both to our defensive capabilities and our democratic system, are much, much greater.</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">136</post-id>	</item>
+	</channel>
+</rss>

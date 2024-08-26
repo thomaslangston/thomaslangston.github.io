@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	
+	xmlns:georss="http://www.georss.org/georss"
+	xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
+	>
+
+<channel>
+	<title>JavaScript &#8211; Langston Software</title>
+	<atom:link href="/category/javascript/feed/" rel="self" type="application/rss+xml" />
+	<link>/</link>
+	<description>Full Stack Web Development</description>
+	<lastBuildDate>Wed, 31 Jan 2024 00:09:16 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.6.1</generator>
+
+<image>
+	<url>https://i0.wp.com/langstonsoftware.com/wp-content/uploads/2017/03/cropped-profilePic-2.jpg?fit=32%2C32&#038;ssl=1</url>
+	<title>JavaScript &#8211; Langston Software</title>
+	<link>/</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+<site xmlns="com-wordpress:feed-additions:1">100682242</site>	<item>
+		<title>Currency Inputs in AngularJS (1.x)</title>
+		<link>/2017/08/20/currency-inputs-in-angularjs-1-x/</link>
+		
+		<dc:creator><![CDATA[Thomas Langston]]></dc:creator>
+		<pubDate>Sun, 20 Aug 2017 19:07:06 +0000</pubDate>
+				<category><![CDATA[AngularJS]]></category>
+		<category><![CDATA[JavaScript]]></category>
+		<guid isPermaLink="false">/?p=223</guid>
+
+					<description><![CDATA[Currency inputs seem to be a forgotten area of standard libraries. Even the batteries included .NET MVC framework doesn&#8217;t really answer the question for you. They often are omitted completely, and the community variants are many and buggy. This soup of conflicting standards over a very basic problem brings us to the canonical problem: when ...]]></description>
+										<content:encoded><![CDATA[<p>Currency inputs seem to be a forgotten area of standard libraries. <a href="https://stackoverflow.com/questions/5080451/how-should-i-use-editorfor-in-mvc-for-a-currency-money-type" target="_blank" rel="noopener">Even the batteries included .NET MVC framework doesn&#8217;t really answer the question for you.</a> They often are omitted completely, and the community variants are many and buggy. This soup of conflicting standards over a very basic problem brings us to the canonical problem: when is it time to write your own solution?</p>
+<p style="text-align: center;"><a href="https://xkcd.com/927/" target="_blank" rel="noopener"><img decoding="async" src="https://i0.wp.com/imgs.xkcd.com/comics/standards.png?w=640&#038;ssl=1" alt="xkcd standards" data-recalc-dims="1" /></a></p>
+<p>AngularJS (1.x) has at least five different easy to find options (<a href="https://stackoverflow.com/questions/19890364/format-input-value-in-angularjs?noredirect=1&amp;lq=1" target="_blank" rel="noopener">links</a>. <a href="https://stackoverflow.com/questions/19094150/using-angularjs-directive-to-format-input-field-while-leaving-scope-variable-unc" target="_blank" rel="noopener">to</a>. <a href="https://github.com/jstroem/ng-input-currency" target="_blank" rel="noopener">many</a>. <a href="https://github.com/greengerong/ngmodel-format" target="_blank" rel="noopener">options</a>. <a href="https://github.com/aguirrel/ng-currency" target="_blank" rel="noopener">here</a>.). Most of them are built off the built in formatters for <a href="https://docs.angularjs.org/api/ng/filter/currency" target="_blank" rel="noopener">currency</a> or <a href="https://docs.angularjs.org/api/ng/filter/number" target="_blank" rel="noopener">numbers</a>. But in my last work project I found most of them unacceptable, at least to the product manager testing the solutions. So I created my own n+1 answer.</p>
+<p><a href="https://jsfiddle.net/thomaslangston/5h17fosc/12/" target="_blank" rel="noopener">My solution based on what was already available can be found on jsFiddle.net.</a></p>
+<p>Other solutions had either an inability to include decimals, or odd behavior when you used the backspace key, or wigged out when you deleted a decimal. They also often used client locale information to decide the formatting rules, which was unnecessary and potentially wrong for my solution. My answer still has an issue when deleting from the middle of the input, the cursor will jump back to the far right end after. But I considered that still a solid win considering the offerings available before.</p>
+<p>In the end my PM was happy, our customer was happy, and I think our code was happy. Even if I had to reinvent the wheel one more time.</p>
+<h3>Before You Go</h3>
+&nbsp;<p>
+Was this post was incorrect or incomplete?  Leave a comment.
+</p>
+<style>
+#callToAction {color:red}
+</style>
+<p>
+Was this post helpful to you? <a id="callToAction" class="button" href="http://eepurl.com/bYVEJj"><em>Subscribe for emails on full stack web development.</em></a>
+</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">223</post-id>	</item>
+	</channel>
+</rss>

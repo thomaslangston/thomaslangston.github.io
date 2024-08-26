@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	
+	xmlns:georss="http://www.georss.org/georss"
+	xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
+	>
+
+<channel>
+	<title>SQL &#8211; Langston Software</title>
+	<atom:link href="/category/sql/feed/" rel="self" type="application/rss+xml" />
+	<link>/</link>
+	<description>Full Stack Web Development</description>
+	<lastBuildDate>Wed, 31 Jan 2024 00:09:17 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.6.1</generator>
+
+<image>
+	<url>https://i0.wp.com/langstonsoftware.com/wp-content/uploads/2017/03/cropped-profilePic-2.jpg?fit=32%2C32&#038;ssl=1</url>
+	<title>SQL &#8211; Langston Software</title>
+	<link>/</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+<site xmlns="com-wordpress:feed-additions:1">100682242</site>	<item>
+		<title>A Developer&#8217;s Checklist For Creating A SQL Table</title>
+		<link>/2016/10/21/a-developers-checklist-for-creating-a-sql-table/</link>
+		
+		<dc:creator><![CDATA[Thomas Langston]]></dc:creator>
+		<pubDate>Sat, 22 Oct 2016 00:54:03 +0000</pubDate>
+				<category><![CDATA[SQL]]></category>
+		<guid isPermaLink="false">/?p=99</guid>
+
+					<description><![CDATA[You may be one of the lucky. One of the developers who will never create a SQL table. You&#8217;ve always had a Database Administrator on staff. Your Object-Relational Mapping tool has always auto-generated flawless migrations from your model. I&#8217;m not one of you. I&#8217;ve worked at companies where developers had to ship their own schemas, ...]]></description>
+										<content:encoded><![CDATA[<p>You may be one of the lucky. One of the developers who will never create a SQL table. You&#8217;ve always had a Database Administrator on staff. Your Object-Relational Mapping tool has always auto-generated flawless migrations from your model.</p>
+<p>I&#8217;m not one of you.</p>
+<p>I&#8217;ve worked at companies where developers had to ship their own schemas, procedures, and indexes. We hadn&#8217;t had a DBA in years. I&#8217;ve been on projects where the ORM was a in-house tool made to tightly integrate our code to finely tuned stored procedures and carefully calibrated table structures. I&#8217;m not a DBA. I still get angry when I&#8217;m trying to diagnose the root cause of a deadlock. But I can create a table, and I know a few things about what a good one looks like.</p>
+<p>But what if you don&#8217;t? What if you&#8217;re fresh off the bootcamp, staring down an SQL interview question or your first project. What if you&#8217;re ten years into your career and trying to land the next job, but you&#8217;ve been in magic happy SQL Christmas land with DBAs and ORMs strictly following convention over configuration. What if you&#8217;ve got no clue what a good table looks like?</p>
+<p>You need somewhere to start. You need.. </p>
+<p><strong>A Developer&#8217;s Checklist For Creating A SQL Table</strong>.</p>
+<p>WARNING! This list opinionated. It is incomplete. It is wrong. And it is exactly 9 things you need to get started learning how to make a good SQL table.</p>
+<p><strong>1. PRIMARY KEYS ARE IN MY OTHER PANTS</strong></p>
+<p>I usually should have an integer ID column marked as my primary key. Should I be using a GUID here instead for sharding? Does this table actually need a composite primary key (multiple columns identify a single unique thing). Am I incorrectly assigning the primary key to something that changes during the thing&#8217;s lifetime?</p>
+<p><strong>2. FOREIGN KEYS TO THE CITY (BASICS &#038; ONE TO ONE)</strong></p>
+<p>What IDs from other tables am I including? Those columns should probably be named [OtherTableName]ID e.g. a table named Student should have foreign keys named StudentID in other tables.</p>
+<p><strong>3. CHECKING LISTS TWICE (ONE TO MANY)</strong></p>
+<p>If I have an object with a list of another type of object, (e.g. Basket of Oranges) proper SQL normalization says we probably need at least two tables. The listed object table will have a foreign key to the containing object (Orange Table: PK ID, FK BasketID). </p>
+<p><strong>4. MUTUALLY ASSURED LISTS (MANY TO MANY)</strong></p>
+<p>If I have an object with a list of another object, and those objects could belong to other lists (Classes of Students), SQL normalization says the number is three tables. One for each object type, plus a third for associations (and any details pertinent to that association). Name this table Object1Object2 (e.g. ClassStudent) and give it foreign keys for both tables (ClassStudent Table: FK ClassID, FK StudentID, Grade)</p>
+<p><strong>5. TYPICAL TYPES</strong></p>
+<p>Did I use numeric types for numeric data, including bit flags? Boolean (Bit) for Boolean values? Does my database support more specific types for the purpose of these fields? Currency, Time, etc.?</p>
+<p><strong>6. TO NULL OR NOT TO NULL</strong></p>
+<p>Is OK for a row to be missing a value? Multiple values? All values except the ID? Am I making a draft record that doesn&#8217;t represent a complete object? Do I have to store historical data that doesn&#8217;t include all the required fields? Does a recent change make a field optional? Resist the urge to use special values other than NULL to mean &#8220;missing&#8221; (0, -1, empty string, etc.). Use NOT NULL constraints if values are required. if you do, use a default value if possible.</p>
+<p><strong>7. SIZING IT UP (SMART VARCHAR SIZING)</strong></p>
+<p>Can I not tell? Use Max. Feel bad about those unused bytes? What&#8217;s the largest example of the data in your domain? Is it specified strictly? Example: URLs/Email Addresses/File Paths have strict technical limits. Names, titles, and other physical world descriptors can be Googled in the form of &#8220;What&#8217;s the longest X?&#8221;.</p>
+<p><strong>8. A NEED FOR SPEED (INDEXING)</strong></p>
+<p>My primary key needs an index. Where else am I using logic like Objects.FindBy(X)? Am I searching my users by email address? By phone number?</p>
+<p><strong>9. A TIME FOR ALL SEASONS</strong></p>
+<p>Do you have created, updated, deleted/archived timestamp columns in your table? If you don&#8217;t now, you&#8217;ll probably wish you had them later when you are debugging an issue and the client swears the value wasn&#8217;t changed in that table. Spend a little time thinking about time. Then start thinking about CreatedBy, ModifiedBy, and DeletedBy fields with Foreign Keys to your User table.</p>
+<p>That&#8217;s it. If you can think about these nine things before creating your next table, you&#8217;ll be in better shape that developers with nearly a decade of experience I&#8217;ve seen walk in thru my doors. Good luck, and may the force of SQL be with you!</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">99</post-id>	</item>
+	</channel>
+</rss>

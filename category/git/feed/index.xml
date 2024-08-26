@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	
+	xmlns:georss="http://www.georss.org/georss"
+	xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
+	>
+
+<channel>
+	<title>Git &#8211; Langston Software</title>
+	<atom:link href="/category/git/feed/" rel="self" type="application/rss+xml" />
+	<link>/</link>
+	<description>Full Stack Web Development</description>
+	<lastBuildDate>Wed, 31 Jan 2024 00:09:17 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.6.1</generator>
+
+<image>
+	<url>https://i0.wp.com/langstonsoftware.com/wp-content/uploads/2017/03/cropped-profilePic-2.jpg?fit=32%2C32&#038;ssl=1</url>
+	<title>Git &#8211; Langston Software</title>
+	<link>/</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+<site xmlns="com-wordpress:feed-additions:1">100682242</site>	<item>
+		<title>How to commit changes to Git submodules.</title>
+		<link>/2016/09/16/how-to-commit-changes-to-git-submodules/</link>
+		
+		<dc:creator><![CDATA[Thomas Langston]]></dc:creator>
+		<pubDate>Fri, 16 Sep 2016 22:42:14 +0000</pubDate>
+				<category><![CDATA[Git]]></category>
+		<guid isPermaLink="false">/?p=82</guid>
+
+					<description><![CDATA[A Git submodule is a nested repository. You might be interested in creating such repository if you have a multiple repos with a shared folder of code. You could copy and paste that code between repos when there is a change, but a shared repo set as a submodule could help keep it in sync. ...]]></description>
+										<content:encoded><![CDATA[<p>A Git submodule is a nested repository. You might be interested in creating such repository if you have a multiple repos with a shared folder of code.<br />
+You could copy and paste that code between repos when there is a change, but a shared repo set as a submodule could help keep it in sync.</p>
+<p>I&#8217;ve recently become less impressed by the usages of submodules, and would suggest flattening your repos where possible, or using some type of package management tool like npm or nuget instead for a similar effect. But if you want to use submodules, below is a basic explanation of how to make a change in one.</p>
+<p>Imagine 3 repos: Main, Other, and Sub (i.e. the shared submodule). Assume we are using a GitFlow-like workflow in Main and Other: <a href="http://nvie.com/posts/a-successful-git-branching-model/">http://nvie.com/posts/a-successful-git-branching-model/</a>. Imagine Sub has only one branch named master.</p>
+<p><strong>First, make sure you don&#8217;t override other changes in Sub.</strong></p>
+<ol>
+<li>Have the latest from develop in your current local branch in the Main and Other repos.</li>
+<li>Verify in Sub, for both Main and Other repos, that the latest commits on that master branch are being already pointed to.
+<ol>
+<li>Checkout and Pull the master branch in each copy of Sub.</li>
+<li>Check your uncommitted changes in Main and Other.</li>
+<li>You can also check the commits in the main repos to see which commit in Sub each is pointed to.</li>
+</ol>
+</li>
+<li>If you have uncommitted changes in either top-level repo, changes in Sub (either on someone’s branch, or in one repo but not the other) have not been updated in develop.
+<ol>
+<li>Speak to the developer if you have any questions about the changes.</li>
+<li>Commit and push the Sub changes in each top-level repo if reasonable.</li>
+</ol>
+</li>
+</ol>
+<p><strong>Then, make your changes to the submodule.</strong></p>
+<ol>
+<li>Make your changes into the relevant subdirectory of Sub nested in the Main repo.</li>
+<li>Commit and push Main&#8217;s Sub master changes.</li>
+<li>Commit and push the Main repo reference change to the latest commit in Sub.</li>
+<li>Pull the Other&#8217;s Sub master changes.</li>
+<li>Commit and push the Other repo reference change to the latest commit in Sub.</li>
+</ol>
+<p>I hope that helps, and as always leave me a comment below if you have any questions.</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">82</post-id>	</item>
+	</channel>
+</rss>

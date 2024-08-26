@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	
+	xmlns:georss="http://www.georss.org/georss"
+	xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
+	>
+
+<channel>
+	<title>Career &#8211; Langston Software</title>
+	<atom:link href="/category/career/feed/" rel="self" type="application/rss+xml" />
+	<link>/</link>
+	<description>Full Stack Web Development</description>
+	<lastBuildDate>Wed, 31 Jan 2024 00:09:16 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.6.1</generator>
+
+<image>
+	<url>https://i0.wp.com/langstonsoftware.com/wp-content/uploads/2017/03/cropped-profilePic-2.jpg?fit=32%2C32&#038;ssl=1</url>
+	<title>Career &#8211; Langston Software</title>
+	<link>/</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+<site xmlns="com-wordpress:feed-additions:1">100682242</site>	<item>
+		<title>Discounting Adulting Skills</title>
+		<link>/2017/07/24/discounting-adulting-skills/</link>
+		
+		<dc:creator><![CDATA[Thomas Langston]]></dc:creator>
+		<pubDate>Tue, 25 Jul 2017 01:05:42 +0000</pubDate>
+				<category><![CDATA[Career]]></category>
+		<guid isPermaLink="false">/?p=227</guid>
+
+					<description><![CDATA[When I taught at my local community college, I could identify my best students quickly. They were on time. They showed up on time. They did the homework on time. They had prepared for class ahead of time. They read the chapter before class. They had reliable transportation. They were rested and alert during class. ...]]></description>
+										<content:encoded><![CDATA[<p>When I taught at my local community college, I could identify my best students quickly.</p>
+<p>They were on time.</p>
+<p>They showed up on time. They did the homework on time.</p>
+<p>They had prepared for class ahead of time. They read the chapter before class. They had reliable transportation. They were rested and alert during class.</p>
+<p>They were proactive after class. If they struggled with concepts, they got help from me and other students. They asked questions before they left the classroom or emailed me the same night an assignment was given, not the night it was due.</p>
+<p>And the majority of the best were over 30.</p>
+<p>So I was curious when a Redditor asked, <a href="https://www.reddit.com/r/learnprogramming/comments/6m6q6x/is_there_any_point_in_learning_programming_as_an/?st=j4xbx4if&#038;sh=bcd5e12a">&#8220;Is there any point to learning how to code as an adult?&#8221;</a> From my students&#8217; example, I&#8217;d say the better question is why do we try to teach the majority of students as children?</p>
+<p>Look at this story from the Reddit thread linked above:</p>
+<blockquote><p>I&#8217;m 36 years old and I had no coding experience at all before starting university. Almost everyone else on the course is 19 years old, has been coding as a hobby for years, has a number of projects under their belts and has far more free time to study than me.</p>
+<p>But do you know what happened come end of year exams? </p>
+<p><em>I wiped the floor with every single one of them.</em></p>
+<p>I have more years of working than these guys have been alive. I have a literal lifetime of real world skills and experiences to draw from that my peers simply can not compete with. Every group task, every presentation , every project I was the guy they all wanted to work with because I have the skills and experience. Not in actual coding, but in everything else that goes with it.</p>
+<p>Sure, at the start of year I was miles behind in pure coding but while these guys were out getting drunk I was at home practicing. I soon caught up and overtook them all.</p>
+<p>All this while being a father to four kids AND running my own side business.</p>
+<p><strong>Never underestimate the value of life experience and a strong work ethic.</strong></p></blockquote>
+<p>Almost all the more mature students run circles round the rest. Those few years working tough jobs and realizing the value of what you&#8217;re doing make all the difference. Learning to be an adult is a invaluable skill. Taking responsibility for yourself, managing your time, and setting yourself up for success through preparation and humility aren&#8217;t skills most children have.</p>
+<p>So for the students, current or prospective, reading this: Don&#8217;t discount your adulting skills.</p>
+<p>Just do all the work when it&#8217;s set during the week. If your learning is self paced, set a goal for yourself. It&#8217;s amazing how much you can do just by showing up to every class and doing the assigned work. If you want to excel, you just do a bit do extra reading, expand on the class work a bit, and you&#8217;re magic. Just a little more effort can be the difference between mediocre and excellent. Coding can be a game of inches. You add a single CSS class to a document and it pops. You fix one bug and your project just works. You optimize one line and your code sings.</p>
+<p>Or if all else fails, listen to what another Redditor told their classmates:</p>
+<blockquote><p>
+At least a few times a semester I&#8217;ll have a conversation akin to:<br />
+&#8220;Woah, how did you learn this so fast?!&#8221;<br />
+&#8220;I read the chapter.&#8221;<br />
+&#8220;Like in the book?&#8221;<br />
+&#8220;&#8230;yes?&#8221;</p></blockquote>
+<p>So stop discounting your adulting skills, whether you got them by flipping bits or flipping fries.</p>
+<p>And if you don&#8217;t have them yet, start learning now. They&#8217;ll be worth more than any code tutorial you&#8217;ll ever read.</p>
+<h3>Before You Go</h3>
+&nbsp;<p>
+Was this post was incorrect or incomplete?  Leave a comment.
+</p>
+<style>
+#callToAction {color:red}
+</style>
+<p>
+Was this post helpful to you? <a id="callToAction" class="button" href="http://eepurl.com/bYVEJj"><em>Subscribe for emails on full stack web development.</em></a>
+</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">227</post-id>	</item>
+	</channel>
+</rss>

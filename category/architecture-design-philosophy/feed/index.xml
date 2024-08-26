@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	
+	xmlns:georss="http://www.georss.org/georss"
+	xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
+	>
+
+<channel>
+	<title>Architecture &amp; Design Philosophy &#8211; Langston Software</title>
+	<atom:link href="/category/architecture-design-philosophy/feed/" rel="self" type="application/rss+xml" />
+	<link>/</link>
+	<description>Full Stack Web Development</description>
+	<lastBuildDate>Wed, 31 Jan 2024 00:09:16 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.6.1</generator>
+
+<image>
+	<url>https://i0.wp.com/langstonsoftware.com/wp-content/uploads/2017/03/cropped-profilePic-2.jpg?fit=32%2C32&#038;ssl=1</url>
+	<title>Architecture &amp; Design Philosophy &#8211; Langston Software</title>
+	<link>/</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+<site xmlns="com-wordpress:feed-additions:1">100682242</site>	<item>
+		<title>You Aren&#8217;t Going To Need It &#8211; Until It Kills You</title>
+		<link>/2017/07/31/you-arent-going-to-need-it-until-it-kills-you/</link>
+		
+		<dc:creator><![CDATA[Thomas Langston]]></dc:creator>
+		<pubDate>Mon, 31 Jul 2017 23:39:24 +0000</pubDate>
+				<category><![CDATA[Architecture & Design Philosophy]]></category>
+		<guid isPermaLink="false">/?p=209</guid>
+
+					<description><![CDATA[Not too long ago a Internet of Things (IoT) startup posted a impassioned piece on how their cloud provider had changed their billing procedures, and nearly drove the startup out of business. They had put significant functionality behind a cloud provider, given themselves no way to update their products, no way to switch providers, and ...]]></description>
+										<content:encoded><![CDATA[<p>Not too long ago a Internet of Things (IoT) startup posted a impassioned piece on how their cloud provider had changed their billing procedures, and nearly drove the startup out of business. They had put significant functionality behind a cloud provider, given themselves no way to update their products, no way to switch providers, and generated a large amount of network overhead for the cloud provider that was now being reflected in their bill.</p>
+<p>Their technical debt bill had come due.</p>
+<p>While the article included all the pieces for a competent technical postmortem of the technical debt that lead to the issues, those themes got lost in the comments and overall emotion of the post. Without name calling, I&#8217;d like to talk more abstractly about the takeaways we can find for the limits of <a href="https://en.wikipedia.org/wiki/You_aren%27t_gonna_need_it" target="_blank" rel="noopener">YAGNI</a> in the Minimal Viable Product (MVP) phase of software development.</p>
+<p>First, IoT deployments don&#8217;t have a default way to auto-update the way servers we control.  Desktop, mobile, and console deployments have similar constraints, but overall IoT is a different level. Our example MVP had no automated update mechanism in place, which is surprisingly common today in the IoT field. Especially when such devices connect to hard coded URLs, as it did in this case, this omission can render these machines effectively inert. Auto-update doesn&#8217;t have to be in your business pitch version, but it should be in your device before you ship. Sending anything else out the door is making pie crust promises: easily made, easily broken. <a href="https://docs.microsoft.com/en-us/windows-hardware/service/iot/updating-iot-core-apps" target="_blank" rel="noopener">You can enable automatic app updates in Windows 10 IoT Core</a> and similar functionality is configurable in *nix based systems.</p>
+<p>Second, connecting to external APIs directly is not a successful way to ensure reliability of your system. This is obviously true for when the external API is running someone else&#8217;s code, but the lesson we are presented reminds us that it is true for cloud providers hosting our own code as well. This doesn&#8217;t have to be a downside. Programming additional layers of abstraction, fallback mechanisms, and other reliability constructs can lead to us producing more reliable, micro-service oriented code. The concrete suggestion here was to connect to the external resource via a DNS address on a domain the developer controlled, perhaps a reverse proxy as well for a caching layer. The caching layer could have helped as well with the last issue as well.</p>
+<p>Finally, SSL sessions and connections are not free and there is a <a href="https://www.websecurity.symantec.com/security-topics/how-does-ssl-handshake-work" target="_blank" rel="noopener">surprisingly large amount</a> of <a href="https://www.red-gate.com/simple-talk/dotnet/net-framework/tlsssl-and-net-framework-4-0/" target="_blank" rel="noopener">technical detail</a> you <a href="https://vincent.bernat.im/en/blog/2011-ssl-session-reuse-rfc5077" target="_blank" rel="noopener">can learn</a> to offset that cost. If you control your own hardware you can easily monitor and shift that cost, for instance by terminating the SSL connection at a hardware load balancer. But for external resources, it may not be as apparent. Especially if you send a large number of requests (even if each request itself is small) the overall overhead can be substantial. The trick here is to use techniques that allow you to keep the SSL session open, letting you skip the SSL handshake on future requests. Or as we said before, you can introduce a caching layer. A request you don&#8217;t send doesn&#8217;t have any cost (for SSL).</p>
+<p>Taken all together, failing to see these limits to the YAGNI philosophy almost cost a startup all of their customers. While YAGNI is a good principle to follow within our own code and resources, we have to &#8220;over engineer&#8221; a bit when dealing with external resources to make up for the unknowns (both known and unknown varieties). An easy to operate update mechanism and/or an extra level of abstraction when accessing external resources lets us recover from failures faster. A little more care when dealing with SSL connections can save us a lot of network overhead. Keep that in mind the next time your project has you connecting externally to any service, on your hardware or others&#8217;.</p>
+<h3>Before You Go</h3>
+&nbsp;<p>
+Was this post was incorrect or incomplete?  Leave a comment.
+</p>
+<style>
+#callToAction {color:red}
+</style>
+<p>
+Was this post helpful to you? <a id="callToAction" class="button" href="http://eepurl.com/bYVEJj"><em>Subscribe for emails on full stack web development.</em></a>
+</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">209</post-id>	</item>
+	</channel>
+</rss>
