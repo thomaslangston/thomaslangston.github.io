@@ -244,10 +244,7 @@ receivedHit(evt) {
 <p>In this example we see all 3 of the Whens of method extraction refactorings we previously discussed. There is a comment that describes the line below it. There is a calculation whose value is used later in the logic. Finally, the values are concrete primitive types.</p>
 <p>If this is for a game we will write once and then never use again, discarding it after the assignment or code jam, then the first set of code is appropriate. But if the code is long lived, needing to be maintained and adapted, perhaps because your code jam project has become a viral hit, the second is much better, although it could be improved further. We self documented the fact we are calculating the damage we will apply, removed the chirp of noise given off by the math of calculation from the high level behavior, and we replaced our concrete type with an implicit reference. Now if our requirements change and we have damage types and resistances (e.g. fire, acid, etc.) none of the code in receivedHit() will change. We can just change the contents of calculateDamage() and modify the signatures of the other related functions to pass the more detailed Damage object.</p>
 <p>This is the scenario you will find yourself in when writing business software more often than not. Therefore, practicing writing software this way until it is a habit is a good career move. Keep it up and you&#8217;ll find it is both easier and natural to have &#8220;extremely&#8221; short self documenting methods.</p>
-<h3>Before you go</h3>
-<p>&nbsp;<br>
-I&#8217;d like to get your feedback! Please take a moment to post a comment below to let me know your thoughts on this post. Anything you think should be introduced to a beginner or junior developer ASAP? Or is there a facet to the business of software I&#8217;ve overlooked? I would be very happy to hear about either.</p>
-<p>Also, I putting together a very focused mailing list on the topics that I regularly cover on this blog. If this post was useful to you, please sign up <a href="http://eepurl.com/bYVEJj">here </a>to get future emails from me on this and related subjects. Thanks!</p>
+
 
 	</div>
 <!-- .entry-content -->

@@ -47,17 +47,7 @@
 <p>Second, connecting to external APIs directly is not a successful way to ensure reliability of your system. This is obviously true for when the external API is running someone else&#8217;s code, but the lesson we are presented reminds us that it is true for cloud providers hosting our own code as well. This doesn&#8217;t have to be a downside. Programming additional layers of abstraction, fallback mechanisms, and other reliability constructs can lead to us producing more reliable, micro-service oriented code. The concrete suggestion here was to connect to the external resource via a DNS address on a domain the developer controlled, perhaps a reverse proxy as well for a caching layer. The caching layer could have helped as well with the last issue as well.</p>
 <p>Finally, SSL sessions and connections are not free and there is a <a href="https://www.websecurity.symantec.com/security-topics/how-does-ssl-handshake-work" target="_blank" rel="noopener">surprisingly large amount</a> of <a href="https://www.red-gate.com/simple-talk/dotnet/net-framework/tlsssl-and-net-framework-4-0/" target="_blank" rel="noopener">technical detail</a> you <a href="https://vincent.bernat.im/en/blog/2011-ssl-session-reuse-rfc5077" target="_blank" rel="noopener">can learn</a> to offset that cost. If you control your own hardware you can easily monitor and shift that cost, for instance by terminating the SSL connection at a hardware load balancer. But for external resources, it may not be as apparent. Especially if you send a large number of requests (even if each request itself is small) the overall overhead can be substantial. The trick here is to use techniques that allow you to keep the SSL session open, letting you skip the SSL handshake on future requests. Or as we said before, you can introduce a caching layer. A request you don&#8217;t send doesn&#8217;t have any cost (for SSL).</p>
 <p>Taken all together, failing to see these limits to the YAGNI philosophy almost cost a startup all of their customers. While YAGNI is a good principle to follow within our own code and resources, we have to &#8220;over engineer&#8221; a bit when dealing with external resources to make up for the unknowns (both known and unknown varieties). An easy to operate update mechanism and/or an extra level of abstraction when accessing external resources lets us recover from failures faster. A little more care when dealing with SSL connections can save us a lot of network overhead. Keep that in mind the next time your project has you connecting externally to any service, on your hardware or others&#8217;.</p>
-<h3>Before You Go</h3>
-&nbsp;<p>
-Was this post was incorrect or incomplete?  Leave a comment.
-</p>
-<style>
-#callToAction {color:red}
-</style>
-<p>
-Was this post helpful to you? <a id="callToAction" class="button" href="http://eepurl.com/bYVEJj"><em>Subscribe for emails on full stack web development.</em></a>
-</p>
-]]></content:encoded>
+</content:encoded>
 					
 		
 		

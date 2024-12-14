@@ -47,17 +47,7 @@
 <p><a href="https://jsfiddle.net/thomaslangston/5h17fosc/12/" target="_blank" rel="noopener">My solution based on what was already available can be found on jsFiddle.net.</a></p>
 <p>Other solutions had either an inability to include decimals, or odd behavior when you used the backspace key, or wigged out when you deleted a decimal. They also often used client locale information to decide the formatting rules, which was unnecessary and potentially wrong for my solution. My answer still has an issue when deleting from the middle of the input, the cursor will jump back to the far right end after. But I considered that still a solid win considering the offerings available before.</p>
 <p>In the end my PM was happy, our customer was happy, and I think our code was happy. Even if I had to reinvent the wheel one more time.</p>
-<h3>Before You Go</h3>
-&nbsp;<p>
-Was this post was incorrect or incomplete?  Leave a comment.
-</p>
-<style>
-#callToAction {color:red}
-</style>
-<p>
-Was this post helpful to you? <a id="callToAction" class="button" href="http://eepurl.com/bYVEJj"><em>Subscribe for emails on full stack web development.</em></a>
-</p>
-]]></content:encoded>
+</content:encoded>
 					
 		
 		
