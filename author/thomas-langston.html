@@ -20,7 +20,130 @@
 
                 <aside id="featured" class="body">
                     <article>
-                        <h1 class="entry-title"><a href="/2025/02/26/how-to-read-files-in-java-with-bazel/">How to read files in Java with Bazel</a></h1>
+                        <h1 class="entry-title"><a href="/2025/09/10/how-to-shade-dependencies-in-java-with-bazel">How to Shade Dependencies in Java with Bazel</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2025-09-10T00:00:00-04:00">
+                Published: Wed 10 September 2025
+        </abbr>
+
+                <address class="vcard author">
+                        By                                 <a class="url fn" href="/author/thomas-langston.html">Thomas Langston</a>
+                </address>
+        <p>In <a href="/category/bazel.html">Bazel</a>.</p>
+        
+</footer><!-- /.post-info --><h1>How to Shade Dependencies in Java with Bazel</h1>
+<h2>Shading Dependencies</h2>
+<p>What: Shading is the process of making two versions of a dependency available at compile time to Java code.</p>
+<p>Why: Two versions of a dependency otherwise will “shadow” or conflict with each other on the classpath if they share the same FQN (Fully Qualified Name). This can cause runtime errors if your code loads the incorrect version of the dependency to satisfy direct or indirect (transitive) dependencies.</p>
+<p>When: Shading is recommended only when upgrading, replacing, or removing the dependency conflict is not an available option. This is most likely to occur when a dependency is updated, but some of your code needs to continue to depend on an outdated dependency version due to errors from the upgraded version.</p>
+<p>How: A dependency (generally the outdated version) will be put in a fat Jar containing itself and all of its dependencies. Then that dependency will be renamed to have a new FQN that no longer conflicts with the other dependency (generally the up to date version). We can do this via <a href="https://github.com/bazeltools/bazel_jar_jar">bazel_jar_jar</a>.</p>
+<h2>Required Bazel Configuration</h2>
+<h3>Creating an alternative Maven repository label</h3>
+<p>A maven repository label lets you define a set of dependencies and the resulting resolved transitive dependency chain. In our example, <a href="https://github.com/bazel-contrib/rules_jvm_external/blob/master/docs/bzlmod.md#installation">the default maven repository label</a> is <code>@maven</code> and is defined in a <code>MODULE.bazel</code> file or a file like <code>maven_artifacts.MODULE.bazel</code> <a href="https://bazel.build/rules/lib/globals/module#include">included</a> in the main file.</p>
+<p>We need to create an alternative repository label to have a version of dependency that is different from the one included in the <code>@maven</code> repository label.</p>
+<p>Below is an opinionated annotated alternate repository label simialr to <a href="https://github.com/bazel-contrib/rules_jvm_external?tab=readme-ov-file#multiple-maven_install-declarations-for-isolated-artifact-version-trees">the example in rules_jvm_external</a>. Annotations are marked with <code>NOTE:</code> to contrast them with comments we suggest you include.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># NOTE: Include a quick explanation of why the alternative label is required. Make sure to include references for determining if and when the alternative label can be removed in the future. For most alternatives, schedule this for a specific time. Keeping alternative labels short lived ensures that dependencies stay up to date.</span>
+<span class="c1"># shaded_guava label is required because of the guava version bug referenced in examplecomponent issue link dealing with the guava dependency after version 26. It should be re-evaluated after DATE. If still required, DATE should be updated to a new re-evaluation date.</span>
+<span class="c1"># NOTE: Add a copyable terminal command to repin the dependencies in your label</span>
+<span class="c1"># Run `REPIN=1 bazel run @shaded_guava_maven//:pin` after updating.</span>
+<span class="n">maven</span><span class="o">.</span><span class="n">install</span><span class="p">(</span>
+    <span class="c1"># NOTE: The suggested naming convention is to give your repository label name in the form of `usecase_maven`</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;shaded_guava_maven&quot;</span><span class="p">,</span>
+    <span class="c1"># NOTE: Here is the list of dependencies you require to vary from the default `@maven` label. It should be as short as possible, but no shorter.</span>
+    <span class="n">artifacts</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;com.google.guava:guava:26.0-jre&quot;</span><span class="p">,</span>  <span class="c1"># shaded version here for bug referenced above, use normal version instead elsewhere</span>
+    <span class="p">],</span>
+    <span class="c1"># NOTE: We should always throw an error if we create duplicate versions in our dependencies.</span>
+    <span class="n">duplicate_version_warning</span> <span class="o">=</span> <span class="s2">&quot;error&quot;</span><span class="p">,</span>
+    <span class="c1"># NOTE: We should always throw an error if we haven&#39;t kept our lock file up to date.</span>
+    <span class="n">fail_if_repin_required</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="c1"># NOTE: Fetching sources helps when we want to debug into our dependencies</span>
+    <span class="n">fetch_sources</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="c1"># NOTE: `ignore_empty_files` removes a failure case not applicable to most usages.</span>
+    <span class="n">ignore_empty_files</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="c1"># NOTE: You&#39;ll want multiple lock files for your different dependency trees. For more info, see https://github.com/bazel-contrib/rules_jvm_external?tab=readme-ov-file#multiple-maven_installjson-files</span>
+    <span class="n">lock_file</span> <span class="o">=</span> <span class="s2">&quot;shaded_guava_maven_install.json&quot;</span><span class="p">,</span>
+   <span class="c1"># NOTE: If you have an Artifactory instance for caching performance and security constraints, use it here. Deviations from this convention should have additional documentation with justification.</span>
+   <span class="n">repositories</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;https://artifactory.myorg.net/artifactory/repo&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="c1"># NOTE: We should always use `strict_visibility` to ensure we don&#39;t use undeclared direct dependencies via the transitive dependencies of our other direct dependencies.</span>
+    <span class="n">strict_visibility</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="c1"># NOTE: We should always use the &quot;pinned&quot; `version_conflict_policy` to ensure the resolved transitive dependencies do not change unexpectedly</span>
+    <span class="n">version_conflict_policy</span> <span class="o">=</span> <span class="s2">&quot;pinned&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="c1"># NOTE: load the new maven repository we defined previously</span>
+<span class="n">use_repo</span><span class="p">(</span><span class="n">maven</span><span class="p">,</span> <span class="s2">&quot;shaded_guava_maven&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3>Packaging a Fat Jar</h3>
+<p>An alternative maven label only gives you a way to reference two different sets of direct dependencies and their resulting resolved transitive dependency chain in Bazel, it doesn’t handle how to package the actual referenced versions in your jar files in a way that won’t cause conflicts.</p>
+<p>A fat jar lets you put a set of direct dependencies and the entire set of resolved transitive dependencies for them into a single jar separate from your other jar files.</p>
+<p>You define this fat jar in a <code>BUILD.bazel</code> file located based on its usage. For example, a fat jar only used by a single component would go into the BUILD file located in the path like <code>//path/to/component-name</code>.</p>
+<p>You can see below an example of how to define the fat jar utilizing the same alternate maven repository label we defined in the previous example.</p>
+<div class="highlight"><pre><span></span><code><span class="n">java_binary</span><span class="p">(</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;examplecomponent&quot;</span><span class="p">,</span>
+    <span class="n">main_class</span> <span class="o">=</span> <span class="s2">&quot;none&quot;</span><span class="p">,</span>
+    <span class="n">runtime_deps</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;@shaded_guava//:com_google_guava_guava&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<h3>Renaming the Dependency</h3>
+<p>Now that you have a fat jar file with the alternative dependency versions, you also need to be able to reference them separately on the Java classpath. We do this by renaming the packages in the fat jar.</p>
+<p>For the new name, we use a convention of <code>com.myorg.mynamespace.mypackage.shaded.*</code>. <code>mynamespace.mypackage</code> should be scoped down based on usage. For usage only in a single package, the corresponding Java package name is probably appropriate. This convention will help ensure that 1) you don’t have a conflict on the new name and 2) someone reading your code will be able to clearly see these are shaded dependencies.</p>
+<p>The shading of the fat jar dependencies will be defined in the same BUILD file as the fat jar itself. We do this using <a href="https://github.com/bazeltools/bazel_jar_jar">the bazel_jar_jar library</a>. A simple example is given below using the same fat jar we defined above.</p>
+<div class="highlight"><pre><span></span><code><span class="n">jar_jar</span><span class="p">(</span>
+    <span class="c1"># NOTE: We recommend a naming convention of shaded-&lt;usage&gt; to ensure future developers will know we are utilizing a shaded dependency</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;shaded-examplecomponentjar&quot;</span><span class="p">,</span>
+    <span class="c1"># NOTE: See the bazel_jar_jar advanced documentation for more renaming dependencies</span>
+    <span class="n">inline_rules</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;rule com.google.common.collect.** com.mynamespace.mypackage.shaded.com.google.common.collect.@1&quot;</span><span class="p">],</span>
+    <span class="c1"># NOTE: There is an implicit `_deploy.jar` target based on the name of fat jar target</span>
+    <span class="n">input_jar</span> <span class="o">=</span> <span class="s2">&quot;:examplecomponent_deploy.jar&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<h2>Changes to Consuming Java Code</h2>
+<p>So you have shaded dependencies in a fat jar now defined in a Bazel target. You reference that target in your components’ dependencies just like you would any other target.</p>
+<div class="highlight"><pre><span></span><code><span class="n">DEPS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># NOTE: There&#39;s not a path here before the `:` in this example because we defined it in the same BUILD file as the shading target.</span>
+    <span class="s2">&quot;:shaded-examplecomponentjar&quot;</span><span class="p">,</span>
+    <span class="c1"># NOTE: You refer to other dependencies in the default `@maven` label the same as usual</span>
+    <span class="s2">&quot;@maven//:com_google_code_findbugs_jsr305&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+</code></pre></div>
+
+<p>Now that Bazel knows where these shaded dependencies, you now need to modify your Java code to refer to them by their new name.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">com.mynamespace.mypackage.shaded.com.google.common.collect.ImmutableList</span><span class="p">;</span>
+</code></pre></div>
+
+<h2>Exploring Build Results</h2>
+<p><a href="https://bazel.build/remote/output-directories">The output of Bazel</a> is available in the bazel-out directory. Under that directory on my Mac laptop, the output of a specific target is under <code>darwin_arm64-fastbuild/bin/path/to/target</code>. In the subdirectories of that folder, I can find the Jar files that my target created.</p>
+<p>In the examples above that includes the shaded dependency jar <code>path/to/mypackage/shaded-examplecomponentjar.jar</code>.</p>
+<p>We can view the contents of these Jar files with <a href="https://docs.oracle.com/javase/tutorial/deployment/jar/view.html">the <code>jar</code> CLI command</a>. The two options you should be familiar with are:</p>
+<ul>
+<li><code>jar tf &lt;jar-file&gt;</code></li>
+<li>List contents</li>
+<li><code>jar xf &lt;jar-file&gt; &lt;archived-file(s)&gt;</code></li>
+<li>Extract contents</li>
+</ul>
+<p>In your shaded Jar should be one or more <code>pom.xml</code> files letting you confirm the exact dependency versions packaged inside them.</p>
+<h2>Further Reading</h2>
+<p><a href="https://medium.com/@akhaku/java-class-shadowing-and-shading-9439b0eacb13">Context on Shading in Java Illustrated with Gradle Examples</a></p>                    </article>
+                </aside><!-- /#featured -->
+                    <section id="content" class="body">
+                        <h1>Other articles</h1>
+                        <hr />
+                        <ol id="posts-list" class="hfeed">
+
+                <li><article class="hentry">
+                    <header>
+                        <h1><a href="/2025/02/26/how-to-read-files-in-java-with-bazel" rel="bookmark"
+                               title="Permalink to How to read files in Java with Bazel">How to read files in Java with Bazel</a></h1>
+                    </header>
+
+                    <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2025-02-26T00:00:00-05:00">
                 Published: Wed 26 February 2025
@@ -31,165 +154,19 @@
                 </address>
         <p>In <a href="/category/bazel.html">Bazel</a>.</p>
         
-</footer><!-- /.post-info --><h1>How to read files in Java with Bazel</h1>
+</footer><!-- /.post-info -->                        <h1>How to read files in Java with Bazel</h1>
 <h2>Bazel Build/Test Sandbox</h2>
 <p>What: The Bazel sandbox is an isolation mechanism that ensures targets only have visibility of
 specified files.</p>
 <p>Why: The sandbox ensures Bazel targets are compiled and tested with exactly the same files across
-different build hosts, enabling hermetic build security, caching reliability, and identical remote
-execution output.</p>
-<p>When: The sandbox is utilized whenever you run ‘bazel build’ or <code>bazel test</code> against a target.</p>
-<p>How: No files are in the Bazel sandbox unless you declare them in your target definitions via your
-<code>BUILD</code> files and the files that you <code>load</code>.</p>
-<h2>Where to Define Files for the Bazel Sandbox</h2>
-<p>The conventions used by <a href="https://bazel.build/reference/be/java">the default Bazel Java Rules</a> let you reference your files in a uniform way.</p>
-<p>There are five attributes you should be aware of specifically for file access.</p>
-<ul>
-<li>srcs - Your Java code</li>
-<li>deps - Your library dependencies available at compile time</li>
-<li>runtime_deps - Your library dependencies available <strong>only</strong> at runtime</li>
-<li>resources - Other files included in the Java jar</li>
-<li>data - Other files available <strong>only</strong> at runtime in the runfiles folder</li>
-</ul>
-<p>You can define macros can include default values for many of these attributes to cover the most common required values.</p>
-<p>Each of these takes an array of string paths, relative to the BUILD file the target is defined from.
-You can use <a href="https://bazel.build/reference/be/functions#glob">the <code>glob([“&lt;pattern&gt;”])</code> rule</a> to
-populate the array argument.</p>
-<h2>Reading Files in the Bazel Sandbox</h2>
-<p>The files defined in the last two attributes <code>resources</code> and <code>data</code> have different patterns for
-accessing them in your code.</p>
-<h3>Resources</h3>
-<p>Resources are placed inside the Jar and are not extracted in the sandbox. Therefore you have to work
-with them with tools that let you read inside the archive via the classpath.</p>
-<p><a href="https://bazel.build/reference/be/java#java_test.resources">The location of resources in the Jar</a> is
-intuitive for resources following the standard maven directory structure, but can be more complex
-for files in other locations.</p>
-<p>For the following examples consider the following directory structure:</p>
-<ul>
-<li>src/test/resource/</li>
-<li>testResource.txt</li>
-<li>resourceFolder/<ul>
-<li>testResourceA.txt</li>
-<li>testResourceB.txt</li>
-</ul>
-</li>
-</ul>
-<p>Each of the *.txt files have a single string of text “Hello &lt;filename&gt;”, where filename does not
-include the .txt file extension.</p>
-<h4>Common Mistakes</h4>
-<h5>Treating Resources as Normal Files</h5>
-<div class="highlight"><pre><span></span><code><span class="nd">@Test</span>
-<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">testBrokenResourceVanillaViaFileInputStream</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">URL</span><span class="w"> </span><span class="n">resource</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">getClass</span><span class="p">().</span><span class="na">getResource</span><span class="p">(</span><span class="s">&quot;/testResource.txt&quot;</span><span class="p">);</span>
-<span class="w">  </span><span class="n">Assert</span><span class="p">.</span><span class="na">assertNotNull</span><span class="p">(</span><span class="s">&quot;Resource will not be null&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">resource</span><span class="p">);</span>
-<span class="w">  </span><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="kd">final</span><span class="w"> </span><span class="n">FileInputStream</span><span class="w"> </span><span class="n">contents</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">FileInputStream</span><span class="p">(</span><span class="n">resource</span><span class="p">.</span><span class="na">getFile</span><span class="p">()))</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">Assert</span><span class="p">.</span><span class="na">fail</span><span class="p">(</span><span class="s">&quot;Should have thrown an exception&quot;</span><span class="p">);</span>
-<span class="w">    </span><span class="n">Assert</span><span class="p">.</span><span class="na">assertNull</span><span class="p">(</span><span class="n">contents</span><span class="p">);</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="w">  </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">FileNotFoundException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">Assert</span><span class="p">.</span><span class="na">assertNotNull</span><span class="p">(</span><span class="n">e</span><span class="p">);</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="w">  </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">IOException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">Assert</span><span class="p">.</span><span class="na">fail</span><span class="p">(</span><span class="s">&quot;Should have thrown a FileNotFound exception instead of IOException&quot;</span><span class="p">);</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
-
-<p>You have to remember resources are inside the jar file. You can’t access them like a normal file on disk.</p>
-<h5>Incorrect Paths</h5>
-<div class="highlight"><pre><span></span><code><span class="nd">@Test</span>
-<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">testBrokenResourceVanillaViaMissingDelimiter</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span><span class="p">{</span>
-<span class="w">  </span><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="kd">final</span><span class="w"> </span><span class="n">InputStream</span><span class="w"> </span><span class="n">contents</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">getClass</span><span class="p">().</span><span class="na">getResourceAsStream</span><span class="p">(</span><span class="s">&quot;testResource.txt&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">Assert</span><span class="p">.</span><span class="na">assertNull</span><span class="p">(</span><span class="n">contents</span><span class="p">);</span><span class="w"> </span><span class="c1">//The contents will be empty</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
-
-<p><a href="https://docs.oracle.com/javase/8/docs/technotes/guides/lang/resources.html">The presence of the leading “/” is important to the search order.</a></p>
-<h4>Reading a Resource</h4>
-<h5>With java.io</h5>
-<div class="highlight"><pre><span></span><code><span class="nd">@Test</span>
-<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">testResourceVanilla</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span><span class="p">{</span>
-<span class="w">  </span><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="kd">final</span><span class="w"> </span><span class="n">InputStream</span><span class="w"> </span><span class="n">contents</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">getClass</span><span class="p">().</span><span class="na">getResourceAsStream</span><span class="p">(</span><span class="s">&quot;/testResource.txt&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">String</span><span class="p">(</span><span class="n">contents</span><span class="p">.</span><span class="na">readAllBytes</span><span class="p">(),</span><span class="w"> </span><span class="n">StandardCharsets</span><span class="p">.</span><span class="na">UTF_8</span><span class="p">);</span>
-<span class="w">    </span><span class="n">Assert</span><span class="p">.</span><span class="na">assertEquals</span><span class="p">(</span><span class="n">TEST_RESOURCE_CONTENTS</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">);</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
-
-<h5>With com.google.common.io.Resources</h5>
-<div class="highlight"><pre><span></span><code><span class="nd">@Test</span>
-<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">testResourceGoogle</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span><span class="p">{</span>
-<span class="w">  </span><span class="n">URL</span><span class="w"> </span><span class="n">url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Resources</span><span class="p">.</span><span class="na">getResource</span><span class="p">(</span><span class="s">&quot;testResource.txt&quot;</span><span class="p">);</span>
-<span class="w">  </span><span class="n">String</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Resources</span><span class="p">.</span><span class="na">toString</span><span class="p">(</span><span class="n">url</span><span class="p">,</span><span class="w"> </span><span class="n">Charsets</span><span class="p">.</span><span class="na">UTF_8</span><span class="p">);</span>
-<span class="w">  </span><span class="n">Assert</span><span class="p">.</span><span class="na">assertEquals</span><span class="p">(</span><span class="n">TEST_RESOURCE_CONTENTS</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div>
-
-<h4>Exploring a Resource Folder</h4>
-<div class="highlight"><pre><span></span><code><span class="nd">@Test</span>
-<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">testResourceSearchFolderGoogle</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span><span class="p">{</span>
-<span class="w">  </span><span class="n">URL</span><span class="w"> </span><span class="n">url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Resources</span><span class="p">.</span><span class="na">getResource</span><span class="p">(</span><span class="s">&quot;resourceFolder&quot;</span><span class="p">);</span>
-<span class="w">  </span><span class="n">File</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">File</span><span class="p">(</span><span class="n">url</span><span class="p">.</span><span class="na">getFile</span><span class="p">());</span>
-<span class="w">  </span><span class="n">Assert</span><span class="p">.</span><span class="na">assertNotNull</span><span class="p">(</span><span class="s">&quot;It seems like you can read the folder as a file&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">f</span><span class="p">);</span>
-<span class="w">  </span><span class="n">Assert</span><span class="p">.</span><span class="na">assertTrue</span><span class="p">(</span><span class="o">!</span><span class="n">f</span><span class="p">.</span><span class="na">exists</span><span class="p">());</span><span class="w"> </span><span class="c1">// But you can&#39;t since it is in the Jar</span>
-
-<span class="w">  </span><span class="c1">// You can enumerate the entries directly from the Jar</span>
-<span class="w">  </span><span class="n">JarURLConnection</span><span class="w"> </span><span class="n">jarConnection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">JarURLConnection</span><span class="p">)</span><span class="w"> </span><span class="n">url</span><span class="p">.</span><span class="na">openConnection</span><span class="p">();</span>
-<span class="w">  </span><span class="n">JarFile</span><span class="w"> </span><span class="n">jarFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">jarConnection</span><span class="p">.</span><span class="na">getJarFile</span><span class="p">();</span>
-<span class="w">  </span><span class="n">Iterator</span><span class="o">&lt;</span><span class="n">JarEntry</span><span class="o">&gt;</span><span class="w"> </span><span class="n">iter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">jarFile</span><span class="p">.</span><span class="na">entries</span><span class="p">().</span><span class="na">asIterator</span><span class="p">();</span>
-<span class="w">  </span><span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">JarEntry</span><span class="o">&gt;</span><span class="w"> </span><span class="n">entries</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Lists</span><span class="p">.</span><span class="na">newArrayList</span><span class="p">(</span><span class="n">iter</span><span class="p">);</span>
-<span class="w">  </span><span class="c1">// You get all entries in the Jar, not just ones under your url</span>
-<span class="w">  </span><span class="n">Assert</span><span class="p">.</span><span class="na">assertTrue</span><span class="p">(</span><span class="n">entries</span><span class="p">.</span><span class="na">size</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span>
-<span class="w">  </span><span class="n">JarEntry</span><span class="w"> </span><span class="n">entry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">jarFile</span><span class="p">.</span><span class="na">getJarEntry</span><span class="p">(</span><span class="s">&quot;resourceFolder&quot;</span><span class="p">);</span>
-<span class="w">  </span><span class="c1">// It can tell if this entry is a directory</span>
-<span class="w">  </span><span class="n">Assert</span><span class="p">.</span><span class="na">assertTrue</span><span class="p">(</span><span class="n">entry</span><span class="p">.</span><span class="na">isDirectory</span><span class="p">());</span>
-<span class="w">  </span><span class="c1">//Directory entry names end with the path delimiter</span>
-<span class="w">  </span><span class="n">Assert</span><span class="p">.</span><span class="na">assertTrue</span><span class="p">(</span><span class="n">entry</span><span class="p">.</span><span class="na">getName</span><span class="p">().</span><span class="na">endsWith</span><span class="p">(</span><span class="s">&quot;resourceFolder/&quot;</span><span class="p">));</span>
-<span class="p">}</span>
-</code></pre></div>
-
-<h3>Data</h3>
-<p>Data files are not included in the Jar, but instead put in a runfiles folder. They are accessible
-relative to the root of the repo, not relative to the BUILD file of the target that they are
-referenced from i.e. <code>path/to/build/file/src/test/data_folder/data_file</code>, not
-<code>src/test/data_folder/data_file</code>.</p>
-<h4>With java.io</h4>
-<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">testDataVanilla</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="n">File</span><span class="w"> </span><span class="n">dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">File</span><span class="p">(</span><span class="s">&quot;path/to/build/file/src/test/dataFolder&quot;</span><span class="p">);</span>
-<span class="w">  </span><span class="n">Assert</span><span class="p">.</span><span class="na">assertTrue</span><span class="p">(</span><span class="n">dir</span><span class="p">.</span><span class="na">isDirectory</span><span class="p">());</span>
-<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dir</span><span class="p">.</span><span class="na">listFiles</span><span class="p">()</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">;</span>
-<span class="w">  </span><span class="n">Assert</span><span class="p">.</span><span class="na">assertTrue</span><span class="p">(</span><span class="n">file</span><span class="p">.</span><span class="na">isFile</span><span class="p">());</span>
-<span class="w">  </span><span class="n">FileInputStream</span><span class="w"> </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">FileInputStream</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
-<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">IOUtils</span><span class="p">.</span><span class="na">toString</span><span class="p">(</span><span class="n">stream</span><span class="p">);</span>
-<span class="w">  </span><span class="n">Assert</span><span class="p">.</span><span class="na">assertEquals</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Hello dataFile&quot;</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div>
-
-<h4>With java.nio and com.google.devtools.build.Runfiles</h4>
-<div class="highlight"><pre><span></span><code><span class="nd">@Test</span>
-<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">testDataGoogle</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">IOException</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="n">Runfiles</span><span class="w"> </span><span class="n">runfiles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Runfiles</span><span class="p">.</span><span class="na">create</span><span class="p">();</span>
-<span class="w">  </span><span class="n">String</span><span class="w"> </span><span class="n">filepath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;_main/path/to/build/file/src/test/dataFolder/dataFile.txt&quot;</span><span class="p">;</span>
-<span class="w">  </span><span class="n">Path</span><span class="w"> </span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Paths</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">runfiles</span><span class="p">.</span><span class="na">rlocation</span><span class="p">(</span><span class="n">filepath</span><span class="p">));</span>
-<span class="w">  </span><span class="n">String</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Files</span><span class="p">.</span><span class="na">readString</span><span class="p">(</span><span class="n">path</span><span class="p">);</span>
-<span class="w">  </span><span class="n">Assert</span><span class="p">.</span><span class="na">assertEquals</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Hello dataFile&quot;</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div>
-
-<p>Using <code>java.nio</code> should generally result in more performant code. Using
-<code>[com.google.devtools.build.Runfiles](https://github.com/bazelbuild/bazel/blob/7.2.1/tools/java/runfiles/Runfiles.java#L31-L132)</code> should result in more stable code across different hosts and future updates.</p>
-<p>The hardcoded <code>\_main</code> Bazel workspace should be changed to be determined programmatically. Updating
-your code to do so is left as an exercise for the reader.</p>                    </article>
-                </aside><!-- /#featured -->
-                    <section id="content" class="body">
-                        <h1>Other articles</h1>
-                        <hr />
-                        <ol id="posts-list" class="hfeed">
+different build hosts, enabling hermetic …</p>
+                        <a class="readmore" href="/2025/02/26/how-to-read-files-in-java-with-bazel">read more</a>
+                    </div><!-- /.entry-content -->
+                </article></li>
 
                 <li><article class="hentry">
                     <header>
-                        <h1><a href="/2025/01/18/site-renovation-in-progress/" rel="bookmark"
+                        <h1><a href="/2025/01/18/site-renovation-in-progress" rel="bookmark"
                                title="Permalink to Site Renovation In Progress">Site Renovation In Progress</a></h1>
                     </header>
 
@@ -205,7 +182,7 @@ your code to do so is left as an exercise for the reader.</p>                   
         <p>In <a href="/category/general.html">General</a>.</p>
         
 </footer><!-- /.post-info -->                        <p>I'm rennovating this site. Pardon my virtual dust. Links may be broken as I move things around.</p>
-                        <a class="readmore" href="/2025/01/18/site-renovation-in-progress/">read more</a>
+                        <a class="readmore" href="/2025/01/18/site-renovation-in-progress">read more</a>
                     </div><!-- /.entry-content -->
                 </article></li>
                     </ol><!-- /#posts-list -->

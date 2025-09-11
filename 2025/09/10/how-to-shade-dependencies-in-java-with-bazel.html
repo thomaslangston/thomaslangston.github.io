@@ -4,8 +4,9 @@
                         <meta charset="utf-8" />
                         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
                         <meta name="generator" content="Pelican" />
-                        <title>Langston Software - Bazel</title>
+                        <title>How to Shade Dependencies in Java with Bazel</title>
                         <link rel="stylesheet" href="/theme/css/main.css" />
+    <meta name="description" content="How to Shade Dependencies in Java with Bazel Shading Dependencies What: Shading is the process of making two versions of a dependency available at..." />
         </head>
 
         <body id="index" class="home">
@@ -17,10 +18,15 @@
                                                 <li><a href="/category/general.html">General</a></li>
                         </ul></nav>
                 </header><!-- /#banner -->
+  <section id="content" class="body">
+    <article>
+      <header>
+        <h1 class="entry-title">
+          <a href="/2025/09/10/how-to-shade-dependencies-in-java-with-bazel" rel="bookmark"
+             title="Permalink to How to Shade Dependencies in Java with Bazel">How to Shade Dependencies in Java with Bazel</a></h1>
+      </header>
 
-                <aside id="featured" class="body">
-                    <article>
-                        <h1 class="entry-title"><a href="/2025/09/10/how-to-shade-dependencies-in-java-with-bazel">How to Shade Dependencies in Java with Bazel</a></h1>
+      <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2025-09-10T00:00:00-04:00">
                 Published: Wed 10 September 2025
@@ -31,7 +37,7 @@
                 </address>
         <p>In <a href="/category/bazel.html">Bazel</a>.</p>
         
-</footer><!-- /.post-info --><h1>How to Shade Dependencies in Java with Bazel</h1>
+</footer><!-- /.post-info -->        <h1>How to Shade Dependencies in Java with Bazel</h1>
 <h2>Shading Dependencies</h2>
 <p>What: Shading is the process of making two versions of a dependency available at compile time to Java code.</p>
 <p>Why: Two versions of a dependency otherwise will “shadow” or conflict with each other on the classpath if they share the same FQN (Fully Qualified Name). This can cause runtime errors if your code loads the incorrect version of the dependency to satisfy direct or indirect (transitive) dependencies.</p>
@@ -130,41 +136,11 @@
 </ul>
 <p>In your shaded Jar should be one or more <code>pom.xml</code> files letting you confirm the exact dependency versions packaged inside them.</p>
 <h2>Further Reading</h2>
-<p><a href="https://medium.com/@akhaku/java-class-shadowing-and-shading-9439b0eacb13">Context on Shading in Java Illustrated with Gradle Examples</a></p>                    </article>
-                </aside><!-- /#featured -->
-                    <section id="content" class="body">
-                        <h1>Other articles</h1>
-                        <hr />
-                        <ol id="posts-list" class="hfeed">
+<p><a href="https://medium.com/@akhaku/java-class-shadowing-and-shading-9439b0eacb13">Context on Shading in Java Illustrated with Gradle Examples</a></p>
+      </div><!-- /.entry-content -->
 
-                <li><article class="hentry">
-                    <header>
-                        <h1><a href="/2025/02/26/how-to-read-files-in-java-with-bazel" rel="bookmark"
-                               title="Permalink to How to read files in Java with Bazel">How to read files in Java with Bazel</a></h1>
-                    </header>
-
-                    <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2025-02-26T00:00:00-05:00">
-                Published: Wed 26 February 2025
-        </abbr>
-
-                <address class="vcard author">
-                        By                                 <a class="url fn" href="/author/thomas-langston.html">Thomas Langston</a>
-                </address>
-        <p>In <a href="/category/bazel.html">Bazel</a>.</p>
-        
-</footer><!-- /.post-info -->                        <h1>How to read files in Java with Bazel</h1>
-<h2>Bazel Build/Test Sandbox</h2>
-<p>What: The Bazel sandbox is an isolation mechanism that ensures targets only have visibility of
-specified files.</p>
-<p>Why: The sandbox ensures Bazel targets are compiled and tested with exactly the same files across
-different build hosts, enabling hermetic …</p>
-                        <a class="readmore" href="/2025/02/26/how-to-read-files-in-java-with-bazel">read more</a>
-                    </div><!-- /.entry-content -->
-                </article></li>
-                    </ol><!-- /#posts-list -->
-                    </section><!-- /#content -->
+    </article>
+  </section>
                 <section id="extras" class="body">
                                 <div class="social">
                                         <h2>social</h2>
