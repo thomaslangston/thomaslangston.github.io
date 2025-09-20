@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+        <head>
+                        <meta charset="utf-8" />
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                        <meta name="generator" content="Pelican" />
+                        <title>Langston Software - JavaScript</title>
+                        <link rel="stylesheet" href="https://langstonsoftware.com/theme/css/main.css" />
+                                <link href="https://langstonsoftware.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Langston Software Atom Feed" />
+        </head>
+
+        <body id="index" class="home">
+                <header id="banner" class="body">
+                        <h1><a href="https://langstonsoftware.com/">Langston Software</a></h1>
+                        <nav><ul>
+                                                <li><a href="https://langstonsoftware.com/category/angularjs.html">AngularJS</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/architecture-design-philosophy.html">Architecture & Design Philosophy</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/aspnet-mvc.html">ASP.NET MVC</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/bazel.html">Bazel</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/c.html">C#</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/career.html">Career</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/frameworks-libraries.html">Frameworks & Libraries</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/git.html">Git</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/javascript.html">JavaScript</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/politics.html">Politics</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/refactoring.html">Refactoring</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/sql.html">SQL</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/tools.html">Tools</a></li>
+                        </ul></nav>
+                </header><!-- /#banner -->
+
+                <aside id="featured" class="body">
+                    <article>
+                        <h1 class="entry-title"><a href="https://langstonsoftware.com/2017/08/20/currency-inputs-in-angularjs-1x">Currency Inputs in AngularJS (1.x)</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2017-08-20T15:07:00-04:00">
+                Published: Sun 20 August 2017
+        </abbr>
+
+                <address class="vcard author">
+                        By                                 <a class="url fn" href="https://langstonsoftware.com/author/thomas-langston.html">Thomas Langston</a>
+                </address>
+        <p>In <a href="https://langstonsoftware.com/category/angularjs.html">AngularJS</a>.</p>
+<p>tags: <a href="https://langstonsoftware.com/tag/javascript.html">JavaScript</a> </p>        
+</footer><!-- /.post-info --><p>Currency inputs seem to be a forgotten area of standard libraries. <a href="https://stackoverflow.com/questions/5080451/how-should-i-use-editorfor-in-mvc-for-a-currency-money-type">Even the batteries included .NET MVC framework doesn’t really answer the question for you.</a> They often are omitted completely, and the community variants are many and buggy. This soup of conflicting standards over a very basic problem brings us to the canonical problem: when is it time to write your own solution?</p>
+<p><a href="https://xkcd.com/927/"></a></p>
+<p>AngularJS (1.x) has at least five different easy to find options (<a href="https://stackoverflow.com/questions/19890364/format-input-value-in-angularjs?noredirect=1&amp;lq=1">links</a>. <a href="https://stackoverflow.com/questions/19094150/using-angularjs-directive-to-format-input-field-while-leaving-scope-variable-unc">to</a>. <a href="https://github.com/jstroem/ng-input-currency">many</a>. <a href="https://github.com/greengerong/ngmodel-format">options</a>. <a href="https://github.com/aguirrel/ng-currency">here</a>.). Most of them are built off the built in formatters for <a href="https://docs.angularjs.org/api/ng/filter/currency">currency</a> or <a href="https://docs.angularjs.org/api/ng/filter/number">numbers</a>. But in my last work project I found most of them unacceptable, at least to the product manager testing the solutions. So I created my own n+1 answer.</p>
+<p><a href="https://jsfiddle.net/thomaslangston/5h17fosc/12/">My solution based on what was already available can be found on jsFiddle.net.</a></p>
+<p>Other solutions had either an inability to include decimals, or odd behavior when you used the backspace key, or wigged out when you deleted a decimal. They also often used client locale information to decide the formatting rules, which was unnecessary and potentially wrong for my solution. My answer still has an issue when deleting from the middle of the input, the cursor will jump back to the far right end after. But I considered that still a solid win considering the offerings available before.</p>
+<p>In the end my PM was happy, our customer was happy, and I think our code was happy. Even if I had to reinvent the wheel one more time.</p>                    </article>
+                </aside><!-- /#featured -->
+                    <section id="content" class="body">
+                        <h1>Other articles</h1>
+                        <hr />
+                        <ol id="posts-list" class="hfeed">
+
+                <li><article class="hentry">
+                    <header>
+                        <h1><a href="https://langstonsoftware.com/2016/06/24/angularjs-readonly-dropdown" rel="bookmark"
+                               title="Permalink to AngularJS Readonly Dropdown">AngularJS Readonly Dropdown</a></h1>
+                    </header>
+
+                    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2016-06-24T18:10:00-04:00">
+                Published: Fri 24 June 2016
+        </abbr>
+
+                <address class="vcard author">
+                        By                                 <a class="url fn" href="https://langstonsoftware.com/author/thomas-langston.html">Thomas Langston</a>
+                </address>
+        <p>In <a href="https://langstonsoftware.com/category/angularjs.html">AngularJS</a>.</p>
+<p>tags: <a href="https://langstonsoftware.com/tag/javascript.html">JavaScript</a> </p>        
+</footer><!-- /.post-info -->                        <p>HTML select’s don’t implement the readonly attribute, so the only way to prevent them from being edited is to use the disabled attribute. Doing so however prevents them from being posted on submission. The standard solution for this is create a hidden input field, which you have to …</p>
+                        <a class="readmore" href="https://langstonsoftware.com/2016/06/24/angularjs-readonly-dropdown">read more</a>
+                    </div><!-- /.entry-content -->
+                </article></li>
+                    </ol><!-- /#posts-list -->
+                    </section><!-- /#content -->
+                <section id="extras" class="body">
+                                <div class="social">
+                                        <h2>social</h2>
+                                        <ul>
+                                                        <li><a href="https://langstonsoftware.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                                                        <li><a href="https://www.linkedin.com/in/thomaslangston/">LinkedIn</a></li>
+                                                        <li><a href="https://github.com/thomaslangston">GitHub</a></li>
+                                        </ul>
+                                </div><!-- /.social -->
+                </section><!-- /#extras -->
+
+                <footer id="contentinfo" class="body">
+                        <address id="about" class="vcard body">
+                                Proudly powered by <a rel="nofollow" href="https://getpelican.com/">Pelican</a>, which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                        </address><!-- /#about -->
+
+                        <p>The theme is by <a rel="nofollow" href="https://www.smashingmagazine.com/2009/08/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+                </footer><!-- /#contentinfo -->
+
+        </body>
+</html>

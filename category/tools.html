@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+        <head>
+                        <meta charset="utf-8" />
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                        <meta name="generator" content="Pelican" />
+                        <title>Langston Software - Tools</title>
+                        <link rel="stylesheet" href="https://langstonsoftware.com/theme/css/main.css" />
+                                <link href="https://langstonsoftware.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Langston Software Atom Feed" />
+        </head>
+
+        <body id="index" class="home">
+                <header id="banner" class="body">
+                        <h1><a href="https://langstonsoftware.com/">Langston Software</a></h1>
+                        <nav><ul>
+                                                <li><a href="https://langstonsoftware.com/category/angularjs.html">AngularJS</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/architecture-design-philosophy.html">Architecture & Design Philosophy</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/aspnet-mvc.html">ASP.NET MVC</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/bazel.html">Bazel</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/c.html">C#</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/career.html">Career</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/frameworks-libraries.html">Frameworks & Libraries</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/git.html">Git</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/javascript.html">JavaScript</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/politics.html">Politics</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/refactoring.html">Refactoring</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/sql.html">SQL</a></li>
+                                                <li class="active"><a href="https://langstonsoftware.com/category/tools.html">Tools</a></li>
+                        </ul></nav>
+                </header><!-- /#banner -->
+
+                <aside id="featured" class="body">
+                    <article>
+                        <h1 class="entry-title"><a href="https://langstonsoftware.com/2016/08/30/why-resharper-code-formatting">Why Resharper? Code Formatting</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2016-08-30T20:24:00-04:00">
+                Published: Tue 30 August 2016
+        </abbr>
+
+                <address class="vcard author">
+                        By                                 <a class="url fn" href="https://langstonsoftware.com/author/thomas-langston.html">Thomas Langston</a>
+                </address>
+        <p>In <a href="https://langstonsoftware.com/category/tools.html">Tools</a>.</p>
+        
+</footer><!-- /.post-info --><p>While Visual Studio is often made fun of for being bloated, and has more functionality than a single developer could hope to create in a career, it still has a few missing features. This is where Resharper from JetBrains steps in.</p>
+<p>In particular today I want to talk about just one feature Resharper has, and many developers don’t use, to both their own and their team’s detriment. Consider this post both overview and entreaty to those who don’t use this feature.</p>
+<p>That feature is automatic code formatting.</p>
+<p>Visual Studio by default tries to give you a lot of automatic code completion and indention. One of the simplest things it won’t do however, it break your lines as you write large statements. LINQ practically becomes unreadable as variable names become larger and conditionals become more complicated. Methods and constructors that take a large number of arguments become unwieldy. While you can and should tackle these problems with factoring out new methods and variables to contain their incidental complexity, sometimes you just need to see how the brick is made inline.</p>
+<p>You can apply automatic code formatting across a whole solution, a file, or as I often do in existing projects, just the hairiest parts of the code you are working on that day. In order to really get the most of your code formatting, you should configure the options to match your team’s coding guidelines, and then save those options in the repository so that they can be picked up automatically both other developer’s Resharper installations. You have these formatting changes be applied silently after you’ve set them up, removing the need to go thru the wizard on each run.</p>
+<p>Some settings I particularly suggest you look at are those that handle those automatic breaks after opening a new block or method argument list. Having these being treated more consistently make reviewing changes much more palatable in a diff tool. I’m also a fan of creating automatic breaks in long chained method calls, ternary operators, or string concatenations, keeping operators at the beginning of lines, letting the human reader front load the meaning of any given line. These are just calls made from personal experience. One of my favorite programming books, Code Complete 2, backs many of these positions. While many development coding guidelines might be based on terminal interfaces, it turns out there are plenty of reasons based in science on why humans can’t read lines over 80 characters very well, especially when those lines are full of difficult mathematical logic.</p>
+<p>I hope this has whet your appetite for nicely presented code in your projects. Luckily Resharper is the utensil you need to cut into this problem. If you’ve already installed Resharper, or this post has convinced you to try it out, please let me know how your experience with code formatting goes in the comments.</p>                    </article>
+                </aside><!-- /#featured -->
+                <section id="extras" class="body">
+                                <div class="social">
+                                        <h2>social</h2>
+                                        <ul>
+                                                        <li><a href="https://langstonsoftware.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                                                        <li><a href="https://www.linkedin.com/in/thomaslangston/">LinkedIn</a></li>
+                                                        <li><a href="https://github.com/thomaslangston">GitHub</a></li>
+                                        </ul>
+                                </div><!-- /.social -->
+                </section><!-- /#extras -->
+
+                <footer id="contentinfo" class="body">
+                        <address id="about" class="vcard body">
+                                Proudly powered by <a rel="nofollow" href="https://getpelican.com/">Pelican</a>, which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                        </address><!-- /#about -->
+
+                        <p>The theme is by <a rel="nofollow" href="https://www.smashingmagazine.com/2009/08/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+                </footer><!-- /#contentinfo -->
+
+        </body>
+</html>

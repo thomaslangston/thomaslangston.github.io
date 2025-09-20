@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+        <head>
+                        <meta charset="utf-8" />
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                        <meta name="generator" content="Pelican" />
+                        <title>Langston Software - Moq</title>
+                        <link rel="stylesheet" href="https://langstonsoftware.com/theme/css/main.css" />
+                                <link href="https://langstonsoftware.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Langston Software Atom Feed" />
+        </head>
+
+        <body id="index" class="home">
+                <header id="banner" class="body">
+                        <h1><a href="https://langstonsoftware.com/">Langston Software</a></h1>
+                        <nav><ul>
+                                                <li><a href="https://langstonsoftware.com/category/angularjs.html">AngularJS</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/architecture-design-philosophy.html">Architecture & Design Philosophy</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/aspnet-mvc.html">ASP.NET MVC</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/bazel.html">Bazel</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/c.html">C#</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/career.html">Career</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/frameworks-libraries.html">Frameworks & Libraries</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/git.html">Git</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/javascript.html">JavaScript</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/politics.html">Politics</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/refactoring.html">Refactoring</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/sql.html">SQL</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/tools.html">Tools</a></li>
+                        </ul></nav>
+                </header><!-- /#banner -->
+
+                <aside id="featured" class="body">
+                    <article>
+                        <h1 class="entry-title"><a href="https://langstonsoftware.com/2016/09/06/moq-cant-setup-methods-with-anonymous-object-arguments">Moq can’t setup methods with anonymous object arguments</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2016-09-06T19:07:00-04:00">
+                Published: Tue 06 September 2016
+        </abbr>
+
+                <address class="vcard author">
+                        By                                 <a class="url fn" href="https://langstonsoftware.com/author/thomas-langston.html">Thomas Langston</a>
+                </address>
+        <p>In <a href="https://langstonsoftware.com/category/c.html">C#</a>.</p>
+<p>tags: <a href="https://langstonsoftware.com/tag/moq.html">Moq</a> <a href="https://langstonsoftware.com/tag/unit-testing.html">Unit Testing</a> </p>        
+</footer><!-- /.post-info --><p>Something frustrating I learned today about my favorite Mocking tool today, or at least in version 4.0 that I have installed, it can’t handle anonymous objects in method parameters. This is very depressing in web programming where it doesn’t make much sense to create a static DTO type for every version of a API call.</p>
+<div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="n">Microsoft</span><span class="p">.</span><span class="n">VisualStudio</span><span class="p">.</span><span class="n">TestTools</span><span class="p">.</span><span class="n">UnitTesting</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="n">Moq</span><span class="p">;</span>
+<span class="o">//</span><span class="n">Moq</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="mf">4.0.10827</span>
+
+<span class="n">namespace</span><span class="w"> </span><span class="n">AX</span><span class="p">.</span><span class="n">Test</span><span class="p">.</span><span class="n">Common</span>
+<span class="err">{</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="n">ExampleAnonObjMockSetup</span>
+<span class="w">    </span><span class="err">{</span>
+<span class="w">        </span><span class="k">public</span><span class="w"> </span><span class="n">interface</span><span class="w"> </span><span class="n">IThing</span>
+<span class="w">        </span><span class="err">{</span>
+<span class="w">            </span><span class="n">string</span><span class="w"> </span><span class="n">DoIt</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">T</span><span class="w"> </span><span class="n">it</span><span class="p">);</span>
+<span class="w">        </span><span class="err">}</span>
+
+<span class="w">        </span><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="n">Subject</span>
+<span class="w">        </span><span class="err">{</span>
+<span class="w">            </span><span class="n">private</span><span class="w"> </span><span class="n">readonly</span><span class="w"> </span><span class="n">IThing</span><span class="w"> </span><span class="n">_thing</span><span class="p">;</span>
+
+<span class="w">            </span><span class="k">public</span><span class="w"> </span><span class="n">Subject</span><span class="p">(</span><span class="n">IThing</span><span class="w"> </span><span class="n">thing</span><span class="p">)</span>
+<span class="w">            </span><span class="err">{</span>
+<span class="w">                </span><span class="n">_thing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">thing</span><span class="p">;</span>
+<span class="w">            </span><span class="err">}</span>
+
+<span class="w">            </span><span class="k">public</span><span class="w"> </span><span class="n">string</span><span class="w"> </span><span class="k">Execute</span><span class="p">()</span>
+<span class="w">            </span><span class="err">{</span>
+<span class="w">                </span><span class="nf">var</span><span class="w"> </span><span class="n">param</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span>
+<span class="w">                </span><span class="err">{</span>
+<span class="w">                    </span><span class="n">Foo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">&quot;bar&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="n">Baz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">23</span>
+<span class="w">                </span><span class="err">}</span><span class="p">;</span>
+<span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="n">_thing</span><span class="p">.</span><span class="n">DoIt</span><span class="p">(</span><span class="n">param</span><span class="p">);</span>
+<span class="w">            </span><span class="err">}</span>
+<span class="w">        </span><span class="err">}</span>
+
+<span class="w">        </span><span class="o">[</span><span class="n">TestClass</span><span class="o">]</span>
+<span class="w">        </span><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="n">SubjectTest</span>
+<span class="w">        </span><span class="err">{</span>
+<span class="w">            </span><span class="o">[</span><span class="n">TestMethod</span><span class="o">]</span>
+<span class="w">            </span><span class="k">public</span><span class="w"> </span><span class="n">void</span><span class="w"> </span><span class="n">Test</span><span class="p">()</span>
+<span class="w">            </span><span class="err">{</span>
+<span class="w">                </span><span class="nf">var</span><span class="w"> </span><span class="n">mockThing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Mock</span><span class="o">&lt;</span><span class="n">IThing</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="w">                </span><span class="n">mockThing</span><span class="p">.</span><span class="n">Setup</span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">t</span><span class="p">.</span><span class="n">DoIt</span><span class="p">(</span><span class="n">It</span><span class="p">.</span><span class="n">IsAny</span><span class="o">&lt;</span><span class="k">object</span><span class="o">&gt;</span><span class="p">()))</span>
+<span class="w">                    </span><span class="p">.</span><span class="k">Returns</span><span class="p">(</span><span class="ss">&quot;expectedResult&quot;</span><span class="p">);</span>
+
+<span class="w">                </span><span class="nf">var</span><span class="w"> </span><span class="n">subject</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Subject</span><span class="p">(</span><span class="n">mockThing</span><span class="p">.</span><span class="k">Object</span><span class="p">);</span>
+<span class="w">                </span><span class="nf">var</span><span class="w"> </span><span class="k">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">subject</span><span class="p">.</span><span class="k">Execute</span><span class="p">();</span>
+
+<span class="w">                </span><span class="n">Assert</span><span class="p">.</span><span class="n">AreEqual</span><span class="p">(</span><span class="ss">&quot;expectedResult&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">result</span><span class="p">);</span>
+<span class="w">                </span><span class="o">//</span><span class="n">Assert</span><span class="p">.</span><span class="n">AreEqual</span><span class="w"> </span><span class="n">failed</span><span class="p">.</span><span class="w"> </span><span class="nl">Expected</span><span class="p">:</span><span class="o">&lt;</span><span class="n">expectedResult</span><span class="o">&gt;</span><span class="p">.</span><span class="w"> </span><span class="nl">Actual</span><span class="p">:</span><span class="o">&lt;</span><span class="p">(</span><span class="k">null</span><span class="p">)</span><span class="o">&gt;</span>
+<span class="w">            </span><span class="err">}</span>
+<span class="w">        </span><span class="err">}</span>
+<span class="w">    </span><span class="err">}</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<p>I’ve played with this code some more this Gist: <a href="https://gist.github.com/thomaslangston/46734b4577d1d3eac8c9d2c331f9e278">https://gist.github.com/thomaslangston/46734b4577d1d3eac8c9d2c331f9e278</a></p>
+<p>Others have reported that this behavior is fixed in Moq 4.1, but I have not yet verified. <a href="http://stackoverflow.com/questions/34185691/moq-setup-method-with-generic-anonymous-parameter">http://stackoverflow.com/questions/34185691/moq-setup-method-with-generic-anonymous-parameter</a></p>                    </article>
+                </aside><!-- /#featured -->
+                <section id="extras" class="body">
+                                <div class="social">
+                                        <h2>social</h2>
+                                        <ul>
+                                                        <li><a href="https://langstonsoftware.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                                                        <li><a href="https://www.linkedin.com/in/thomaslangston/">LinkedIn</a></li>
+                                                        <li><a href="https://github.com/thomaslangston">GitHub</a></li>
+                                        </ul>
+                                </div><!-- /.social -->
+                </section><!-- /#extras -->
+
+                <footer id="contentinfo" class="body">
+                        <address id="about" class="vcard body">
+                                Proudly powered by <a rel="nofollow" href="https://getpelican.com/">Pelican</a>, which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                        </address><!-- /#about -->
+
+                        <p>The theme is by <a rel="nofollow" href="https://www.smashingmagazine.com/2009/08/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+                </footer><!-- /#contentinfo -->
+
+        </body>
+</html>

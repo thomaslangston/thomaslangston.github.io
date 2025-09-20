@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+        <head>
+                        <meta charset="utf-8" />
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                        <meta name="generator" content="Pelican" />
+                        <title>Langston Software - Refactoring</title>
+                        <link rel="stylesheet" href="https://langstonsoftware.com/theme/css/main.css" />
+                                <link href="https://langstonsoftware.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Langston Software Atom Feed" />
+        </head>
+
+        <body id="index" class="home">
+                <header id="banner" class="body">
+                        <h1><a href="https://langstonsoftware.com/">Langston Software</a></h1>
+                        <nav><ul>
+                                                <li><a href="https://langstonsoftware.com/category/angularjs.html">AngularJS</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/architecture-design-philosophy.html">Architecture & Design Philosophy</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/aspnet-mvc.html">ASP.NET MVC</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/bazel.html">Bazel</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/c.html">C#</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/career.html">Career</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/frameworks-libraries.html">Frameworks & Libraries</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/git.html">Git</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/javascript.html">JavaScript</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/politics.html">Politics</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/refactoring.html">Refactoring</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/sql.html">SQL</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/tools.html">Tools</a></li>
+                        </ul></nav>
+                </header><!-- /#banner -->
+
+                <aside id="featured" class="body">
+                    <article>
+                        <h1 class="entry-title"><a href="https://langstonsoftware.com/2017/04/09/refactoring-is-the-key-step-in-writing-business-software">Refactoring Is the Key Step in Writing Business Software</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2017-04-09T12:43:00-04:00">
+                Published: Sun 09 April 2017
+        </abbr>
+
+                <address class="vcard author">
+                        By                                 <a class="url fn" href="https://langstonsoftware.com/author/thomas-langston.html">Thomas Langston</a>
+                </address>
+        <p>In <a href="https://langstonsoftware.com/category/c.html">C#</a>.</p>
+<p>tags: <a href="https://langstonsoftware.com/tag/refactoring.html">Refactoring</a> </p>        
+</footer><!-- /.post-info --><p>I recently found a Reddit post from a sysadmin who had just finished their first C# app for work. They were ecstatic, happily telling their CTO about the daily work they had automated for the multiple technicians working under the sysadmin.</p>
+<p><em>Then the CTO happily replied with a few words that ruined the sysadmin’s day.</em></p>
+<p>“Great! Put it in SVN.”</p>
+<p>(SVN – Subversion, the company’s developer source control repository)</p>
+<p>The sysadmin knew their first project wasn’t done “the right way”. No examples they’d seen outside of purely academic “Hello World” code looked like theirs. There were many full time C# developers at their company, who would be judging the quality of the sysadmin’s work and might be called on to maintain their code in the future. If they left the company, someone else would inherit the mess they had made. Reputation and karma were on the line.</p>
+<p>After deciding against asking the very busy developers at their company, and a crazy ex-employee buddy who wrote bad code, they turned with low expectations to Reddit in a desperate plea of a post.</p>
+<p>The problem this sysadmin had is one that is not unique. I’ve frequently been asked by college students what is the difference between academic example code and good production ready business software. In business writing, it would be editing. In programming?</p>
+<p><strong>Refactoring is the key step in writing business software.</strong></p>
+<p>Refactoring is extracting, renaming, reorganizing, and generally rewriting software until it is able to be easily understood, maintained, extended, and adapted. The sysadmin knew this and the students I’ve talked to already have some idea of it, but they don’t know how.  The sysadmin had already discovered that their code needed to be refactored, but just didn’t know how. They couldn’t unthink they way the thought about how to structure a program. Luckily our sysadmin’s post was not unanswered.</p>
+<p>When reading their code, it looked like a recipe out of a cookbook.</p>
+<div class="highlight"><pre><span></span><code>Get plates
+
+Get ingredient 1
+Get ingredient 2
+Get ingredient 3
+
+Prepare ingredient 1
+Prepare ingredient 2
+Prepare ingredient 3
+
+Plate
+Cleanup
+Serve
+</code></pre></div>
+
+<p>This is a common way software programs look when written by novice developers. It is logical and structured and… off. Writing or reading code in this formulaic way doesn’t scale beyond the simplest problems. Many senior developers would claim this program has “code smells”. It doesn’t fit their rubric of good business software.</p>
+<p>There were 3 techniques that many of the posters applied to refactoring the sysadmin’s code: Creating a table of contents, removing duplicated instructions, and never remembering more than required for the current task. I would agree that these techniques are the perfect place to start refactoring for beginning programmers.</p>
+<p>Here’s how the first, <strong>creating a table of contents</strong> , changes the appearance of the program:</p>
+<div class="highlight"><pre><span></span><code>Get plates
+GetIngredients()
+PrepareIngredients()
+Finish()
+
+GetIngredients(){
+ Get ingredient 1
+ Get ingredient 2
+ Get ingredient 3
+}
+</code></pre></div>
+
+<p>These sections are very easy to see in many junior developer’s code, because they’ve already used comments and line spacing to separate blocks of related code. They just haven’t broken them out into functions. In Visual Studio however there is no reason not to. The process is usually easily automated via the <a href="https://msdn.microsoft.com/en-us/library/0s21cwxk.aspx">“Extract Method”</a> tool.</p>
+<p>Second, <strong>removing duplicated instructions</strong> , (also know as Don’t Repeat Yourself or DRY) takes the last step just a bit further:</p>
+<div class="highlight"><pre><span></span><code><span class="n">GetIngredients</span><span class="p">(){</span>
+<span class="w">  </span><span class="n">ingredients</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<span class="w">  </span><span class="n">foreach</span><span class="p">(</span><span class="w"> </span><span class="k">var</span><span class="w"> </span><span class="n">ingredient</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">ingredients</span><span class="w"> </span><span class="p">)</span>
+<span class="w">    </span><span class="n">GetIngredient</span><span class="p">(</span><span class="n">ingredient</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">GetIngredient</span><span class="p">(</span><span class="n">i</span><span class="p">){</span>
+<span class="w">  </span><span class="n">Get</span><span class="w"> </span><span class="n">ingredient</span><span class="w"> </span><span class="n">i</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Once again junior developers commonly do the same thing to multiple items in single discrete program statements. The fail to use loops (or use lower level loops like ‘for’ instead of foreach or a LINQ statement) when those would DRY up their code. If you see multiple statements right after each other doing the same thing, or could copy paste lines changing only a couple of characters, a loop is probably called for.</p>
+<p>But the third step, <strong>never remembering more than is required</strong> , can flip step one on its head:</p>
+<div class="highlight"><pre><span></span><code><span class="n">ingredients</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">WorkIngredients</span><span class="p">(</span><span class="n">ingredients</span><span class="p">)</span>
+<span class="n">Finish</span><span class="p">()</span>
+
+<span class="n">WorkIngredients</span><span class="p">(</span><span class="n">ingredients</span><span class="p">){</span>
+<span class="w">  </span><span class="k">for</span><span class="p">(</span><span class="k">var</span><span class="w"> </span><span class="n">ingredient</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">ingredients</span><span class="p">){</span>
+<span class="w">   </span><span class="n">GetIngredient</span><span class="p">(</span><span class="n">ingredient</span><span class="p">)</span>
+<span class="w">   </span><span class="n">PrepareIngredient</span><span class="p">(</span><span class="n">ingredient</span><span class="p">)</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">Finish</span><span class="p">(){</span>
+<span class="w">  </span><span class="n">Get</span><span class="w"> </span><span class="n">plates</span>
+<span class="w">  </span><span class="n">Plate</span>
+<span class="w">  </span><span class="n">Cleanup</span>
+<span class="w">  </span><span class="n">Serve</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>This needs a bit more explaining. Here we don’t need to remember a specific ingredient after it has been gotten and prepared. So our code shouldn’t loop over the ingredients again to pull up the same ingredient twice. While it may look like we wasted time with step one, in many cases it is necessary to see the shape of the program. Only then can we identify the dependency, the specific ingredient, that any section of logic needs to know about. More simply, we also shouldn’t be pulling out the plates until we are ready to use them, unless we have a very good reason to do so. In real life we only have so much counter space to juggle our plates and ingredients, in programming we only have so much mental space to juggle digital references. We should keep our work space orderly and only use what we need, when we need it.</p>
+<p>The trick of all these steps is to make our code more <em>declarative</em> and less <em>procedural</em> , i.e. it tells us what it does first, and de-emphasizes how it does it. Together, these three steps leave us with a program that quickly tell us what it does, leaves the how in small, easy to grasp functions that we can further refactor into their own separate objects if desired. This doesn’t make your code perfect, but leads you down the path to understanding and “smelling” the other problems in your code’s readability and maintainability.</p>
+<p>When writing this, I struggled to know if I included enough detail to explain these concepts. I also worried if I focused on the right concepts. As someone who often has to teach these ideas I’m very open to advice on how I could improve this lesson. Please, leave a comment below with your thoughts.</p>
+<p>If you are a new or junior developer, and are looking for more help writing good professional business software, please enter your email to sign up for my newsletter <a href="http://eepurl.com/bYVEJj">here</a>. I’m very interested in connecting with you and helping you further your career with future lessons.</p>
+<p><a href="https://www.reddit.com/r/csharp/comments/23w43s/ive_read_c_for_dummies_still_dont_get_it_is_there/?st=j0ohfqkw&amp;sh=31db5835">Original Reddit Post</a></p>                    </article>
+                </aside><!-- /#featured -->
+                <section id="extras" class="body">
+                                <div class="social">
+                                        <h2>social</h2>
+                                        <ul>
+                                                        <li><a href="https://langstonsoftware.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                                                        <li><a href="https://www.linkedin.com/in/thomaslangston/">LinkedIn</a></li>
+                                                        <li><a href="https://github.com/thomaslangston">GitHub</a></li>
+                                        </ul>
+                                </div><!-- /.social -->
+                </section><!-- /#extras -->
+
+                <footer id="contentinfo" class="body">
+                        <address id="about" class="vcard body">
+                                Proudly powered by <a rel="nofollow" href="https://getpelican.com/">Pelican</a>, which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                        </address><!-- /#about -->
+
+                        <p>The theme is by <a rel="nofollow" href="https://www.smashingmagazine.com/2009/08/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+                </footer><!-- /#contentinfo -->
+
+        </body>
+</html>

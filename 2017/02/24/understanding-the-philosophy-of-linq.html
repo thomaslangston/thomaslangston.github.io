@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+        <head>
+                        <meta charset="utf-8" />
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                        <meta name="generator" content="Pelican" />
+                        <title>Understanding the Philosophy of LINQ</title>
+                        <link rel="stylesheet" href="https://langstonsoftware.com/theme/css/main.css" />
+                                <link href="https://langstonsoftware.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Langston Software Atom Feed" />
+    <meta name="description" content="LINQ is Microsoft’s greatest gift to software developers ever. Functional programming has been a sweet spot for emerging trends in software..." />
+        </head>
+
+        <body id="index" class="home">
+                <header id="banner" class="body">
+                        <h1><a href="https://langstonsoftware.com/">Langston Software</a></h1>
+                        <nav><ul>
+                                                <li><a href="https://langstonsoftware.com/category/angularjs.html">AngularJS</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/architecture-design-philosophy.html">Architecture & Design Philosophy</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/aspnet-mvc.html">ASP.NET MVC</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/bazel.html">Bazel</a></li>
+                                                <li class="active"><a href="https://langstonsoftware.com/category/c.html">C#</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/career.html">Career</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/frameworks-libraries.html">Frameworks & Libraries</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/git.html">Git</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/javascript.html">JavaScript</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/politics.html">Politics</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/refactoring.html">Refactoring</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/sql.html">SQL</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/tools.html">Tools</a></li>
+                        </ul></nav>
+                </header><!-- /#banner -->
+  <section id="content" class="body">
+    <article>
+      <header>
+        <h1 class="entry-title">
+          <a href="https://langstonsoftware.com/2017/02/24/understanding-the-philosophy-of-linq" rel="bookmark"
+             title="Permalink to Understanding the Philosophy of LINQ">Understanding the Philosophy of LINQ</a></h1>
+      </header>
+
+      <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2017-02-24T21:30:00-05:00">
+                Published: Fri 24 February 2017
+        </abbr>
+
+                <address class="vcard author">
+                        By                                 <a class="url fn" href="https://langstonsoftware.com/author/thomas-langston.html">Thomas Langston</a>
+                </address>
+        <p>In <a href="https://langstonsoftware.com/category/c.html">C#</a>.</p>
+        
+</footer><!-- /.post-info -->        <p>LINQ is Microsoft’s greatest gift to software developers ever.</p>
+<p>Functional programming has been a sweet spot for emerging <a href="https://www.ibm.com/developerworks/library/j-ft20/">trends</a> in software development for <a href="http://www.drdobbs.com/tools/its-time-to-get-good-at-functional-progr/212201710">years</a>. And I agree that functional programming will become even more important during the coming years as Moore’s law <a href="https://www.cnet.com/news/end-of-moores-law-its-not-just-about-physics/">fails</a>.</p>
+<p>But ever since I read <a href="https://www.amazon.com/Seven-Languages-Weeks-Programming-Programmers/dp/193435659X">Seven Languages in Seven Weeks by Bruce A. Tate</a> and its section on Prolog I’ve had another paradigm in mind for the future, declarative programming. Speaking more to the correctness of the question than the answer, declarative programming is the essence of what a good SQL query should be, a concise, complete question about the nature of the universe. And through math I do not need to memorize or conjure on demand, the answer is available quickly (if the correct index was created).</p>
+<p>This is the beauty of LINQ. It is declarative. It is functional. It is the past. It is the future.</p>
+<p>The declarative SQL-like nature of LINQ is obvious to anyone who’s looked at the Query syntax of LINQ. Perhaps a little better organized for app developers who want to think of how it is done instead of the question first, the FROM, WHERE, and SELECT clauses are all there for us to see in nearly unadulterated SQL-esque glory. The method syntax uses names that are no different, but it becomes much clearer that this is also a functional style as well. Particularly when we see a simple translation puts all the terms into their more common functional programming clothes.</p>
+<p>**Aggregate -&gt; Reduce</p>
+<p>Where -&gt; Filter</p>
+<p>Select -&gt; Map**</p>
+<p>Combined with C# lambda notation to express and create functional concepts, it is rare day that I pull out any of the imperative looping structures I was taught in school. By redressing functional concepts in SQL syntax, LINQ is approachable in a way that functional libraries in other languages never will be.  By embracing a functional style we allow parallelization to kick Moore’s law down the road for a couple more decades. By (re)embracing declarative programming, we acknowledge that all we were ever doing was just math that usually didn’t need to memorize, just encode once in a compiler, optimize, and trust.</p>
+<p>Now we can stop focusing on getting the correct answers, and start asking what are the correct questions.</p>
+      </div><!-- /.entry-content -->
+
+    </article>
+  </section>
+                <section id="extras" class="body">
+                                <div class="social">
+                                        <h2>social</h2>
+                                        <ul>
+                                                        <li><a href="https://langstonsoftware.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                                                        <li><a href="https://www.linkedin.com/in/thomaslangston/">LinkedIn</a></li>
+                                                        <li><a href="https://github.com/thomaslangston">GitHub</a></li>
+                                        </ul>
+                                </div><!-- /.social -->
+                </section><!-- /#extras -->
+
+                <footer id="contentinfo" class="body">
+                        <address id="about" class="vcard body">
+                                Proudly powered by <a rel="nofollow" href="https://getpelican.com/">Pelican</a>, which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                        </address><!-- /#about -->
+
+                        <p>The theme is by <a rel="nofollow" href="https://www.smashingmagazine.com/2009/08/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+                </footer><!-- /#contentinfo -->
+
+        </body>
+</html>

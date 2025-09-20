@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+        <head>
+                        <meta charset="utf-8" />
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                        <meta name="generator" content="Pelican" />
+                        <title>Why put single lines of code into a separate function?</title>
+                        <link rel="stylesheet" href="https://langstonsoftware.com/theme/css/main.css" />
+                                <link href="https://langstonsoftware.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Langston Software Atom Feed" />
+    <meta name="description" content="When I wrote previously about refactoring I introduced the clean coding concepts of creating a table of contents , removing duplicated..." />
+        </head>
+
+        <body id="index" class="home">
+                <header id="banner" class="body">
+                        <h1><a href="https://langstonsoftware.com/">Langston Software</a></h1>
+                        <nav><ul>
+                                                <li><a href="https://langstonsoftware.com/category/angularjs.html">AngularJS</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/architecture-design-philosophy.html">Architecture & Design Philosophy</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/aspnet-mvc.html">ASP.NET MVC</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/bazel.html">Bazel</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/c.html">C#</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/career.html">Career</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/frameworks-libraries.html">Frameworks & Libraries</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/git.html">Git</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/javascript.html">JavaScript</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/politics.html">Politics</a></li>
+                                                <li class="active"><a href="https://langstonsoftware.com/category/refactoring.html">Refactoring</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/sql.html">SQL</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/tools.html">Tools</a></li>
+                        </ul></nav>
+                </header><!-- /#banner -->
+  <section id="content" class="body">
+    <article>
+      <header>
+        <h1 class="entry-title">
+          <a href="https://langstonsoftware.com/2017/05/31/why-put-single-lines-of-code-into-a-separate-function" rel="bookmark"
+             title="Permalink to Why put single lines of code into a separate function?">Why put single lines of code into a separate function?</a></h1>
+      </header>
+
+      <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2017-05-31T08:00:00-04:00">
+                Published: Wed 31 May 2017
+        </abbr>
+
+                <address class="vcard author">
+                        By                                 <a class="url fn" href="https://langstonsoftware.com/author/thomas-langston.html">Thomas Langston</a>
+                </address>
+        <p>In <a href="https://langstonsoftware.com/category/refactoring.html">Refactoring</a>.</p>
+        
+</footer><!-- /.post-info -->        <p><a href="/2017/04/09/refactoring-is-the-key-step-in-writing-business-software/">When I wrote previously about refactoring</a> I introduced the clean coding concepts of <strong>creating a table of contents</strong> , <strong>removing duplicated instructions</strong> , and <strong>never remembering more than is required</strong> .</p>
+<p>There often isn’t much disagreement from developers over <strong>removing duplicated instructions</strong> . <strong>Never remembering more than is required</strong> sometimes conflicts with style guides that ask for all variable declarations at the top of a function, but they are counteracted by use of shorter functions to limit variable scopes.</p>
+<p><strong>Creating a table of contents</strong> seems to be the one that causes the most disagreement, starting when the whole routine falls within a screen and raising to the highest pitch when our logic consists of a single line of code. There are heated debates over refactorings that encapsulate simple logic statements within a function that is only called once.</p>
+<p>But sometimes, it is still the right thing to do.</p>
+<h3>Why refactor the smallest details? Readability, Reuse, Re-requirements</h3>
+<p>Let’s be clear about perspective. What we’re arguing for is very small individual improvements to code. Taken in one at a time, they are insignificant. But good programming practices pay off in aggregate, compounding their value every time the code is read, reused, or requirements change across an entire network of connected applications. They also pay off in the writing, becoming more natural and easier to apply with consistent practice. Yes, there is a cost, but it is one worth paying, at least in regular small installments every time you revisit a section of code.</p>
+<p>Students and beginners often fail to see the point, feeling that this addition of helper functions makes the code unreadable or at least unwieldy. It is true that at the byte code level a function is merely a GOTO statement, and terrible spaghetti code can be created via a breeding ground of many functions. But academic instructors also often leverage very plain text editing software in coursework, which exacerbates the notion that nested functions can be hard to read. In modern Integrated Development Environments a.k.a IDEs (by which I include Vim, Emacs and other powerful “text” editors with all their related developer plugins), you can jump or peek at function declarations easily. If the function is short and only called once, declare it directly under or above the caller, and it can appear on the same screen.</p>
+<p>But beyond this, the student is really forgetting in business you will not be in the details of your application most of the time. You will be reading, rewriting, or re-architecting it to fix and adapt it more often. You’ll have other people’s code to read and they will be reading yours. For these reasons you need to optimize your code for reading at a higher level. You use automated tests to ensure lower level functions and components operate as expected without actually reading the logic directly. This is why books like <a href="http://amzn.to/2sessRc">Clean Code</a> make a point of asking for what students feel are “extremely” short methods.</p>
+<p>Finally, a function should have a single purpose and be named correspondingly. This is invaluable for knowing where to look for bugs, where code changes should go, and when your design is not adequate for the task. In introductory learning programs this is not important because specifications are relatively clear, programs rarely continue to be used after the assignment is due, and requirements almost never change. In business you will often learn the specifications by making a prototype and receiving unclear feedback, the programs will be used longer than you are at the company, and the requirements will change rapidly and often. When you are learning bugs are quashed in single all night coding session, they don’t wake you up at 3 am costing your company thousands or millions of dollars for every minute they go unfixed. Bugs in homework assignments won’t cost you your job and reputation if you don’t have a speedy fix.</p>
+<h3>When to refactor the smallest details? Comments, Calculations, Concrete implementations</h3>
+<p>The most obvious <a href="https://en.wikipedia.org/wiki/Code_smell">code smell</a> indicating you haven’t followed the concept of <strong>creating a table of contents</strong> to its logical extremity, is the presence of comments within a function.</p>
+<blockquote>
+<p>Every time you write a comment, you should grimace and feel the failure of your ability of expression.</p>
+</blockquote>
+<p>– Bob Martin</p>
+<p>While comments are often spread liberally by college professors throughout introductory code, they are actually not very appropriate for long lived business code. Comments often rot, becoming less and less relevant, and sometimes become just plain wrong, as the code that they describe changes. Function names don’t suffer from this to nearly the same degree. If nothing else the parameters and return values self document at least some of the players involved. Comments and function names are not equivalent documentation tools. In IDEs, renaming a function is a much more consistent and fluid affair. In Visual Studio, renaming the function is easy as right clicking a function name a picking the rename option.</p>
+<p>Comments have a place in scaffolding pseudo code during development, or sometimes at the top of functions declarations to describe high level usage (preferably with tooling that provides automatic documentation export and/or Intellisense), but within a function they are almost always inappropriate. There they are often indicating that there is a correct higher level description of the component logic, which is a perfect way to choose a function name to encapsulate that logic.</p>
+<p>Another easy way to identify candidates for extracting methods is when there is an intermediate value that must be calculated. In many algorithms you’ll need a few values calculated that are used to get a final result e.g. half the length of a collection in sorting or searching, or, as we will see in later example, calculating damage in a game. Even if these calculations are simple, we can cut down on the visual noise of the primary logic block by placing them in a separate function. Extracting these details can also limit the lifetime of related variables, making their usage both easier to understand and potentially more performant as that memory is released when the variables leave scope.</p>
+<p>A related identifier is the use of concrete, particularly primitive values, as the result of calculations. Extracting single lines from a method can make the use of polymorphic behavior much easier, by pushing value type details lower, so they can be dealt with during refactoring as separate concerns from the overall logic of the application.</p>
+<h3>How to refactor the smallest details? Practice, Practice, Practice</h3>
+<p>Think of a function as instructions to get to a local store. If possible, you should be working at the level of detail that is appropriate for the reader. When describing the whole trip, it should be high level details: <em>go down the street</em> , <em>find it on the right</em> . Since this is a program and not a person, we have to be explicit in each step, but those details can be hidden in functions. Each of those can also be driven down further into other methods, until we have changes on language primitives. So <em>going down the street</em> might be described by: <em>go outside</em> , <em>pick a mode of transportation</em> , and <em>travel south on main street</em> ; while <em>go outside</em> might be further described by actions like: <em>get dressed</em> , <em>grab your keys</em> , <em>open your door</em> , <em>step outside</em> , <em>lock your door</em> .</p>
+<p>Consider this lightly modified example from <a href="https://www.reddit.com/r/learnprogramming/comments/69eexp/how_do_you_learn_to_write_bettercleaner_code/dh6fcs5/?st=j3aax50w&amp;sh=b3344a69">these Reddit comments</a>:</p>
+<p>Before Refactoring</p>
+<div class="highlight"><pre><span></span><code>receivedHit(evt) {
+    //Calculate the damage to apply
+    int damage = evt.getDamage() - playerArmor;  
+    updatePlayerHealth(damage)
+}
+</code></pre></div>
+
+<p>After Refactoring</p>
+<div class="highlight"><pre><span></span><code><span class="n">receivedHit</span><span class="p">(</span><span class="n">evt</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">damage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">calculateDamage</span><span class="p">(</span><span class="n">evt</span><span class="p">)</span>
+<span class="w">    </span><span class="n">updatePlayerHealth</span><span class="p">(</span><span class="n">damage</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>In this example we see all 3 of the Whens of method extraction refactorings we previously discussed. There is a comment that describes the line below it. There is a calculation whose value is used later in the logic. Finally, the values are concrete primitive types.</p>
+<p>If this is for a game we will write once and then never use again, discarding it after the assignment or code jam, then the first set of code is appropriate. But if the code is long lived, needing to be maintained and adapted, perhaps because your code jam project has become a viral hit, the second is much better, although it could be improved further. We self documented the fact we are calculating the damage we will apply, removed the chirp of noise given off by the math of calculation from the high level behavior, and we replaced our concrete type with an implicit reference. Now if our requirements change and we have damage types and resistances (e.g. fire, acid, etc.) none of the code in receivedHit() will change. We can just change the contents of calculateDamage() and modify the signatures of the other related functions to pass the more detailed Damage object.</p>
+<p>This is the scenario you will find yourself in when writing business software more often than not. Therefore, practicing writing software this way until it is a habit is a good career move. Keep it up and you’ll find it is both easier and natural to have “extremely” short self documenting methods.</p>
+      </div><!-- /.entry-content -->
+
+    </article>
+  </section>
+                <section id="extras" class="body">
+                                <div class="social">
+                                        <h2>social</h2>
+                                        <ul>
+                                                        <li><a href="https://langstonsoftware.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                                                        <li><a href="https://www.linkedin.com/in/thomaslangston/">LinkedIn</a></li>
+                                                        <li><a href="https://github.com/thomaslangston">GitHub</a></li>
+                                        </ul>
+                                </div><!-- /.social -->
+                </section><!-- /#extras -->
+
+                <footer id="contentinfo" class="body">
+                        <address id="about" class="vcard body">
+                                Proudly powered by <a rel="nofollow" href="https://getpelican.com/">Pelican</a>, which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                        </address><!-- /#about -->
+
+                        <p>The theme is by <a rel="nofollow" href="https://www.smashingmagazine.com/2009/08/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+                </footer><!-- /#contentinfo -->
+
+        </body>
+</html>

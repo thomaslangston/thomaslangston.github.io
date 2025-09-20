@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+        <head>
+                        <meta charset="utf-8" />
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                        <meta name="generator" content="Pelican" />
+                        <title>How much SQL is really necessary nowadays?</title>
+                        <link rel="stylesheet" href="https://langstonsoftware.com/theme/css/main.css" />
+                                <link href="https://langstonsoftware.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Langston Software Atom Feed" />
+    <meta name="description" content="I’ve heard variants of this question every year of my professional career from aspiring developers and students of computer science...." />
+        </head>
+
+        <body id="index" class="home">
+                <header id="banner" class="body">
+                        <h1><a href="https://langstonsoftware.com/">Langston Software</a></h1>
+                        <nav><ul>
+                                                <li><a href="https://langstonsoftware.com/category/angularjs.html">AngularJS</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/architecture-design-philosophy.html">Architecture & Design Philosophy</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/aspnet-mvc.html">ASP.NET MVC</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/bazel.html">Bazel</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/c.html">C#</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/career.html">Career</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/frameworks-libraries.html">Frameworks & Libraries</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/git.html">Git</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/javascript.html">JavaScript</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/politics.html">Politics</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/refactoring.html">Refactoring</a></li>
+                                                <li class="active"><a href="https://langstonsoftware.com/category/sql.html">SQL</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/tools.html">Tools</a></li>
+                        </ul></nav>
+                </header><!-- /#banner -->
+  <section id="content" class="body">
+    <article>
+      <header>
+        <h1 class="entry-title">
+          <a href="https://langstonsoftware.com/2016/09/11/how-much-sql-is-really-necessary-nowadays" rel="bookmark"
+             title="Permalink to How much SQL is really necessary nowadays?">How much SQL is really necessary nowadays?</a></h1>
+      </header>
+
+      <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2016-09-11T21:01:00-04:00">
+                Published: Sun 11 September 2016
+        </abbr>
+
+                <address class="vcard author">
+                        By                                 <a class="url fn" href="https://langstonsoftware.com/author/thomas-langston.html">Thomas Langston</a>
+                </address>
+        <p>In <a href="https://langstonsoftware.com/category/sql.html">SQL</a>.</p>
+        
+</footer><!-- /.post-info -->        <p>I’ve heard variants of this question every year of my professional career from aspiring developers and students of computer science. Unfortunately, the real answer is the most common in all software development.</p>
+<p><strong>It depends.</strong></p>
+<p>SQL and database technologies it powers is a tool that can be (mis)applied in many places in some careers and never in others. There are developers whose whole career is in SQL as database developers, and others who never touch any database, writing algorithms, to files or APIs. Full stack web developers like myself have two additional issues to conflate and confuse the issue.</p>
+<p>ORMs (Object Relational Mapper) and NoSQL databases. While ORMs can effectively be used to do both all of the queries and migrations, the scripts you create to upgrade a database schema from one version to the next, they often are not used in professional settings, or at least not for all purposes, requiring hand crafted queries or schema change scripts. NoSQL is a valid technology for some problems, particularly when the consistency or relationships between data points are not as important as the speed of retrieval or writing. However in enterprise settings that often is not the case, since financial data must be both consistent and be stored in a way for a business to gain relational insights.</p>
+<p><strong>Case Study: Me</strong></p>
+<p>I’ve written line-of-business, software-as-a-service, web applications in C#. I took a single SQL course in college. I thought it was well worth my time in my career.</p>
+<p><strong>Project 1</strong></p>
+<p>We wrote a lot of SQL. Stored Procedures were the preferred data access method, in part because we needed our SQL queries to be blindingly fast (large volume e-commerce) and in part because our SQL stack was very cutting edge and we wanted to leverage it. Almost every query to show the results of a page load required a join across 3 tables with an aggregate result, as every page was basically functioned as some form of on demand reporting. Database migrations were usually, but not always automatically generated by a third party application.</p>
+<p><strong>Project 2</strong></p>
+<p>I almost never write a SQL query that goes into production, although I do write schema changes since we handcraft all our migrations. I do write relatively simple SQL queries during development to get an overview of the database. Twice a year I’ll write a view that does actual on demand reporting with multiple joins and an aggregate, but I still need as much knowledge to do so as I did when I was writing them every week during project #1.</p>
+<p><strong>But what about your career?</strong></p>
+<p>What do you want to do? If you’ve stumbled across this blog because you are in or are looking to pursue a Explorations in Software Engineering career, I’d say some investment in learning SQL is well worth the time. There is some chance you’ll not use it, but a much larger chance you will. More importantly you’ll understand better when to use it and the other tools and techniques you learn across your career.</p>
+<p>If you’re looking into joining a different part of the programming field, ask developers in those industries what tools they use. Game programmers might be writing things in different tools than finance algorithm developers. If you don’t know what part of the field you’re interested in, start trying hobby projects in as many as you can. It is going to be a large part of your career experience, so don’t take the question lightly.</p>
+<p>Good luck and as always, leave any questions in the comments.</p>
+      </div><!-- /.entry-content -->
+
+    </article>
+  </section>
+                <section id="extras" class="body">
+                                <div class="social">
+                                        <h2>social</h2>
+                                        <ul>
+                                                        <li><a href="https://langstonsoftware.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                                                        <li><a href="https://www.linkedin.com/in/thomaslangston/">LinkedIn</a></li>
+                                                        <li><a href="https://github.com/thomaslangston">GitHub</a></li>
+                                        </ul>
+                                </div><!-- /.social -->
+                </section><!-- /#extras -->
+
+                <footer id="contentinfo" class="body">
+                        <address id="about" class="vcard body">
+                                Proudly powered by <a rel="nofollow" href="https://getpelican.com/">Pelican</a>, which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                        </address><!-- /#about -->
+
+                        <p>The theme is by <a rel="nofollow" href="https://www.smashingmagazine.com/2009/08/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+                </footer><!-- /#contentinfo -->
+
+        </body>
+</html>

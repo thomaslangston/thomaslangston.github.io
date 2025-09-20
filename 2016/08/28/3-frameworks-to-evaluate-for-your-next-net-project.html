@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+        <head>
+                        <meta charset="utf-8" />
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                        <meta name="generator" content="Pelican" />
+                        <title>3 frameworks to evaluate for your next .NET project</title>
+                        <link rel="stylesheet" href="https://langstonsoftware.com/theme/css/main.css" />
+                                <link href="https://langstonsoftware.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Langston Software Atom Feed" />
+    <meta name="description" content="In software development today there is always a stream of new technologies, languages, frameworks, paradigms, and stacks to evaluate. Even if you..." />
+        </head>
+
+        <body id="index" class="home">
+                <header id="banner" class="body">
+                        <h1><a href="https://langstonsoftware.com/">Langston Software</a></h1>
+                        <nav><ul>
+                                                <li><a href="https://langstonsoftware.com/category/angularjs.html">AngularJS</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/architecture-design-philosophy.html">Architecture & Design Philosophy</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/aspnet-mvc.html">ASP.NET MVC</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/bazel.html">Bazel</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/c.html">C#</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/career.html">Career</a></li>
+                                                <li class="active"><a href="https://langstonsoftware.com/category/frameworks-libraries.html">Frameworks & Libraries</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/git.html">Git</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/javascript.html">JavaScript</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/politics.html">Politics</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/refactoring.html">Refactoring</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/sql.html">SQL</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/tools.html">Tools</a></li>
+                        </ul></nav>
+                </header><!-- /#banner -->
+  <section id="content" class="body">
+    <article>
+      <header>
+        <h1 class="entry-title">
+          <a href="https://langstonsoftware.com/2016/08/28/3-frameworks-to-evaluate-for-your-next-net-project" rel="bookmark"
+             title="Permalink to 3 frameworks to evaluate for your next .NET project">3 frameworks to evaluate for your next .NET project</a></h1>
+      </header>
+
+      <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2016-08-28T20:16:00-04:00">
+                Published: Sun 28 August 2016
+        </abbr>
+
+                <address class="vcard author">
+                        By                                 <a class="url fn" href="https://langstonsoftware.com/author/thomas-langston.html">Thomas Langston</a>
+                </address>
+        <p>In <a href="https://langstonsoftware.com/category/frameworks-libraries.html">Frameworks & Libraries</a>.</p>
+        
+</footer><!-- /.post-info -->        <p>In software development today there is always a stream of new technologies, languages, frameworks, paradigms, and stacks to evaluate. Even if you narrow your scope to C# web stacks, there are plenty of new developments in development tech. I’ve seen and read about a lot of them, but I’ve found a few that really seem to apply to developers across the C# web stack spectrum.</p>
+<p>Here are 3 frameworks I will be looking at for my next .NET project, each of which might take my development toolkit to the next level.</p>
+<ol>
+<li>Serilog</li>
+</ol>
+<p><a href="https://serilog.net/">https://serilog.net/</a></p>
+<p>I’ve had a lot of good success with Log4Net over the years, but Serilog seems to be showing up in discussions and package references more often lately. In part, I’d put this to the simplicity of Serilog. But also, it makes a focus on structured data, letting you serialize log data in useful ways. One of the most useful parts of this is outputting objects in nice serializable and JSON representation in your logs. In general this small change makes creating readable logs much more intuitive than Log4Net, meaning you spend less time trying to craft or understand individual logging statements, and more time creating more useful logging statements or actually producing business logic.</p>
+<p>Especially when working with asynchronous programming, as much of my cutting edge projects do, logging like this can be invaluable, as traditional debugging becomes almost useless. The tried and true Log4Net can get you there, but Serilog seems to get you there faster, with more detail and less fuss.</p>
+<ol>
+<li>Angular 2</li>
+</ol>
+<p><a href="https://angular.io/docs/ts/latest/">https://angular.io/docs/ts/latest/</a></p>
+<p>AngualarJS 1.x has done a lot of work around my code bases. While I’m still not a fan of their community’s default to non-HTML 5 valid attributes, I can’t deny the effectiveness of their data binding workflow. Angular 2 promises to take that power a step further, with TypeScript as a first class option. Angular 2 has received a lot of Microsoft community love via its TypeScript examples and Visual Studio guides. Some of the syntax has been cleaned up, while elsewhere it has been broken up to make it more composable and explicit. Overall it feels like a good balanced set of changes to an already powerful framework. If you’d like to stay on top of the latest changes in this framework, making the move to Angular 2 in your next project seems like a wise move.</p>
+<p>Especially as you are first starting a new project, taking a strong and hard dependency on a specific JS framework can save you a lot of time down the line. I’ve been in many codebases with a cacophony of frameworks. By giving other developers, including your future self, an opinionated stance from the beginning it can save you a lot of time down the road from bike shedding between different ways to solve the JS data binding question.</p>
+<ol>
+<li>.NET Core</li>
+</ol>
+<p><a href="https://www.microsoft.com/net/core#windows">https://www.microsoft.com/net/core#windows</a></p>
+<p>If you haven’t heard about .NET Core yet, you should really listen up. .NET core is a re-engineered subset of the .NET framework, with heavy emphasis on true cross platform and containerized development. It is slimmed down, so existing projects may not have all the pieces they need from the standard .NET framework, but for a new project evaluating Core is a must. With the continued move for multi-provider cloud hosting to prevent a single provider outage from taking down your application, those truly interested in resilient applications should take notice.</p>
+<p>In particular it appears Docker will be part of these multi-provider cloud environment solutions. .NET Core seems perfect for setting you up for success for such stacks, being both small and increasingly fast, containing only what is strictly necessary for your project and not the cruft that the standard .NET framework has accumulated over the years. I expect especially the fans of the small microservice API patterns will find .NET Core tempting, perhaps even pulling a few back from NodeJS that may have strayed from a .NET solution.</p>
+<p>Conclusion</p>
+<p>There you go, 3 frameworks to evaluate in your next .NET project. I hope that gives you enough data to prioritize which new techs to add to your toolkit. Let me know in the comments what you’ll be evaluating in your next project or if there is a hot framework you think I’ve missed.</p>
+      </div><!-- /.entry-content -->
+
+    </article>
+  </section>
+                <section id="extras" class="body">
+                                <div class="social">
+                                        <h2>social</h2>
+                                        <ul>
+                                                        <li><a href="https://langstonsoftware.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                                                        <li><a href="https://www.linkedin.com/in/thomaslangston/">LinkedIn</a></li>
+                                                        <li><a href="https://github.com/thomaslangston">GitHub</a></li>
+                                        </ul>
+                                </div><!-- /.social -->
+                </section><!-- /#extras -->
+
+                <footer id="contentinfo" class="body">
+                        <address id="about" class="vcard body">
+                                Proudly powered by <a rel="nofollow" href="https://getpelican.com/">Pelican</a>, which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                        </address><!-- /#about -->
+
+                        <p>The theme is by <a rel="nofollow" href="https://www.smashingmagazine.com/2009/08/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+                </footer><!-- /#contentinfo -->
+
+        </body>
+</html>

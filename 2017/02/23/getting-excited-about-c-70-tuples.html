@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+        <head>
+                        <meta charset="utf-8" />
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                        <meta name="generator" content="Pelican" />
+                        <title>Getting Excited About C# 7.0 Tuples</title>
+                        <link rel="stylesheet" href="https://langstonsoftware.com/theme/css/main.css" />
+                                <link href="https://langstonsoftware.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Langston Software Atom Feed" />
+    <meta name="description" content="I’ve had the good luck to work on a number of legacy (read: profitable, stable) enterprise code bases. While appreciate all the benefits that such..." />
+        </head>
+
+        <body id="index" class="home">
+                <header id="banner" class="body">
+                        <h1><a href="https://langstonsoftware.com/">Langston Software</a></h1>
+                        <nav><ul>
+                                                <li><a href="https://langstonsoftware.com/category/angularjs.html">AngularJS</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/architecture-design-philosophy.html">Architecture & Design Philosophy</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/aspnet-mvc.html">ASP.NET MVC</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/bazel.html">Bazel</a></li>
+                                                <li class="active"><a href="https://langstonsoftware.com/category/c.html">C#</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/career.html">Career</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/frameworks-libraries.html">Frameworks & Libraries</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/git.html">Git</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/javascript.html">JavaScript</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/politics.html">Politics</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/refactoring.html">Refactoring</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/sql.html">SQL</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/tools.html">Tools</a></li>
+                        </ul></nav>
+                </header><!-- /#banner -->
+  <section id="content" class="body">
+    <article>
+      <header>
+        <h1 class="entry-title">
+          <a href="https://langstonsoftware.com/2017/02/23/getting-excited-about-c-70-tuples" rel="bookmark"
+             title="Permalink to Getting Excited About C# 7.0 Tuples">Getting Excited About C# 7.0 Tuples</a></h1>
+      </header>
+
+      <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2017-02-23T20:44:00-05:00">
+                Published: Thu 23 February 2017
+        </abbr>
+
+                <address class="vcard author">
+                        By                                 <a class="url fn" href="https://langstonsoftware.com/author/thomas-langston.html">Thomas Langston</a>
+                </address>
+        <p>In <a href="https://langstonsoftware.com/category/c.html">C#</a>.</p>
+        
+</footer><!-- /.post-info -->        <p>I’ve had the good luck to work on a number of legacy (read: profitable, stable) enterprise code bases. While appreciate all the benefits that such work entails, sometimes it means others may be getting into the new hotness, while my work is rather cool to the idea of adopting the latest platform developments.</p>
+<p>But eventually, legacy systems do move into the future. So it is with a great deal of excitement that I’ve been finding my self reading and rereading half a year old spoilers i.e. language road blogs for C# 7.0.</p>
+<p>https://blogs.msdn.microsoft.com/dotnet/2016/08/24/whats-new-in-csharp-7-0/</p>
+<p>Tuples in particular are practically making me squeal with glee. Here’s the basic form:</p>
+<div class="highlight"><pre><span></span><code><span class="n">public</span><span class="w"> </span><span class="p">(</span><span class="n">string</span><span class="w"> </span><span class="n">fullName</span><span class="p">,</span><span class="w"> </span><span class="nb nb-Type">int</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="nb nb-Type">bool</span><span class="w"> </span><span class="n">isFaculty</span><span class="p">)</span><span class="w"> </span><span class="n">GetRegistrant</span><span class="p">(</span><span class="n">string</span><span class="p">[]</span><span class="w"> </span><span class="n">email</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="o">//</span><span class="n">Retrieve</span><span class="w"> </span><span class="n">registrant</span><span class="w"> </span><span class="n">info</span><span class="w"> </span><span class="n">into</span><span class="w"> </span><span class="n">local</span><span class="w"> </span><span class="n">variables</span><span class="w">  </span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">fullName</span><span class="p">:</span><span class="w"> </span><span class="n">fN</span><span class="p">,</span><span class="w"> </span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">isFaculty</span><span class="p">:</span><span class="w"> </span><span class="n">iF</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">public</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="nb nb-Type">void</span><span class="w"> </span><span class="n">Main</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">var</span><span class="w"> </span><span class="n">registrant</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GetRegistrant</span><span class="p">(</span><span class="s2">&quot;test@example.com);</span>
+<span class="w">    </span><span class="n">Console</span><span class="o">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="o">$</span><span class="s2">&quot;Hello {registrant.fullName}!&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">var</span><span class="w"> </span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">number</span><span class="p">,</span><span class="w"> </span><span class="n">occupation</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GetRegistrant</span><span class="p">(</span><span class="s2">&quot;another@example.com&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">Console</span><span class="o">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="o">$</span><span class="s2">&quot;Your ID is {number}&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Check out the blog for more details, but here are the key features I enjoy.</p>
+<p><strong>Out variables are terrible.</strong> Anything that lets me use less of them is a good thing.</p>
+<p><strong>Custom return types are boilerplate.</strong> Removing ceremony while retaining type safety is amazing.</p>
+<p><strong>Tuples with unnamed item members are never self documenting code.</strong> I’m tired of having to go back to the calling code to clarify if it was the first int or the second that was my ID.</p>
+<p>These factors together make Tuples the changes I looking forward to most when my legacy code base in updated.</p>
+<p>What’s your favorite feature of C# 7.0? Leave a comment below and tell me.</p>
+      </div><!-- /.entry-content -->
+
+    </article>
+  </section>
+                <section id="extras" class="body">
+                                <div class="social">
+                                        <h2>social</h2>
+                                        <ul>
+                                                        <li><a href="https://langstonsoftware.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                                                        <li><a href="https://www.linkedin.com/in/thomaslangston/">LinkedIn</a></li>
+                                                        <li><a href="https://github.com/thomaslangston">GitHub</a></li>
+                                        </ul>
+                                </div><!-- /.social -->
+                </section><!-- /#extras -->
+
+                <footer id="contentinfo" class="body">
+                        <address id="about" class="vcard body">
+                                Proudly powered by <a rel="nofollow" href="https://getpelican.com/">Pelican</a>, which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                        </address><!-- /#about -->
+
+                        <p>The theme is by <a rel="nofollow" href="https://www.smashingmagazine.com/2009/08/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+                </footer><!-- /#contentinfo -->
+
+        </body>
+</html>
