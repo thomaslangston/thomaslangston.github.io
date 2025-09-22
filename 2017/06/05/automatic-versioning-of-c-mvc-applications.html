@@ -14,19 +14,20 @@
                 <header id="banner" class="body">
                         <h1><a href="https://langstonsoftware.com/">Langston Software</a></h1>
                         <nav><ul>
-                                                <li><a href="https://langstonsoftware.com/category/angularjs.html">AngularJS</a></li>
-                                                <li><a href="https://langstonsoftware.com/category/architecture-design-philosophy.html">Architecture & Design Philosophy</a></li>
-                                                <li class="active"><a href="https://langstonsoftware.com/category/aspnet-mvc.html">ASP.NET MVC</a></li>
-                                                <li><a href="https://langstonsoftware.com/category/bazel.html">Bazel</a></li>
-                                                <li><a href="https://langstonsoftware.com/category/c.html">C#</a></li>
-                                                <li><a href="https://langstonsoftware.com/category/career.html">Career</a></li>
-                                                <li><a href="https://langstonsoftware.com/category/frameworks-libraries.html">Frameworks & Libraries</a></li>
-                                                <li><a href="https://langstonsoftware.com/category/git.html">Git</a></li>
-                                                <li><a href="https://langstonsoftware.com/category/javascript.html">JavaScript</a></li>
-                                                <li><a href="https://langstonsoftware.com/category/politics.html">Politics</a></li>
-                                                <li><a href="https://langstonsoftware.com/category/refactoring.html">Refactoring</a></li>
-                                                <li><a href="https://langstonsoftware.com/category/sql.html">SQL</a></li>
-                                                <li><a href="https://langstonsoftware.com/category/tools.html">Tools</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/angularjs/">AngularJS</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/architecture-design-philosophy/">Architecture & Design Philosophy</a></li>
+                                                <li class="active"><a href="https://langstonsoftware.com/category/aspnet-mvc/">ASP.NET MVC</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/bazel/">Bazel</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/c/">C#</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/career/">Career</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/frameworks-libraries/">Frameworks & Libraries</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/git/">Git</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/javascript/">JavaScript</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/politics/">Politics</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/python/">Python</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/refactoring/">Refactoring</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/sql/">SQL</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/tools/">Tools</a></li>
                         </ul></nav>
                 </header><!-- /#banner -->
   <section id="content" class="body">
@@ -46,8 +47,8 @@
                 <address class="vcard author">
                         By                                 <a class="url fn" href="https://langstonsoftware.com/author/thomas-langston.html">Thomas Langston</a>
                 </address>
-        <p>In <a href="https://langstonsoftware.com/category/aspnet-mvc.html">ASP.NET MVC</a>.</p>
-<p>tags: <a href="https://langstonsoftware.com/tag/bamboo.html">Bamboo</a> <a href="https://langstonsoftware.com/tag/c.html">C#</a> <a href="https://langstonsoftware.com/tag/continuous-integration.html">Continuous Integration</a> <a href="https://langstonsoftware.com/tag/powershell.html">PowerShell</a> </p>        
+        <p>In <a href="https://langstonsoftware.com/category/aspnet-mvc/">ASP.NET MVC</a>.</p>
+<p>tags: <a href="https://langstonsoftware.com/tag/bamboo/">Bamboo</a> <a href="https://langstonsoftware.com/tag/c/">C#</a> <a href="https://langstonsoftware.com/tag/continuous-integration/">Continuous Integration</a> <a href="https://langstonsoftware.com/tag/powershell/">PowerShell</a> </p>        
 </footer><!-- /.post-info -->        <p>I recently had a project that had me delving into the following blog post on assembly versioning: <a href="https://blogs.msdn.microsoft.com/jjameson/2009/04/03/best-practices-for-net-assembly-versioning/">https://blogs.msdn.microsoft.com/jjameson/2009/04/03/best-practices-for-net-assembly-versioning/</a></p>
 <p>The blog post had a couple of problems. The first that came to mind was that the linked examples were using Team Foundation Server, while I was using Atlassian Bamboo. The second is that it seemed like a lot of work, especially when dealing with a large number of existing projects in a legacy solution all churning version numbers. Jumping back into Google I found a new blog post: <a href="https://blogs.msdn.microsoft.com/jjameson/2009/04/03/shared-assembly-info-in-visual-studio-projects/">https://blogs.msdn.microsoft.com/jjameson/2009/04/03/shared-assembly-info-in-visual-studio-projects/</a></p>
 <p>This seemed better, but I was not sure that putting all the assembly version information into one shared file is correct either. It seems like we’d be doing fine keeping our dlls at the default 1.0.0.0 version, I just wanted to tag the dlls with our Git commit SHA.  Otherwise our repo would churn on build. Also, I’d prefer to do a full replace during my build on a file that only contains the information I want to change across my entire repo, leaving the rest alone. So I decided that modifying the AssemblyInformationalVersion in a CI script made the most sense for what I was trying to accomplish.</p>

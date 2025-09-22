@@ -1,5 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Langston Software</title><link href="https://langstonsoftware.com/" rel="alternate"></link><link href="https://langstonsoftware.com/feeds/all.atom.xml" rel="self"></link><id>https://langstonsoftware.com/</id><updated>2025-09-10T00:00:00-04:00</updated><entry><title>How to Shade Dependencies in Java with Bazel</title><link href="https://langstonsoftware.com/2025/09/10/how-to-shade-dependencies-in-java-with-bazel" rel="alternate"></link><published>2025-09-10T00:00:00-04:00</published><updated>2025-09-10T00:00:00-04:00</updated><author><name>Thomas Langston</name></author><id>tag:langstonsoftware.com,2025-09-10:/2025/09/10/how-to-shade-dependencies-in-java-with-bazel</id><summary type="html">&lt;h1&gt;How to Shade Dependencies in Java with Bazel&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Langston Software</title><link href="https://langstonsoftware.com/" rel="alternate"></link><link href="https://langstonsoftware.com/feeds/all.atom.xml" rel="self"></link><id>https://langstonsoftware.com/</id><updated>2025-09-22T00:00:00-04:00</updated><entry><title>Migrating from WordPress to Pelican with Python</title><link href="https://langstonsoftware.com/2025/09/22/migrating-from-wordpress-to-pelican-with-python" rel="alternate"></link><published>2025-09-22T00:00:00-04:00</published><updated>2025-09-22T00:00:00-04:00</updated><author><name>Thomas Langston</name></author><id>tag:langstonsoftware.com,2025-09-22:/2025/09/22/migrating-from-wordpress-to-pelican-with-python</id><summary type="html">&lt;h1&gt;Migrating from WordPress to Pelican with Python: Building HTML to Markdown Extraction Tools&lt;/h1&gt;
+&lt;p&gt;Recently, I finished migrating this blog from WordPress to &lt;a href="https://getpelican.com/"&gt;Pelican&lt;/a&gt;, a Python-based static site generator. Instead of manually converting dozens of posts, I built a collection of Python scripts to automate the extraction and conversion process. The …&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Migrating from WordPress to Pelican with Python: Building HTML to Markdown Extraction Tools&lt;/h1&gt;
+&lt;p&gt;Recently, I finished migrating this blog from WordPress to &lt;a href="https://getpelican.com/"&gt;Pelican&lt;/a&gt;, a Python-based static site generator. Instead of manually converting dozens of posts, I built a collection of Python scripts to automate the extraction and conversion process. The result is a reusable tool that I've open-sourced for anyone facing a similar migration.&lt;/p&gt;
+&lt;h2&gt;The Challenge&lt;/h2&gt;
+&lt;p&gt;WordPress exports content as HTML with embedded metadata, while Pelican expects Markdown files with YAML front matter. The structure differences meant I needed to:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Extract metadata (title, date, category, tags) from WordPress HTML&lt;/li&gt;
+&lt;li&gt;Convert HTML content to clean Markdown&lt;/li&gt;
+&lt;li&gt;Generate SEO-friendly slugs, which I have set to match my filenames&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;The Solution: Three Focused Scripts&lt;/h2&gt;
+&lt;p&gt;Rather than building one monolithic converter, I created three specialized scripts that can work independently or together:&lt;/p&gt;
+&lt;h3&gt;1. Metadata Extraction (&lt;code&gt;extract_html_metadata.py&lt;/code&gt;)&lt;/h3&gt;
+&lt;p&gt;This script parses WordPress HTML to extract structured metadata:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# Extracts and formats as Pelican front matter&lt;/span&gt;
+&lt;span class="n"&gt;python&lt;/span&gt; &lt;span class="n"&gt;extract_html_metadata&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt; &lt;span class="n"&gt;wordpress&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;post&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;html&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;It looks for specific WordPress elements like &lt;code&gt;&amp;lt;time class="entry-date published"&amp;gt;&lt;/code&gt; for dates and &lt;code&gt;&amp;lt;a rel="category tag"&amp;gt;&lt;/code&gt; for taxonomies, then formats them as clean YAML front matter.&lt;/p&gt;
+&lt;h3&gt;2. Content Conversion (&lt;code&gt;extract_html_body.py&lt;/code&gt;)&lt;/h3&gt;
+&lt;p&gt;Focuses solely on extracting and converting the main article content:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# Converts HTML content to Markdown&lt;/span&gt;
+&lt;span class="n"&gt;python&lt;/span&gt; &lt;span class="n"&gt;extract_html_body&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt; &lt;span class="n"&gt;wordpress&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;post&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;html&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This script isolates the &lt;code&gt;&amp;lt;div class="entry-content"&amp;gt;&lt;/code&gt; section and converts the HTML to clean Markdown using proper parsing techniques.&lt;/p&gt;
+&lt;h3&gt;3. Complete Conversion (&lt;code&gt;html_to_markdown.py&lt;/code&gt;)&lt;/h3&gt;
+&lt;p&gt;The main orchestrator that combines metadata and content extraction:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# Full conversion with automatic filename generation&lt;/span&gt;
+&lt;span class="n"&gt;python&lt;/span&gt; &lt;span class="n"&gt;html_to_markdown&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt; &lt;span class="n"&gt;wordpress&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;post&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;html&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This creates complete Pelican-ready Markdown files in the correct directory structure with SEO-friendly filenames.&lt;/p&gt;
+&lt;h2&gt;Key Technical Decisions&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Beautiful Soup for Parsing&lt;/strong&gt;: Rather than regex or basic string manipulation, I used Beautiful Soup for robust HTML parsing. This handles malformed HTML gracefully and provides reliable element selection.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Modular Design&lt;/strong&gt;: Splitting functionality into three scripts allows for flexible usage. You might only need metadata extraction, or want to customize the content conversion while using the existing metadata logic.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Pelican Compatibility&lt;/strong&gt;: The output format exactly matches Pelican's expected front matter and directory structure, making the converted files immediately usable.&lt;/p&gt;
+&lt;h2&gt;Installation and Usage&lt;/h2&gt;
+&lt;p&gt;The tool is available on GitHub with both &lt;code&gt;uv&lt;/code&gt; and &lt;code&gt;pip&lt;/code&gt; installation options:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# Using uv (recommended)&lt;/span&gt;
+git&lt;span class="w"&gt; &lt;/span&gt;clone&lt;span class="w"&gt; &lt;/span&gt;https://github.com/thomaslangston/simple-html-wordpress-to-pelican-markdown-extractor
+&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;simple-html-wordpress-to-pelican-markdown-extractor
+uv&lt;span class="w"&gt; &lt;/span&gt;sync
+
+&lt;span class="c1"&gt;# Basic usage&lt;/span&gt;
+python&lt;span class="w"&gt; &lt;/span&gt;html_to_markdown.py&lt;span class="w"&gt; &lt;/span&gt;my-wordpress-post.html
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2&gt;Lessons Learned&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;HTML Structure Varies&lt;/strong&gt;: WordPress themes generate different HTML structures. The scripts target common patterns but may need adjustment for custom themes.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Content Cleanup&lt;/strong&gt;: Automated conversion gets you 90% there, but manual review is still valuable for formatting edge cases and WordPress shortcodes.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Batch Processing&lt;/strong&gt;: While I built these for individual file conversion, adding batch processing capability would be a natural next step.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Open Source Release&lt;/h2&gt;
+&lt;p&gt;The complete toolset is available at &lt;a href="https://github.com/thomaslangston/simple-html-wordpress-to-pelican-markdown-extractor"&gt;simple-html-wordpress-to-pelican-markdown-extractor&lt;/a&gt; under the MIT license. The code is designed to be readable and modifiable for different WordPress configurations.&lt;/p&gt;
+&lt;p&gt;If you're facing a similar migration, these tools provide a solid foundation that you can adapt to your specific needs. The modular design means you can use just the pieces you need or extend the functionality for your particular WordPress setup.&lt;/p&gt;
+&lt;p&gt;Static site generators like Pelican offer compelling advantages in performance, security, and simplicity compared to dynamic WordPress sites. With the right extraction tools, the migration process becomes much more manageable.&lt;/p&gt;</content><category term="Python"></category><category term="wordpress"></category><category term="pelican"></category><category term="html"></category><category term="markdown"></category></entry><entry><title>How to Shade Dependencies in Java with Bazel</title><link href="https://langstonsoftware.com/2025/09/10/how-to-shade-dependencies-in-java-with-bazel" rel="alternate"></link><published>2025-09-10T00:00:00-04:00</published><updated>2025-09-10T00:00:00-04:00</updated><author><name>Thomas Langston</name></author><id>tag:langstonsoftware.com,2025-09-10:/2025/09/10/how-to-shade-dependencies-in-java-with-bazel</id><summary type="html">&lt;h1&gt;How to Shade Dependencies in Java with Bazel&lt;/h1&gt;
 &lt;h2&gt;Shading Dependencies&lt;/h2&gt;
 &lt;p&gt;What: Shading is the process of making two versions of a dependency available at compile time to Java code.&lt;/p&gt;
 &lt;p&gt;Why: Two versions of a dependency otherwise will “shadow” or conflict with each other on the classpath if they share the …&lt;/p&gt;</summary><content type="html">&lt;h1&gt;How to Shade Dependencies in Java with Bazel&lt;/h1&gt;

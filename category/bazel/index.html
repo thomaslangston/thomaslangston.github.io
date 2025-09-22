@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+        <head>
+                        <meta charset="utf-8" />
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                        <meta name="generator" content="Pelican" />
+                        <title>Langston Software - Bazel</title>
+                        <link rel="stylesheet" href="https://langstonsoftware.com/theme/css/main.css" />
+                                <link href="https://langstonsoftware.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Langston Software Atom Feed" />
+        </head>
+
+        <body id="index" class="home">
+                <header id="banner" class="body">
+                        <h1><a href="https://langstonsoftware.com/">Langston Software</a></h1>
+                        <nav><ul>
+                                                <li><a href="https://langstonsoftware.com/category/angularjs/">AngularJS</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/architecture-design-philosophy/">Architecture & Design Philosophy</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/aspnet-mvc/">ASP.NET MVC</a></li>
+                                                <li class="active"><a href="https://langstonsoftware.com/category/bazel/">Bazel</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/c/">C#</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/career/">Career</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/frameworks-libraries/">Frameworks & Libraries</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/git/">Git</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/javascript/">JavaScript</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/politics/">Politics</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/python/">Python</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/refactoring/">Refactoring</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/sql/">SQL</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/tools/">Tools</a></li>
+                        </ul></nav>
+                </header><!-- /#banner -->
+
+                <aside id="featured" class="body">
+                    <article>
+                        <h1 class="entry-title"><a href="https://langstonsoftware.com/2025/09/10/how-to-shade-dependencies-in-java-with-bazel">How to Shade Dependencies in Java with Bazel</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2025-09-10T00:00:00-04:00">
+                Published: Wed 10 September 2025
+        </abbr>
+
+                <address class="vcard author">
+                        By                                 <a class="url fn" href="https://langstonsoftware.com/author/thomas-langston.html">Thomas Langston</a>
+                </address>
+        <p>In <a href="https://langstonsoftware.com/category/bazel/">Bazel</a>.</p>
+        
+</footer><!-- /.post-info --><h1>How to Shade Dependencies in Java with Bazel</h1>
+<h2>Shading Dependencies</h2>
+<p>What: Shading is the process of making two versions of a dependency available at compile time to Java code.</p>
+<p>Why: Two versions of a dependency otherwise will “shadow” or conflict with each other on the classpath if they share the same FQN (Fully Qualified Name). This can cause runtime errors if your code loads the incorrect version of the dependency to satisfy direct or indirect (transitive) dependencies.</p>
+<p>When: Shading is recommended only when upgrading, replacing, or removing the dependency conflict is not an available option. This is most likely to occur when a dependency is updated, but some of your code needs to continue to depend on an outdated dependency version due to errors from the upgraded version.</p>
+<p>How: A dependency (generally the outdated version) will be put in a fat Jar containing itself and all of its dependencies. Then that dependency will be renamed to have a new FQN that no longer conflicts with the other dependency (generally the up to date version). We can do this via <a href="https://github.com/bazeltools/bazel_jar_jar">bazel_jar_jar</a>.</p>
+<h2>Required Bazel Configuration</h2>
+<h3>Creating an alternative Maven repository label</h3>
+<p>A maven repository label lets you define a set of dependencies and the resulting resolved transitive dependency chain. In our example, <a href="https://github.com/bazel-contrib/rules_jvm_external/blob/master/docs/bzlmod.md#installation">the default maven repository label</a> is <code>@maven</code> and is defined in a <code>MODULE.bazel</code> file or a file like <code>maven_artifacts.MODULE.bazel</code> <a href="https://bazel.build/rules/lib/globals/module#include">included</a> in the main file.</p>
+<p>We need to create an alternative repository label to have a version of dependency that is different from the one included in the <code>@maven</code> repository label.</p>
+<p>Below is an opinionated annotated alternate repository label simialr to <a href="https://github.com/bazel-contrib/rules_jvm_external?tab=readme-ov-file#multiple-maven_install-declarations-for-isolated-artifact-version-trees">the example in rules_jvm_external</a>. Annotations are marked with <code>NOTE:</code> to contrast them with comments we suggest you include.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># NOTE: Include a quick explanation of why the alternative label is required. Make sure to include references for determining if and when the alternative label can be removed in the future. For most alternatives, schedule this for a specific time. Keeping alternative labels short lived ensures that dependencies stay up to date.</span>
+<span class="c1"># shaded_guava label is required because of the guava version bug referenced in examplecomponent issue link dealing with the guava dependency after version 26. It should be re-evaluated after DATE. If still required, DATE should be updated to a new re-evaluation date.</span>
+<span class="c1"># NOTE: Add a copyable terminal command to repin the dependencies in your label</span>
+<span class="c1"># Run `REPIN=1 bazel run @shaded_guava_maven//:pin` after updating.</span>
+<span class="n">maven</span><span class="o">.</span><span class="n">install</span><span class="p">(</span>
+    <span class="c1"># NOTE: The suggested naming convention is to give your repository label name in the form of `usecase_maven`</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;shaded_guava_maven&quot;</span><span class="p">,</span>
+    <span class="c1"># NOTE: Here is the list of dependencies you require to vary from the default `@maven` label. It should be as short as possible, but no shorter.</span>
+    <span class="n">artifacts</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;com.google.guava:guava:26.0-jre&quot;</span><span class="p">,</span>  <span class="c1"># shaded version here for bug referenced above, use normal version instead elsewhere</span>
+    <span class="p">],</span>
+    <span class="c1"># NOTE: We should always throw an error if we create duplicate versions in our dependencies.</span>
+    <span class="n">duplicate_version_warning</span> <span class="o">=</span> <span class="s2">&quot;error&quot;</span><span class="p">,</span>
+    <span class="c1"># NOTE: We should always throw an error if we haven&#39;t kept our lock file up to date.</span>
+    <span class="n">fail_if_repin_required</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="c1"># NOTE: Fetching sources helps when we want to debug into our dependencies</span>
+    <span class="n">fetch_sources</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="c1"># NOTE: `ignore_empty_files` removes a failure case not applicable to most usages.</span>
+    <span class="n">ignore_empty_files</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="c1"># NOTE: You&#39;ll want multiple lock files for your different dependency trees. For more info, see https://github.com/bazel-contrib/rules_jvm_external?tab=readme-ov-file#multiple-maven_installjson-files</span>
+    <span class="n">lock_file</span> <span class="o">=</span> <span class="s2">&quot;shaded_guava_maven_install.json&quot;</span><span class="p">,</span>
+   <span class="c1"># NOTE: If you have an Artifactory instance for caching performance and security constraints, use it here. Deviations from this convention should have additional documentation with justification.</span>
+   <span class="n">repositories</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;https://artifactory.myorg.net/artifactory/repo&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="c1"># NOTE: We should always use `strict_visibility` to ensure we don&#39;t use undeclared direct dependencies via the transitive dependencies of our other direct dependencies.</span>
+    <span class="n">strict_visibility</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="c1"># NOTE: We should always use the &quot;pinned&quot; `version_conflict_policy` to ensure the resolved transitive dependencies do not change unexpectedly</span>
+    <span class="n">version_conflict_policy</span> <span class="o">=</span> <span class="s2">&quot;pinned&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="c1"># NOTE: load the new maven repository we defined previously</span>
+<span class="n">use_repo</span><span class="p">(</span><span class="n">maven</span><span class="p">,</span> <span class="s2">&quot;shaded_guava_maven&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3>Packaging a Fat Jar</h3>
+<p>An alternative maven label only gives you a way to reference two different sets of direct dependencies and their resulting resolved transitive dependency chain in Bazel, it doesn’t handle how to package the actual referenced versions in your jar files in a way that won’t cause conflicts.</p>
+<p>A fat jar lets you put a set of direct dependencies and the entire set of resolved transitive dependencies for them into a single jar separate from your other jar files.</p>
+<p>You define this fat jar in a <code>BUILD.bazel</code> file located based on its usage. For example, a fat jar only used by a single component would go into the BUILD file located in the path like <code>//path/to/component-name</code>.</p>
+<p>You can see below an example of how to define the fat jar utilizing the same alternate maven repository label we defined in the previous example.</p>
+<div class="highlight"><pre><span></span><code><span class="n">java_binary</span><span class="p">(</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;examplecomponent&quot;</span><span class="p">,</span>
+    <span class="n">main_class</span> <span class="o">=</span> <span class="s2">&quot;none&quot;</span><span class="p">,</span>
+    <span class="n">runtime_deps</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;@shaded_guava//:com_google_guava_guava&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<h3>Renaming the Dependency</h3>
+<p>Now that you have a fat jar file with the alternative dependency versions, you also need to be able to reference them separately on the Java classpath. We do this by renaming the packages in the fat jar.</p>
+<p>For the new name, we use a convention of <code>com.myorg.mynamespace.mypackage.shaded.*</code>. <code>mynamespace.mypackage</code> should be scoped down based on usage. For usage only in a single package, the corresponding Java package name is probably appropriate. This convention will help ensure that 1) you don’t have a conflict on the new name and 2) someone reading your code will be able to clearly see these are shaded dependencies.</p>
+<p>The shading of the fat jar dependencies will be defined in the same BUILD file as the fat jar itself. We do this using <a href="https://github.com/bazeltools/bazel_jar_jar">the bazel_jar_jar library</a>. A simple example is given below using the same fat jar we defined above.</p>
+<div class="highlight"><pre><span></span><code><span class="n">jar_jar</span><span class="p">(</span>
+    <span class="c1"># NOTE: We recommend a naming convention of shaded-&lt;usage&gt; to ensure future developers will know we are utilizing a shaded dependency</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;shaded-examplecomponentjar&quot;</span><span class="p">,</span>
+    <span class="c1"># NOTE: See the bazel_jar_jar advanced documentation for more renaming dependencies</span>
+    <span class="n">inline_rules</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;rule com.google.common.collect.** com.mynamespace.mypackage.shaded.com.google.common.collect.@1&quot;</span><span class="p">],</span>
+    <span class="c1"># NOTE: There is an implicit `_deploy.jar` target based on the name of fat jar target</span>
+    <span class="n">input_jar</span> <span class="o">=</span> <span class="s2">&quot;:examplecomponent_deploy.jar&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<h2>Changes to Consuming Java Code</h2>
+<p>So you have shaded dependencies in a fat jar now defined in a Bazel target. You reference that target in your components’ dependencies just like you would any other target.</p>
+<div class="highlight"><pre><span></span><code><span class="n">DEPS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># NOTE: There&#39;s not a path here before the `:` in this example because we defined it in the same BUILD file as the shading target.</span>
+    <span class="s2">&quot;:shaded-examplecomponentjar&quot;</span><span class="p">,</span>
+    <span class="c1"># NOTE: You refer to other dependencies in the default `@maven` label the same as usual</span>
+    <span class="s2">&quot;@maven//:com_google_code_findbugs_jsr305&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+</code></pre></div>
+
+<p>Now that Bazel knows where these shaded dependencies, you now need to modify your Java code to refer to them by their new name.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">com.mynamespace.mypackage.shaded.com.google.common.collect.ImmutableList</span><span class="p">;</span>
+</code></pre></div>
+
+<h2>Exploring Build Results</h2>
+<p><a href="https://bazel.build/remote/output-directories">The output of Bazel</a> is available in the bazel-out directory. Under that directory on my Mac laptop, the output of a specific target is under <code>darwin_arm64-fastbuild/bin/path/to/target</code>. In the subdirectories of that folder, I can find the Jar files that my target created.</p>
+<p>In the examples above that includes the shaded dependency jar <code>path/to/mypackage/shaded-examplecomponentjar.jar</code>.</p>
+<p>We can view the contents of these Jar files with <a href="https://docs.oracle.com/javase/tutorial/deployment/jar/view.html">the <code>jar</code> CLI command</a>. The two options you should be familiar with are:</p>
+<ul>
+<li><code>jar tf &lt;jar-file&gt;</code></li>
+<li>List contents</li>
+<li><code>jar xf &lt;jar-file&gt; &lt;archived-file(s)&gt;</code></li>
+<li>Extract contents</li>
+</ul>
+<p>In your shaded Jar should be one or more <code>pom.xml</code> files letting you confirm the exact dependency versions packaged inside them.</p>
+<h2>Further Reading</h2>
+<p><a href="https://medium.com/@akhaku/java-class-shadowing-and-shading-9439b0eacb13">Context on Shading in Java Illustrated with Gradle Examples</a></p>                    </article>
+                </aside><!-- /#featured -->
+                    <section id="content" class="body">
+                        <h1>Other articles</h1>
+                        <hr />
+                        <ol id="posts-list" class="hfeed">
+
+                <li><article class="hentry">
+                    <header>
+                        <h1><a href="https://langstonsoftware.com/2025/02/26/how-to-read-files-in-java-with-bazel" rel="bookmark"
+                               title="Permalink to How to read files in Java with Bazel">How to read files in Java with Bazel</a></h1>
+                    </header>
+
+                    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2025-02-26T00:00:00-05:00">
+                Published: Wed 26 February 2025
+        </abbr>
+
+                <address class="vcard author">
+                        By                                 <a class="url fn" href="https://langstonsoftware.com/author/thomas-langston.html">Thomas Langston</a>
+                </address>
+        <p>In <a href="https://langstonsoftware.com/category/bazel/">Bazel</a>.</p>
+        
+</footer><!-- /.post-info -->                        <h1>How to read files in Java with Bazel</h1>
+<h2>Bazel Build/Test Sandbox</h2>
+<p>What: The Bazel sandbox is an isolation mechanism that ensures targets only have visibility of
+specified files.</p>
+<p>Why: The sandbox ensures Bazel targets are compiled and tested with exactly the same files across
+different build hosts, enabling hermetic …</p>
+                        <a class="readmore" href="https://langstonsoftware.com/2025/02/26/how-to-read-files-in-java-with-bazel">read more</a>
+                    </div><!-- /.entry-content -->
+                </article></li>
+                    </ol><!-- /#posts-list -->
+                    </section><!-- /#content -->
+                <section id="extras" class="body">
+                                <div class="social">
+                                        <h2>social</h2>
+                                        <ul>
+                                                        <li><a href="https://langstonsoftware.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                                                        <li><a href="https://www.linkedin.com/in/thomaslangston/">LinkedIn</a></li>
+                                                        <li><a href="https://github.com/thomaslangston">GitHub</a></li>
+                                        </ul>
+                                </div><!-- /.social -->
+                </section><!-- /#extras -->
+
+                <footer id="contentinfo" class="body">
+                        <address id="about" class="vcard body">
+                                Proudly powered by <a rel="nofollow" href="https://getpelican.com/">Pelican</a>, which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                        </address><!-- /#about -->
+
+                        <p>The theme is by <a rel="nofollow" href="https://www.smashingmagazine.com/2009/08/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+                </footer><!-- /#contentinfo -->
+
+        </body>
+</html>

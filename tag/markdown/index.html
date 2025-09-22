@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+        <head>
+                        <meta charset="utf-8" />
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                        <meta name="generator" content="Pelican" />
+                        <title>Langston Software - markdown</title>
+                        <link rel="stylesheet" href="https://langstonsoftware.com/theme/css/main.css" />
+                                <link href="https://langstonsoftware.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Langston Software Atom Feed" />
+        </head>
+
+        <body id="index" class="home">
+                <header id="banner" class="body">
+                        <h1><a href="https://langstonsoftware.com/">Langston Software</a></h1>
+                        <nav><ul>
+                                                <li><a href="https://langstonsoftware.com/category/angularjs/">AngularJS</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/architecture-design-philosophy/">Architecture & Design Philosophy</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/aspnet-mvc/">ASP.NET MVC</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/bazel/">Bazel</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/c/">C#</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/career/">Career</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/frameworks-libraries/">Frameworks & Libraries</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/git/">Git</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/javascript/">JavaScript</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/politics/">Politics</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/python/">Python</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/refactoring/">Refactoring</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/sql/">SQL</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/tools/">Tools</a></li>
+                        </ul></nav>
+                </header><!-- /#banner -->
+
+                <aside id="featured" class="body">
+                    <article>
+                        <h1 class="entry-title"><a href="https://langstonsoftware.com/2025/09/22/migrating-from-wordpress-to-pelican-with-python">Migrating from WordPress to Pelican with Python</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2025-09-22T00:00:00-04:00">
+                Published: Mon 22 September 2025
+        </abbr>
+
+                <address class="vcard author">
+                        By                                 <a class="url fn" href="https://langstonsoftware.com/author/thomas-langston.html">Thomas Langston</a>
+                </address>
+        <p>In <a href="https://langstonsoftware.com/category/python/">Python</a>.</p>
+<p>tags: <a href="https://langstonsoftware.com/tag/wordpress/">wordpress</a> <a href="https://langstonsoftware.com/tag/pelican/">pelican</a> <a href="https://langstonsoftware.com/tag/html/">html</a> <a href="https://langstonsoftware.com/tag/markdown/">markdown</a> </p>        
+</footer><!-- /.post-info --><h1>Migrating from WordPress to Pelican with Python: Building HTML to Markdown Extraction Tools</h1>
+<p>Recently, I finished migrating this blog from WordPress to <a href="https://getpelican.com/">Pelican</a>, a Python-based static site generator. Instead of manually converting dozens of posts, I built a collection of Python scripts to automate the extraction and conversion process. The result is a reusable tool that I've open-sourced for anyone facing a similar migration.</p>
+<h2>The Challenge</h2>
+<p>WordPress exports content as HTML with embedded metadata, while Pelican expects Markdown files with YAML front matter. The structure differences meant I needed to:</p>
+<ol>
+<li>Extract metadata (title, date, category, tags) from WordPress HTML</li>
+<li>Convert HTML content to clean Markdown</li>
+<li>Generate SEO-friendly slugs, which I have set to match my filenames</li>
+</ol>
+<h2>The Solution: Three Focused Scripts</h2>
+<p>Rather than building one monolithic converter, I created three specialized scripts that can work independently or together:</p>
+<h3>1. Metadata Extraction (<code>extract_html_metadata.py</code>)</h3>
+<p>This script parses WordPress HTML to extract structured metadata:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Extracts and formats as Pelican front matter</span>
+<span class="n">python</span> <span class="n">extract_html_metadata</span><span class="o">.</span><span class="n">py</span> <span class="n">wordpress</span><span class="o">-</span><span class="n">post</span><span class="o">.</span><span class="n">html</span>
+</code></pre></div>
+
+<p>It looks for specific WordPress elements like <code>&lt;time class="entry-date published"&gt;</code> for dates and <code>&lt;a rel="category tag"&gt;</code> for taxonomies, then formats them as clean YAML front matter.</p>
+<h3>2. Content Conversion (<code>extract_html_body.py</code>)</h3>
+<p>Focuses solely on extracting and converting the main article content:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Converts HTML content to Markdown</span>
+<span class="n">python</span> <span class="n">extract_html_body</span><span class="o">.</span><span class="n">py</span> <span class="n">wordpress</span><span class="o">-</span><span class="n">post</span><span class="o">.</span><span class="n">html</span>
+</code></pre></div>
+
+<p>This script isolates the <code>&lt;div class="entry-content"&gt;</code> section and converts the HTML to clean Markdown using proper parsing techniques.</p>
+<h3>3. Complete Conversion (<code>html_to_markdown.py</code>)</h3>
+<p>The main orchestrator that combines metadata and content extraction:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Full conversion with automatic filename generation</span>
+<span class="n">python</span> <span class="n">html_to_markdown</span><span class="o">.</span><span class="n">py</span> <span class="n">wordpress</span><span class="o">-</span><span class="n">post</span><span class="o">.</span><span class="n">html</span>
+</code></pre></div>
+
+<p>This creates complete Pelican-ready Markdown files in the correct directory structure with SEO-friendly filenames.</p>
+<h2>Key Technical Decisions</h2>
+<p><strong>Beautiful Soup for Parsing</strong>: Rather than regex or basic string manipulation, I used Beautiful Soup for robust HTML parsing. This handles malformed HTML gracefully and provides reliable element selection.</p>
+<p><strong>Modular Design</strong>: Splitting functionality into three scripts allows for flexible usage. You might only need metadata extraction, or want to customize the content conversion while using the existing metadata logic.</p>
+<p><strong>Pelican Compatibility</strong>: The output format exactly matches Pelican's expected front matter and directory structure, making the converted files immediately usable.</p>
+<h2>Installation and Usage</h2>
+<p>The tool is available on GitHub with both <code>uv</code> and <code>pip</code> installation options:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Using uv (recommended)</span>
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/thomaslangston/simple-html-wordpress-to-pelican-markdown-extractor
+<span class="nb">cd</span><span class="w"> </span>simple-html-wordpress-to-pelican-markdown-extractor
+uv<span class="w"> </span>sync
+
+<span class="c1"># Basic usage</span>
+python<span class="w"> </span>html_to_markdown.py<span class="w"> </span>my-wordpress-post.html
+</code></pre></div>
+
+<h2>Lessons Learned</h2>
+<ol>
+<li>
+<p><strong>HTML Structure Varies</strong>: WordPress themes generate different HTML structures. The scripts target common patterns but may need adjustment for custom themes.</p>
+</li>
+<li>
+<p><strong>Content Cleanup</strong>: Automated conversion gets you 90% there, but manual review is still valuable for formatting edge cases and WordPress shortcodes.</p>
+</li>
+<li>
+<p><strong>Batch Processing</strong>: While I built these for individual file conversion, adding batch processing capability would be a natural next step.</p>
+</li>
+</ol>
+<h2>Open Source Release</h2>
+<p>The complete toolset is available at <a href="https://github.com/thomaslangston/simple-html-wordpress-to-pelican-markdown-extractor">simple-html-wordpress-to-pelican-markdown-extractor</a> under the MIT license. The code is designed to be readable and modifiable for different WordPress configurations.</p>
+<p>If you're facing a similar migration, these tools provide a solid foundation that you can adapt to your specific needs. The modular design means you can use just the pieces you need or extend the functionality for your particular WordPress setup.</p>
+<p>Static site generators like Pelican offer compelling advantages in performance, security, and simplicity compared to dynamic WordPress sites. With the right extraction tools, the migration process becomes much more manageable.</p>                    </article>
+                </aside><!-- /#featured -->
+                <section id="extras" class="body">
+                                <div class="social">
+                                        <h2>social</h2>
+                                        <ul>
+                                                        <li><a href="https://langstonsoftware.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                                                        <li><a href="https://www.linkedin.com/in/thomaslangston/">LinkedIn</a></li>
+                                                        <li><a href="https://github.com/thomaslangston">GitHub</a></li>
+                                        </ul>
+                                </div><!-- /.social -->
+                </section><!-- /#extras -->
+
+                <footer id="contentinfo" class="body">
+                        <address id="about" class="vcard body">
+                                Proudly powered by <a rel="nofollow" href="https://getpelican.com/">Pelican</a>, which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                        </address><!-- /#about -->
+
+                        <p>The theme is by <a rel="nofollow" href="https://www.smashingmagazine.com/2009/08/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+                </footer><!-- /#contentinfo -->
+
+        </body>
+</html>
