@@ -1,5 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Langston Software</title><link href="https://langstonsoftware.com/" rel="alternate"></link><link href="https://langstonsoftware.com/feeds/all.atom.xml" rel="self"></link><id>https://langstonsoftware.com/</id><updated>2025-09-22T00:00:00-04:00</updated><entry><title>Migrating from WordPress to Pelican with Python</title><link href="https://langstonsoftware.com/2025/09/22/migrating-from-wordpress-to-pelican-with-python" rel="alternate"></link><published>2025-09-22T00:00:00-04:00</published><updated>2025-09-22T00:00:00-04:00</updated><author><name>Thomas Langston</name></author><id>tag:langstonsoftware.com,2025-09-22:/2025/09/22/migrating-from-wordpress-to-pelican-with-python</id><summary type="html">&lt;h1&gt;Migrating from WordPress to Pelican with Python: Building HTML to Markdown Extraction Tools&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Langston Software</title><link href="https://langstonsoftware.com/" rel="alternate"></link><link href="https://langstonsoftware.com/feeds/all.atom.xml" rel="self"></link><id>https://langstonsoftware.com/</id><updated>2025-10-03T12:00:00-04:00</updated><entry><title>Git fetch strategies for large monorepos</title><link href="https://langstonsoftware.com/2025/10/03/git-fetch-strategies-for-large-monorepos" rel="alternate"></link><published>2025-10-03T12:00:00-04:00</published><updated>2025-10-03T12:00:00-04:00</updated><author><name>Thomas Langston</name></author><id>tag:langstonsoftware.com,2025-10-03:/2025/10/03/git-fetch-strategies-for-large-monorepos</id><summary type="html">&lt;p&gt;Working with large monorepos can be challenging, especially when it comes to managing Git operations like fetching. In repositories with hundreds or thousands of branches, a simple &lt;code&gt;git fetch&lt;/code&gt; can become slow and resource-intensive. Understanding how to configure fetch rules can dramatically improve your workflow.&lt;/p&gt;
+&lt;h2&gt;Understanding the Default Fetch Configuration …&lt;/h2&gt;</summary><content type="html">&lt;p&gt;Working with large monorepos can be challenging, especially when it comes to managing Git operations like fetching. In repositories with hundreds or thousands of branches, a simple &lt;code&gt;git fetch&lt;/code&gt; can become slow and resource-intensive. Understanding how to configure fetch rules can dramatically improve your workflow.&lt;/p&gt;
+&lt;h2&gt;Understanding the Default Fetch Configuration&lt;/h2&gt;
+&lt;p&gt;When you clone a repository, Git automatically sets up a default fetch refspec that looks like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Let's break down what this configuration means:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;+&lt;/code&gt; - The plus sign allows non-fast-forward updates, meaning it will update local remote-tracking branches even if the remote branch has been rebased or force-pushed&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;refs/heads/*&lt;/code&gt; - The source pattern that matches all branches on the remote (the wildcard &lt;code&gt;*&lt;/code&gt; matches any branch name)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;refs/remotes/origin/*&lt;/code&gt; - The destination pattern where remote branches are stored locally&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This default configuration tells Git to fetch &lt;strong&gt;every single branch&lt;/strong&gt; from the remote repository and store them as remote-tracking branches in your local repository.&lt;/p&gt;
+&lt;h2&gt;The Problem with Large Monorepos&lt;/h2&gt;
+&lt;p&gt;In a large monorepo, this default behavior can cause several issues:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Slow fetch operations&lt;/strong&gt; - Downloading metadata for thousands of branches takes time&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Cluttered branch listings&lt;/strong&gt; - Commands like &lt;code&gt;git branch -r&lt;/code&gt; become unwieldy&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Using Fetch Exclusions&lt;/h2&gt;
+&lt;p&gt;Git provides a solution through negative refspecs, which allow you to exclude specific branches from being fetched. You can configure exclusions using the &lt;code&gt;remote.origin.fetch&lt;/code&gt; configuration.&lt;/p&gt;
+&lt;h3&gt;Excluding Feature Branches&lt;/h3&gt;
+&lt;p&gt;A common pattern is to exclude short-lived feature branches while keeping main development branches:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;git&lt;span class="w"&gt; &lt;/span&gt;config&lt;span class="w"&gt; &lt;/span&gt;--add&lt;span class="w"&gt; &lt;/span&gt;remote.origin.fetch&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;^refs/heads/feature/*&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The &lt;code&gt;^&lt;/code&gt; prefix creates a negative refspec that excludes matching branches.&lt;/p&gt;
+&lt;h3&gt;Fetching Only Specific Branches&lt;/h3&gt;
+&lt;p&gt;For even more control, you might want to fetch only specific branches:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# Remove all fetch rules&lt;/span&gt;
+git&lt;span class="w"&gt; &lt;/span&gt;config&lt;span class="w"&gt; &lt;/span&gt;--unset-all&lt;span class="w"&gt; &lt;/span&gt;remote.origin.fetch
+
+&lt;span class="c1"&gt;# Add your first specific branches you care about&lt;/span&gt;
+git&lt;span class="w"&gt; &lt;/span&gt;config&lt;span class="w"&gt; &lt;/span&gt;remote.origin.fetch&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;+refs/heads/main:refs/remotes/origin/main&amp;quot;&lt;/span&gt;
+&lt;span class="c1"&gt;# Add additional specific branches&lt;/span&gt;
+git&lt;span class="w"&gt; &lt;/span&gt;config&lt;span class="w"&gt; &lt;/span&gt;--add&lt;span class="w"&gt; &lt;/span&gt;remote.origin.fetch&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;+refs/heads/release/release-latest:refs/remotes/origin/release/release-latest&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2&gt;Fetching On-Demand&lt;/h2&gt;
+&lt;p&gt;Even with exclusions configured, you might occasionally need to fetch a specific branch that's normally excluded:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# Fetch a specific excluded branch&lt;/span&gt;
+git&lt;span class="w"&gt; &lt;/span&gt;fetch&lt;span class="w"&gt; &lt;/span&gt;origin&lt;span class="w"&gt; &lt;/span&gt;feature/important-fix:refs/remotes/origin/feature/important-fix
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2&gt;Checking Your Current Configuration&lt;/h2&gt;
+&lt;p&gt;To see your current fetch configuration:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;git&lt;span class="w"&gt; &lt;/span&gt;config&lt;span class="w"&gt; &lt;/span&gt;--get-all&lt;span class="w"&gt; &lt;/span&gt;remote.origin.fetch
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This will show all configured fetch refspecs for the origin remote.&lt;/p&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;Thoughtful configuration of Git fetch rules can significantly improve your experience working with large monorepos. By excluding unnecessary branches and fetching only what you need, you can reduce fetch times, save disk space, and keep your local repository focused on the branches that matter to your work.&lt;/p&gt;
+&lt;p&gt;Remember that these configurations are local to your repository clone, so each developer can customize their fetch strategy based on their specific needs and workflow.&lt;/p&gt;</content><category term="Git"></category></entry><entry><title>Migrating from WordPress to Pelican with Python</title><link href="https://langstonsoftware.com/2025/09/22/migrating-from-wordpress-to-pelican-with-python" rel="alternate"></link><published>2025-09-22T00:00:00-04:00</published><updated>2025-09-22T00:00:00-04:00</updated><author><name>Thomas Langston</name></author><id>tag:langstonsoftware.com,2025-09-22:/2025/09/22/migrating-from-wordpress-to-pelican-with-python</id><summary type="html">&lt;h1&gt;Migrating from WordPress to Pelican with Python: Building HTML to Markdown Extraction Tools&lt;/h1&gt;
 &lt;p&gt;Recently, I finished migrating this blog from WordPress to &lt;a href="https://getpelican.com/"&gt;Pelican&lt;/a&gt;, a Python-based static site generator. Instead of manually converting dozens of posts, I built a collection of Python scripts to automate the extraction and conversion process. The …&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Migrating from WordPress to Pelican with Python: Building HTML to Markdown Extraction Tools&lt;/h1&gt;
 &lt;p&gt;Recently, I finished migrating this blog from WordPress to &lt;a href="https://getpelican.com/"&gt;Pelican&lt;/a&gt;, a Python-based static site generator. Instead of manually converting dozens of posts, I built a collection of Python scripts to automate the extraction and conversion process. The result is a reusable tool that I've open-sourced for anyone facing a similar migration.&lt;/p&gt;
 &lt;h2&gt;The Challenge&lt;/h2&gt;
