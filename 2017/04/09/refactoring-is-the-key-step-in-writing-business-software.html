@@ -15,17 +15,17 @@
                         <h1><a href="https://langstonsoftware.com/">Langston Software</a></h1>
                         <nav><ul>
                                                 <li><a href="https://langstonsoftware.com/category/angularjs/">AngularJS</a></li>
-                                                <li><a href="https://langstonsoftware.com/category/architecture-design-philosophy/">Architecture & Design Philosophy</a></li>
                                                 <li><a href="https://langstonsoftware.com/category/aspnet-mvc/">ASP.NET MVC</a></li>
                                                 <li><a href="https://langstonsoftware.com/category/bazel/">Bazel</a></li>
-                                                <li class="active"><a href="https://langstonsoftware.com/category/c/">C#</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/c/">C#</a></li>
                                                 <li><a href="https://langstonsoftware.com/category/career/">Career</a></li>
                                                 <li><a href="https://langstonsoftware.com/category/frameworks-libraries/">Frameworks & Libraries</a></li>
                                                 <li><a href="https://langstonsoftware.com/category/git/">Git</a></li>
                                                 <li><a href="https://langstonsoftware.com/category/javascript/">JavaScript</a></li>
-                                                <li><a href="https://langstonsoftware.com/category/politics/">Politics</a></li>
                                                 <li><a href="https://langstonsoftware.com/category/python/">Python</a></li>
-                                                <li><a href="https://langstonsoftware.com/category/refactoring/">Refactoring</a></li>
+                                                <li class="active"><a href="https://langstonsoftware.com/category/refactoring/">Refactoring</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/security/">Security</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/software-architecture/">Software Architecture</a></li>
                                                 <li><a href="https://langstonsoftware.com/category/sql/">SQL</a></li>
                                                 <li><a href="https://langstonsoftware.com/category/tools/">Tools</a></li>
                         </ul></nav>
@@ -47,8 +47,8 @@
                 <address class="vcard author">
                         By                                 <a class="url fn" href="https://langstonsoftware.com/author/thomas-langston.html">Thomas Langston</a>
                 </address>
-        <p>In <a href="https://langstonsoftware.com/category/c/">C#</a>.</p>
-<p>tags: <a href="https://langstonsoftware.com/tag/refactoring/">Refactoring</a> </p>        
+        <p>In <a href="https://langstonsoftware.com/category/refactoring/">Refactoring</a>.</p>
+        
 </footer><!-- /.post-info -->        <p>I recently found a Reddit post from a sysadmin who had just finished their first C# app for work. They were ecstatic, happily telling their CTO about the daily work they had automated for the multiple technicians working under the sysadmin.</p>
 <p><em>Then the CTO happily replied with a few words that ruined the sysadmin’s day.</em></p>
 <p>“Great! Put it in SVN.”</p>
@@ -124,9 +124,7 @@ GetIngredients(){
 </code></pre></div>
 
 <p>This needs a bit more explaining. Here we don’t need to remember a specific ingredient after it has been gotten and prepared. So our code shouldn’t loop over the ingredients again to pull up the same ingredient twice. While it may look like we wasted time with step one, in many cases it is necessary to see the shape of the program. Only then can we identify the dependency, the specific ingredient, that any section of logic needs to know about. More simply, we also shouldn’t be pulling out the plates until we are ready to use them, unless we have a very good reason to do so. In real life we only have so much counter space to juggle our plates and ingredients, in programming we only have so much mental space to juggle digital references. We should keep our work space orderly and only use what we need, when we need it.</p>
-<p>The trick of all these steps is to make our code more <em>declarative</em> and less <em>procedural</em> , i.e. it tells us what it does first, and de-emphasizes how it does it. Together, these three steps leave us with a program that quickly tell us what it does, leaves the how in small, easy to grasp functions that we can further refactor into their own separate objects if desired. This doesn’t make your code perfect, but leads you down the path to understanding and “smelling” the other problems in your code’s readability and maintainability.</p>
-<p>When writing this, I struggled to know if I included enough detail to explain these concepts. I also worried if I focused on the right concepts. As someone who often has to teach these ideas I’m very open to advice on how I could improve this lesson. Please, leave a comment below with your thoughts.</p>
-<p>If you are a new or junior developer, and are looking for more help writing good professional business software, please enter your email to sign up for my newsletter <a href="http://eepurl.com/bYVEJj">here</a>. I’m very interested in connecting with you and helping you further your career with future lessons.</p>
+<p>The trick of all these steps is to make our code more <em>declarative</em> and less <em>procedural</em> , i.e. it tells us what it does first, and de-emphasizes how it does it. Together, these three steps leave us with a program that quickly tell us what it does, leaves the how in small, easy to grasp functions that we can further refactor into their own separate objects if desired. This doesn't make your code perfect, but leads you down the path to understanding and "smelling" the other problems in your code's readability and maintainability.</p>
 <p><a href="https://www.reddit.com/r/csharp/comments/23w43s/ive_read_c_for_dummies_still_dont_get_it_is_there/?st=j0ohfqkw&amp;sh=31db5835">Original Reddit Post</a></p>
       </div><!-- /.entry-content -->
 

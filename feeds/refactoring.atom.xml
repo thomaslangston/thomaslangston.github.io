@@ -85,6 +85,81 @@
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;All of these could be considered &lt;a href="https://en.wikipedia.org/wiki/Code_smell"&gt;code smells&lt;/a&gt;. There are a multitude of similar code smells documented in books and blogs about good code. They don’t necessarily always apply i.e. just because something smells, doesn’t mean it is bad. But it usually could be better. The basic concepts that many smells are lingering on is that we would like code to be readable, easily adaptable, and no more complex than is necessary. As a secondary goal that supports those primary goals, we like code that is structured, testable, and obviously correct. Sometimes those goals run at cross purposes. Sometimes they are context dependent on the reader of the code e.g. a person familiar with Async code will find it much more readable than someone who has never used it. There are languages that focus on providing more implicit vs. explicit logic for certain types of programming problems, and others than prefer the reverse.&lt;/p&gt;
-&lt;p&gt;It will take time for you to develop a nose for these things, which will be mostly done by reading a lot of code, preferably your own and others, and by writing code, preferably sharing it with others to get their feedback as well.&lt;/p&gt;
-&lt;p&gt;I’d like to get your feedback on this post. Please take a moment to post a comment below to let me know your thoughts on the business and technical sides to the question of when to refactor. Any code smells you think should be introduced to a beginner or junior developer ASAP? Or is there a facet to the business question I’ve overlooked? I would be very happy to hear about either.&lt;/p&gt;
-&lt;p&gt;Also, I putting together a very focused mailing list on the topics that I regularly cover on this blog. If this post was useful to you, please sign up &lt;a href="http://eepurl.com/bYVEJj"&gt;here&lt;/a&gt;to get future emails from me on this and related subjects. Thanks!&lt;/p&gt;</content><category term="Refactoring"></category></entry></feed>
+&lt;p&gt;It will take time for you to develop a nose for these things, which will be mostly done by reading a lot of code, preferably your own and others, and by writing code, preferably sharing it with others to get their feedback as well.&lt;/p&gt;</content><category term="Refactoring"></category></entry><entry><title>Refactoring Is the Key Step in Writing Business Software</title><link href="https://langstonsoftware.com/2017/04/09/refactoring-is-the-key-step-in-writing-business-software" rel="alternate"></link><published>2017-04-09T12:43:00-04:00</published><updated>2017-04-09T12:43:00-04:00</updated><author><name>Thomas Langston</name></author><id>tag:langstonsoftware.com,2017-04-09:/2017/04/09/refactoring-is-the-key-step-in-writing-business-software</id><summary type="html">&lt;p&gt;I recently found a Reddit post from a sysadmin who had just finished their first C# app for work. They were ecstatic, happily telling their CTO about the daily work they had automated for the multiple technicians working under the sysadmin.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Then the CTO happily replied with a few words …&lt;/em&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;I recently found a Reddit post from a sysadmin who had just finished their first C# app for work. They were ecstatic, happily telling their CTO about the daily work they had automated for the multiple technicians working under the sysadmin.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Then the CTO happily replied with a few words that ruined the sysadmin’s day.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;“Great! Put it in SVN.”&lt;/p&gt;
+&lt;p&gt;(SVN – Subversion, the company’s developer source control repository)&lt;/p&gt;
+&lt;p&gt;The sysadmin knew their first project wasn’t done “the right way”. No examples they’d seen outside of purely academic “Hello World” code looked like theirs. There were many full time C# developers at their company, who would be judging the quality of the sysadmin’s work and might be called on to maintain their code in the future. If they left the company, someone else would inherit the mess they had made. Reputation and karma were on the line.&lt;/p&gt;
+&lt;p&gt;After deciding against asking the very busy developers at their company, and a crazy ex-employee buddy who wrote bad code, they turned with low expectations to Reddit in a desperate plea of a post.&lt;/p&gt;
+&lt;p&gt;The problem this sysadmin had is one that is not unique. I’ve frequently been asked by college students what is the difference between academic example code and good production ready business software. In business writing, it would be editing. In programming?&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Refactoring is the key step in writing business software.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Refactoring is extracting, renaming, reorganizing, and generally rewriting software until it is able to be easily understood, maintained, extended, and adapted. The sysadmin knew this and the students I’ve talked to already have some idea of it, but they don’t know how.  The sysadmin had already discovered that their code needed to be refactored, but just didn’t know how. They couldn’t unthink they way the thought about how to structure a program. Luckily our sysadmin’s post was not unanswered.&lt;/p&gt;
+&lt;p&gt;When reading their code, it looked like a recipe out of a cookbook.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Get plates
+
+Get ingredient 1
+Get ingredient 2
+Get ingredient 3
+
+Prepare ingredient 1
+Prepare ingredient 2
+Prepare ingredient 3
+
+Plate
+Cleanup
+Serve
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This is a common way software programs look when written by novice developers. It is logical and structured and… off. Writing or reading code in this formulaic way doesn’t scale beyond the simplest problems. Many senior developers would claim this program has “code smells”. It doesn’t fit their rubric of good business software.&lt;/p&gt;
+&lt;p&gt;There were 3 techniques that many of the posters applied to refactoring the sysadmin’s code: Creating a table of contents, removing duplicated instructions, and never remembering more than required for the current task. I would agree that these techniques are the perfect place to start refactoring for beginning programmers.&lt;/p&gt;
+&lt;p&gt;Here’s how the first, &lt;strong&gt;creating a table of contents&lt;/strong&gt; , changes the appearance of the program:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Get plates
+GetIngredients()
+PrepareIngredients()
+Finish()
+
+GetIngredients(){
+ Get ingredient 1
+ Get ingredient 2
+ Get ingredient 3
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;These sections are very easy to see in many junior developer’s code, because they’ve already used comments and line spacing to separate blocks of related code. They just haven’t broken them out into functions. In Visual Studio however there is no reason not to. The process is usually easily automated via the &lt;a href="https://msdn.microsoft.com/en-us/library/0s21cwxk.aspx"&gt;“Extract Method”&lt;/a&gt; tool.&lt;/p&gt;
+&lt;p&gt;Second, &lt;strong&gt;removing duplicated instructions&lt;/strong&gt; , (also know as Don’t Repeat Yourself or DRY) takes the last step just a bit further:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;GetIngredients&lt;/span&gt;&lt;span class="p"&gt;(){&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;ingredients&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;foreach&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;var&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;ingredient&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="ow"&gt;in&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;ingredients&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;GetIngredient&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ingredient&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="n"&gt;GetIngredient&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;Get&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;ingredient&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Once again junior developers commonly do the same thing to multiple items in single discrete program statements. The fail to use loops (or use lower level loops like ‘for’ instead of foreach or a LINQ statement) when those would DRY up their code. If you see multiple statements right after each other doing the same thing, or could copy paste lines changing only a couple of characters, a loop is probably called for.&lt;/p&gt;
+&lt;p&gt;But the third step, &lt;strong&gt;never remembering more than is required&lt;/strong&gt; , can flip step one on its head:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;ingredients&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;WorkIngredients&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ingredients&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;Finish&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+&lt;span class="n"&gt;WorkIngredients&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ingredients&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;var&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;ingredient&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="ow"&gt;in&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;ingredients&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="n"&gt;GetIngredient&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ingredient&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="n"&gt;PrepareIngredient&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ingredient&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="n"&gt;Finish&lt;/span&gt;&lt;span class="p"&gt;(){&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;Get&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;plates&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;Plate&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;Cleanup&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;Serve&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This needs a bit more explaining. Here we don’t need to remember a specific ingredient after it has been gotten and prepared. So our code shouldn’t loop over the ingredients again to pull up the same ingredient twice. While it may look like we wasted time with step one, in many cases it is necessary to see the shape of the program. Only then can we identify the dependency, the specific ingredient, that any section of logic needs to know about. More simply, we also shouldn’t be pulling out the plates until we are ready to use them, unless we have a very good reason to do so. In real life we only have so much counter space to juggle our plates and ingredients, in programming we only have so much mental space to juggle digital references. We should keep our work space orderly and only use what we need, when we need it.&lt;/p&gt;
+&lt;p&gt;The trick of all these steps is to make our code more &lt;em&gt;declarative&lt;/em&gt; and less &lt;em&gt;procedural&lt;/em&gt; , i.e. it tells us what it does first, and de-emphasizes how it does it. Together, these three steps leave us with a program that quickly tell us what it does, leaves the how in small, easy to grasp functions that we can further refactor into their own separate objects if desired. This doesn't make your code perfect, but leads you down the path to understanding and "smelling" the other problems in your code's readability and maintainability.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.reddit.com/r/csharp/comments/23w43s/ive_read_c_for_dummies_still_dont_get_it_is_there/?st=j0ohfqkw&amp;amp;sh=31db5835"&gt;Original Reddit Post&lt;/a&gt;&lt;/p&gt;</content><category term="Refactoring"></category></entry></feed>

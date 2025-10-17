@@ -4,10 +4,9 @@
                         <meta charset="utf-8" />
                         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
                         <meta name="generator" content="Pelican" />
-                        <title>Git fetch strategies for large monorepos</title>
+                        <title>Langston Software - monorepo</title>
                         <link rel="stylesheet" href="https://langstonsoftware.com/theme/css/main.css" />
                                 <link href="https://langstonsoftware.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Langston Software Atom Feed" />
-    <meta name="description" content="Working with large monorepos can be challenging, especially when it comes to managing Git operations like fetching. In repositories with hundreds..." />
         </head>
 
         <body id="index" class="home">
@@ -20,7 +19,7 @@
                                                 <li><a href="https://langstonsoftware.com/category/c/">C#</a></li>
                                                 <li><a href="https://langstonsoftware.com/category/career/">Career</a></li>
                                                 <li><a href="https://langstonsoftware.com/category/frameworks-libraries/">Frameworks & Libraries</a></li>
-                                                <li class="active"><a href="https://langstonsoftware.com/category/git/">Git</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/git/">Git</a></li>
                                                 <li><a href="https://langstonsoftware.com/category/javascript/">JavaScript</a></li>
                                                 <li><a href="https://langstonsoftware.com/category/python/">Python</a></li>
                                                 <li><a href="https://langstonsoftware.com/category/refactoring/">Refactoring</a></li>
@@ -30,15 +29,10 @@
                                                 <li><a href="https://langstonsoftware.com/category/tools/">Tools</a></li>
                         </ul></nav>
                 </header><!-- /#banner -->
-  <section id="content" class="body">
-    <article>
-      <header>
-        <h1 class="entry-title">
-          <a href="https://langstonsoftware.com/2025/10/03/git-fetch-strategies-for-large-monorepos" rel="bookmark"
-             title="Permalink to Git fetch strategies for large monorepos">Git fetch strategies for large monorepos</a></h1>
-      </header>
 
-      <div class="entry-content">
+                <aside id="featured" class="body">
+                    <article>
+                        <h1 class="entry-title"><a href="https://langstonsoftware.com/2025/10/03/git-fetch-strategies-for-large-monorepos">Git fetch strategies for large monorepos</a></h1>
 <footer class="post-info">
         <abbr class="published" title="2025-10-03T12:00:00-04:00">
                 Published: Fri 03 October 2025
@@ -49,7 +43,7 @@
                 </address>
         <p>In <a href="https://langstonsoftware.com/category/git/">Git</a>.</p>
 <p>tags: <a href="https://langstonsoftware.com/tag/monorepo/">monorepo</a> </p>        
-</footer><!-- /.post-info -->        <p>Working with large monorepos can be challenging, especially when it comes to managing Git operations like fetching. In repositories with hundreds or thousands of branches, a simple <code>git fetch</code> can become slow and resource-intensive. Understanding how to configure fetch rules can dramatically improve your workflow.</p>
+</footer><!-- /.post-info --><p>Working with large monorepos can be challenging, especially when it comes to managing Git operations like fetching. In repositories with hundreds or thousands of branches, a simple <code>git fetch</code> can become slow and resource-intensive. Understanding how to configure fetch rules can dramatically improve your workflow.</p>
 <h2>Understanding the Default Fetch Configuration</h2>
 <p>When you clone a repository, Git automatically sets up a default fetch refspec that looks like this:</p>
 <div class="highlight"><pre><span></span><code>remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
@@ -101,11 +95,8 @@ git<span class="w"> </span>fetch<span class="w"> </span>origin<span class="w"> <
 <p>This will show all configured fetch refspecs for the origin remote.</p>
 <h2>Conclusion</h2>
 <p>Thoughtful configuration of Git fetch rules can significantly improve your experience working with large monorepos. By excluding unnecessary branches and fetching only what you need, you can reduce fetch times, save disk space, and keep your local repository focused on the branches that matter to your work.</p>
-<p>Remember that these configurations are local to your repository clone, so each developer can customize their fetch strategy based on their specific needs and workflow.</p>
-      </div><!-- /.entry-content -->
-
-    </article>
-  </section>
+<p>Remember that these configurations are local to your repository clone, so each developer can customize their fetch strategy based on their specific needs and workflow.</p>                    </article>
+                </aside><!-- /#featured -->
                 <section id="extras" class="body">
                                 <div class="social">
                                         <h2>social</h2>

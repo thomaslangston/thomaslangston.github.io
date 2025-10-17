@@ -14,7 +14,6 @@
                         <h1><a href="https://langstonsoftware.com/">Langston Software</a></h1>
                         <nav><ul>
                                                 <li><a href="https://langstonsoftware.com/category/angularjs/">AngularJS</a></li>
-                                                <li><a href="https://langstonsoftware.com/category/architecture-design-philosophy/">Architecture & Design Philosophy</a></li>
                                                 <li><a href="https://langstonsoftware.com/category/aspnet-mvc/">ASP.NET MVC</a></li>
                                                 <li><a href="https://langstonsoftware.com/category/bazel/">Bazel</a></li>
                                                 <li><a href="https://langstonsoftware.com/category/c/">C#</a></li>
@@ -22,9 +21,10 @@
                                                 <li><a href="https://langstonsoftware.com/category/frameworks-libraries/">Frameworks & Libraries</a></li>
                                                 <li><a href="https://langstonsoftware.com/category/git/">Git</a></li>
                                                 <li><a href="https://langstonsoftware.com/category/javascript/">JavaScript</a></li>
-                                                <li><a href="https://langstonsoftware.com/category/politics/">Politics</a></li>
                                                 <li><a href="https://langstonsoftware.com/category/python/">Python</a></li>
                                                 <li><a href="https://langstonsoftware.com/category/refactoring/">Refactoring</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/security/">Security</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/software-architecture/">Software Architecture</a></li>
                                                 <li><a href="https://langstonsoftware.com/category/sql/">SQL</a></li>
                                                 <li class="active"><a href="https://langstonsoftware.com/category/tools/">Tools</a></li>
                         </ul></nav>
@@ -48,8 +48,8 @@
 <p>That feature is automatic code formatting.</p>
 <p>Visual Studio by default tries to give you a lot of automatic code completion and indention. One of the simplest things it won’t do however, it break your lines as you write large statements. LINQ practically becomes unreadable as variable names become larger and conditionals become more complicated. Methods and constructors that take a large number of arguments become unwieldy. While you can and should tackle these problems with factoring out new methods and variables to contain their incidental complexity, sometimes you just need to see how the brick is made inline.</p>
 <p>You can apply automatic code formatting across a whole solution, a file, or as I often do in existing projects, just the hairiest parts of the code you are working on that day. In order to really get the most of your code formatting, you should configure the options to match your team’s coding guidelines, and then save those options in the repository so that they can be picked up automatically both other developer’s Resharper installations. You have these formatting changes be applied silently after you’ve set them up, removing the need to go thru the wizard on each run.</p>
-<p>Some settings I particularly suggest you look at are those that handle those automatic breaks after opening a new block or method argument list. Having these being treated more consistently make reviewing changes much more palatable in a diff tool. I’m also a fan of creating automatic breaks in long chained method calls, ternary operators, or string concatenations, keeping operators at the beginning of lines, letting the human reader front load the meaning of any given line. These are just calls made from personal experience. One of my favorite programming books, Code Complete 2, backs many of these positions. While many development coding guidelines might be based on terminal interfaces, it turns out there are plenty of reasons based in science on why humans can’t read lines over 80 characters very well, especially when those lines are full of difficult mathematical logic.</p>
-<p>I hope this has whet your appetite for nicely presented code in your projects. Luckily Resharper is the utensil you need to cut into this problem. If you’ve already installed Resharper, or this post has convinced you to try it out, please let me know how your experience with code formatting goes in the comments.</p>                    </article>
+<p>Some settings I particularly suggest you look at are those that handle those automatic breaks after opening a new block or method argument list. Having these being treated more consistently make reviewing changes much more palatable in a diff tool. I'm also a fan of creating automatic breaks in long chained method calls, ternary operators, or string concatenations, keeping operators at the beginning of lines, letting the human reader front load the meaning of any given line. These are just calls made from personal experience. One of my favorite programming books, Code Complete 2, backs many of these positions. While many development coding guidelines might be based on terminal interfaces, it turns out there are plenty of reasons based in science on why humans can't read lines over 80 characters very well, especially when those lines are full of difficult mathematical logic.</p>
+<p>I hope this has whet your appetite for nicely presented code in your projects. Luckily Resharper is the utensil you need to cut into this problem.</p>                    </article>
                 </aside><!-- /#featured -->
                 <section id="extras" class="body">
                                 <div class="social">
