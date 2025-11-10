@@ -18,6 +18,7 @@
                                                 <li><a href="https://langstonsoftware.com/category/bazel/">Bazel</a></li>
                                                 <li><a href="https://langstonsoftware.com/category/c/">C#</a></li>
                                                 <li><a href="https://langstonsoftware.com/category/career/">Career</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/development-tools/">Development Tools</a></li>
                                                 <li><a href="https://langstonsoftware.com/category/frameworks-libraries/">Frameworks & Libraries</a></li>
                                                 <li><a href="https://langstonsoftware.com/category/git/">Git</a></li>
                                                 <li><a href="https://langstonsoftware.com/category/javascript/">JavaScript</a></li>
@@ -32,7 +33,35 @@
 
                 <aside id="featured" class="body">
                     <article>
-                        <h1 class="entry-title"><a href="https://langstonsoftware.com/2025/10/03/git-fetch-strategies-for-large-monorepos">Git fetch strategies for large monorepos</a></h1>
+                        <h1 class="entry-title"><a href="https://langstonsoftware.com/2025/11/10/claude-commands-are-buttons-agents-are-functions-skills-are-mixins">Claude Commands Are Buttons, Agents Are Functions, Skills Are Mixins</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2025-11-10T12:00:00-05:00">
+                Published: Mon 10 November 2025
+        </abbr>
+
+                <address class="vcard author">
+                        By                                 <a class="url fn" href="https://langstonsoftware.com/author/thomas-langston.html">Thomas Langston</a>
+                </address>
+        <p>In <a href="https://langstonsoftware.com/category/development-tools/">Development Tools</a>.</p>
+<p>tags: <a href="https://langstonsoftware.com/tag/ai/">ai</a> <a href="https://langstonsoftware.com/tag/claude/">claude</a> <a href="https://langstonsoftware.com/tag/automation/">automation</a> </p>        
+</footer><!-- /.post-info --><p>Claude Code has three extension mechanisms that initially seem confusing: <a href="https://code.claude.com/docs/en/slash-commands#custom-slash-commands">slash commands</a>, <a href="https://code.claude.com/docs/en/sub-agents">subagents</a>, and <a href="https://www.claude.com/blog/skills">skills</a>. The mental model that makes them clear is simple: <strong>commands are buttons, subagents are functions, and skills are <a href="https://en.wikipedia.org/wiki/Mixin">mixins</a></strong>.</p>
+<p><strong>Commands</strong> are buttons you click to trigger predefined prompts. They live in <code>.claude/commands/</code> as markdown files. When you type <code>/review-pr</code>, Claude receives that file's text as its prompt. They're perfect for team-wide standardized workflows: commit them to your repo and everyone gets the same code review checklist or testing procedure. But like buttons, they're static—no parameters, no conditional logic, just text expansion.</p>
+<p><strong>Subagents</strong> are function calls that accept input parameters and return values. They're <strong>explicitly invoked</strong> in prompts—the main agent deliberately calls them by name to delegate specific work. When invoked, the main agent describes the task (the input), the subagent executes autonomously with access to tools (Read, Edit, Bash, etc.), then reports back its results (the return value). The <code>Explore</code> subagent searches codebases, the <code>general-purpose</code> subagent handles complex multi-step work—each is a specialized function with its own signature and behavior. Note that <strong>subagents cannot access skills</strong>—skills are only available to the main agent, not to spawned subagents.</p>
+<p><strong>Skills</strong> are mixins that add reusable functionality without inheritance. Unlike subagents which are explicitly invoked, skills are <strong>implicitly loaded</strong> based on context—Claude automatically activates them when their description matches the current task. Just as a <code>ThreadingMixIn</code> class adds threading behavior to Python's <code>TCPServer</code> without making it "a kind of" threading server, Claude Skills are packages of "instructions, scripts, and resources that Claude can load when needed." They compose automatically—multiple skills activate together when relevant—and work across Claude apps, Claude Code, and the API. Skills like Excel manipulation or PDF generation inject specialized capabilities into Claude's base functionality, exactly like mixins inject methods into classes.</p>
+<p>Understanding this model clarifies when to use each: commands for repeated user invoked prompts, subagents for explicity invoked complex tasks to limit context size and scope, and skills for implicity invoked adding of domain-specific expertise in the main agent that composes across different use cases.</p>                    </article>
+                </aside><!-- /#featured -->
+                    <section id="content" class="body">
+                        <h1>Other articles</h1>
+                        <hr />
+                        <ol id="posts-list" class="hfeed">
+
+                <li><article class="hentry">
+                    <header>
+                        <h1><a href="https://langstonsoftware.com/2025/10/03/git-fetch-strategies-for-large-monorepos" rel="bookmark"
+                               title="Permalink to Git fetch strategies for large monorepos">Git fetch strategies for large monorepos</a></h1>
+                    </header>
+
+                    <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2025-10-03T12:00:00-04:00">
                 Published: Fri 03 October 2025
@@ -43,64 +72,11 @@
                 </address>
         <p>In <a href="https://langstonsoftware.com/category/git/">Git</a>.</p>
 <p>tags: <a href="https://langstonsoftware.com/tag/monorepo/">monorepo</a> </p>        
-</footer><!-- /.post-info --><p>Working with large monorepos can be challenging, especially when it comes to managing Git operations like fetching. In repositories with hundreds or thousands of branches, a simple <code>git fetch</code> can become slow and resource-intensive. Understanding how to configure fetch rules can dramatically improve your workflow.</p>
-<h2>Understanding the Default Fetch Configuration</h2>
-<p>When you clone a repository, Git automatically sets up a default fetch refspec that looks like this:</p>
-<div class="highlight"><pre><span></span><code>remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
-</code></pre></div>
-
-<p>Let's break down what this configuration means:</p>
-<ul>
-<li><code>+</code> - The plus sign allows non-fast-forward updates, meaning it will update local remote-tracking branches even if the remote branch has been rebased or force-pushed</li>
-<li><code>refs/heads/*</code> - The source pattern that matches all branches on the remote (the wildcard <code>*</code> matches any branch name)</li>
-<li><code>refs/remotes/origin/*</code> - The destination pattern where remote branches are stored locally</li>
-</ul>
-<p>This default configuration tells Git to fetch <strong>every single branch</strong> from the remote repository and store them as remote-tracking branches in your local repository.</p>
-<h2>The Problem with Large Monorepos</h2>
-<p>In a large monorepo, this default behavior can cause several issues:</p>
-<ol>
-<li><strong>Slow fetch operations</strong> - Downloading metadata for thousands of branches takes time</li>
-<li><strong>Cluttered branch listings</strong> - Commands like <code>git branch -r</code> become unwieldy</li>
-</ol>
-<h2>Using Fetch Exclusions</h2>
-<p>Git provides a solution through negative refspecs, which allow you to exclude specific branches from being fetched. You can configure exclusions using the <code>remote.origin.fetch</code> configuration.</p>
-<h3>Excluding Feature Branches</h3>
-<p>A common pattern is to exclude short-lived feature branches while keeping main development branches:</p>
-<div class="highlight"><pre><span></span><code>git<span class="w"> </span>config<span class="w"> </span>--add<span class="w"> </span>remote.origin.fetch<span class="w"> </span><span class="s2">&quot;^refs/heads/feature/*&quot;</span>
-</code></pre></div>
-
-<p>The <code>^</code> prefix creates a negative refspec that excludes matching branches.</p>
-<h3>Fetching Only Specific Branches</h3>
-<p>For even more control, you might want to fetch only specific branches:</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Remove all fetch rules</span>
-git<span class="w"> </span>config<span class="w"> </span>--unset-all<span class="w"> </span>remote.origin.fetch
-
-<span class="c1"># Add your first specific branches you care about</span>
-git<span class="w"> </span>config<span class="w"> </span>remote.origin.fetch<span class="w"> </span><span class="s2">&quot;+refs/heads/main:refs/remotes/origin/main&quot;</span>
-<span class="c1"># Add additional specific branches</span>
-git<span class="w"> </span>config<span class="w"> </span>--add<span class="w"> </span>remote.origin.fetch<span class="w"> </span><span class="s2">&quot;+refs/heads/release/release-latest:refs/remotes/origin/release/release-latest&quot;</span>
-</code></pre></div>
-
-<h2>Fetching On-Demand</h2>
-<p>Even with exclusions configured, you might occasionally need to fetch a specific branch that's normally excluded:</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Fetch a specific excluded branch</span>
-git<span class="w"> </span>fetch<span class="w"> </span>origin<span class="w"> </span>feature/important-fix:refs/remotes/origin/feature/important-fix
-</code></pre></div>
-
-<h2>Checking Your Current Configuration</h2>
-<p>To see your current fetch configuration:</p>
-<div class="highlight"><pre><span></span><code>git<span class="w"> </span>config<span class="w"> </span>--get-all<span class="w"> </span>remote.origin.fetch
-</code></pre></div>
-
-<p>This will show all configured fetch refspecs for the origin remote.</p>
-<h2>Conclusion</h2>
-<p>Thoughtful configuration of Git fetch rules can significantly improve your experience working with large monorepos. By excluding unnecessary branches and fetching only what you need, you can reduce fetch times, save disk space, and keep your local repository focused on the branches that matter to your work.</p>
-<p>Remember that these configurations are local to your repository clone, so each developer can customize their fetch strategy based on their specific needs and workflow.</p>                    </article>
-                </aside><!-- /#featured -->
-                    <section id="content" class="body">
-                        <h1>Other articles</h1>
-                        <hr />
-                        <ol id="posts-list" class="hfeed">
+</footer><!-- /.post-info -->                        <p>Working with large monorepos can be challenging, especially when it comes to managing Git operations like fetching. In repositories with hundreds or thousands of branches, a simple <code>git fetch</code> can become slow and resource-intensive. Understanding how to configure fetch rules can dramatically improve your workflow.</p>
+<h2>Understanding the Default Fetch Configuration …</h2>
+                        <a class="readmore" href="https://langstonsoftware.com/2025/10/03/git-fetch-strategies-for-large-monorepos">read more</a>
+                    </div><!-- /.entry-content -->
+                </article></li>
 
                 <li><article class="hentry">
                     <header>
@@ -288,29 +264,6 @@ different build hosts, enabling hermetic …</p>
 </footer><!-- /.post-info -->                        <p>I recently had a project that had me delving into the following blog post on assembly versioning: <a href="https://blogs.msdn.microsoft.com/jjameson/2009/04/03/best-practices-for-net-assembly-versioning/">https://blogs.msdn.microsoft.com/jjameson/2009/04/03/best-practices-for-net-assembly-versioning/</a></p>
 <p>The blog post had a couple of problems. The first that came to mind was that the linked examples were using Team Foundation …</p>
                         <a class="readmore" href="https://langstonsoftware.com/2017/06/05/automatic-versioning-of-c-mvc-applications">read more</a>
-                    </div><!-- /.entry-content -->
-                </article></li>
-
-                <li><article class="hentry">
-                    <header>
-                        <h1><a href="https://langstonsoftware.com/2017/05/31/why-put-single-lines-of-code-into-a-separate-function" rel="bookmark"
-                               title="Permalink to Why put single lines of code into a separate function?">Why put single lines of code into a separate function?</a></h1>
-                    </header>
-
-                    <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2017-05-31T08:00:00-04:00">
-                Published: Wed 31 May 2017
-        </abbr>
-
-                <address class="vcard author">
-                        By                                 <a class="url fn" href="https://langstonsoftware.com/author/thomas-langston.html">Thomas Langston</a>
-                </address>
-        <p>In <a href="https://langstonsoftware.com/category/refactoring/">Refactoring</a>.</p>
-        
-</footer><!-- /.post-info -->                        <p><a href="/2017/04/09/refactoring-is-the-key-step-in-writing-business-software/">When I wrote previously about refactoring</a> I introduced the clean coding concepts of <strong>creating a table of contents</strong> , <strong>removing duplicated instructions</strong> , and <strong>never remembering more than is required</strong> .</p>
-<p>There often isn’t much disagreement from developers over <strong>removing duplicated instructions</strong> . <strong>Never remembering more than is required</strong> sometimes conflicts with style …</p>
-                        <a class="readmore" href="https://langstonsoftware.com/2017/05/31/why-put-single-lines-of-code-into-a-separate-function">read more</a>
                     </div><!-- /.entry-content -->
                 </article></li>
                     </ol><!-- /#posts-list -->

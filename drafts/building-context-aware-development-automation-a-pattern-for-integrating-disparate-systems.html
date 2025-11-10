@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+        <head>
+                        <meta charset="utf-8" />
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                        <meta name="generator" content="Pelican" />
+                        <title>Building Context-Aware Development Automation: A Pattern for Integrating Disparate Systems</title>
+                        <link rel="stylesheet" href="https://langstonsoftware.com/theme/css/main.css" />
+                                <link href="https://langstonsoftware.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Langston Software Atom Feed" />
+    <meta name="description" content="[TODO: Write hook - What's the problem this solves? Why should engineers care?] Modern development teams use a constellation of disconnected..." />
+        </head>
+
+        <body id="index" class="home">
+                <header id="banner" class="body">
+                        <h1><a href="https://langstonsoftware.com/">Langston Software</a></h1>
+                        <nav><ul>
+                                                <li><a href="https://langstonsoftware.com/category/angularjs/">AngularJS</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/aspnet-mvc/">ASP.NET MVC</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/bazel/">Bazel</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/c/">C#</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/career/">Career</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/development-tools/">Development Tools</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/frameworks-libraries/">Frameworks & Libraries</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/git/">Git</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/javascript/">JavaScript</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/python/">Python</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/refactoring/">Refactoring</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/security/">Security</a></li>
+                                                <li class="active"><a href="https://langstonsoftware.com/category/software-architecture/">Software Architecture</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/sql/">SQL</a></li>
+                                                <li><a href="https://langstonsoftware.com/category/tools/">Tools</a></li>
+                        </ul></nav>
+                </header><!-- /#banner -->
+  <section id="content" class="body">
+    <article>
+      <header>
+        <h1 class="entry-title">
+          <a href="https://langstonsoftware.com/drafts/building-context-aware-development-automation-a-pattern-for-integrating-disparate-systems.html" rel="bookmark"
+             title="Permalink to Building Context-Aware Development Automation: A Pattern for Integrating Disparate Systems">Building Context-Aware Development Automation: A Pattern for Integrating Disparate Systems</a></h1>
+      </header>
+
+      <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2025-10-22T12:00:00-04:00">
+                Published: Wed 22 October 2025
+        </abbr>
+
+                <address class="vcard author">
+                        By                                 <a class="url fn" href="https://langstonsoftware.com/author/thomas-langston.html">Thomas Langston</a>
+                </address>
+        <p>In <a href="https://langstonsoftware.com/category/software-architecture/">Software Architecture</a>.</p>
+<p>tags: <a href="https://langstonsoftware.com/tag/automation/">automation</a> <a href="https://langstonsoftware.com/tag/integration/">integration</a> <a href="https://langstonsoftware.com/tag/architecture/">architecture</a> <a href="https://langstonsoftware.com/tag/api/">api</a> </p>        
+</footer><!-- /.post-info -->        <p>[TODO: Write hook - What's the problem this solves? Why should engineers care?]</p>
+<p>Modern development teams use a constellation of disconnected tools: GitHub for code, Jira for tracking, Slack for communication, CI systems for builds, and custom databases for everything else. When we automate workflows across these systems, we often create tools that operate in isolation—they know <em>what</em> changed, but not <em>why</em>, <em>who cares</em>, or <em>what to do next</em>.</p>
+<p>[TODO: Add concrete example - maybe "Fleetshift generates 750 PRs per day, but without context, teams drown in noise"]</p>
+<p>This article explores a pattern for building context-aware automation tools that integrate multiple data sources to enable intelligent decision-making. We'll build a practical example using a CLI tool that can be deployed as a cron job, CI pipeline, or service.</p>
+<h2>The Core Pattern: Fetch, Enrich, Act</h2>
+<p>[TODO: Explain the three-phase pattern]</p>
+<p>At its heart, context-aware automation follows a simple three-phase pattern:</p>
+<ol>
+<li><strong>Fetch</strong>: Gather raw data from a primary source</li>
+<li><strong>Enrich</strong>: Augment with context from related systems</li>
+<li><strong>Act</strong>: Make intelligent decisions based on complete context</li>
+</ol>
+<p>[TODO: Add architecture diagram - ASCII or describe visually]</p>
+<div class="highlight"><pre><span></span><code>┌──────────────────────┐
+│   Data Sources       │
+├──────────────────────┤
+│ • GitHub API         │      ┌─────────────────────┐
+│ • Jira API           │─────▶│  Enrichment Layer   │
+│ • Config Files       │      │  (CLI Tool)         │
+│ • Database Tables    │      └──────────┬──────────┘
+│ • CI Server APIs     │                 │
+│ • Cloud Storage      │                 ▼
+└──────────────────────┘         ┌───────────────────┐
+                                 │   Action Layer    │
+                                 ├───────────────────┤
+                                 │ • Slack           │
+                                 │ • Email           │
+                                 │ • File Output     │
+                                 └───────────────────┘
+</code></pre></div>
+
+<p>[TODO: Explain why this pattern works - separation of concerns, testability, extensibility]</p>
+<h2>Understanding Data Sources</h2>
+<p>[TODO: Brief intro about why we need multiple sources]</p>
+<p>Before we build our tool, let's understand what each data source provides and when to use it:</p>
+<h3>GitHub API</h3>
+<p>[TODO: What context it provides]
+- PR metadata: author, reviewers, labels, status
+- Commit history and diffs
+- CI/CD status checks
+- Review comments and approvals</p>
+<p>[TODO: Access patterns and considerations]</p>
+<h3>Jira API</h3>
+<p>[TODO: What context it provides]
+- Ticket status and assignees
+- Sprint/release information
+- Priority and issue type
+- Custom fields and metadata</p>
+<p>[TODO: Linking strategy - how to connect GitHub PRs to Jira tickets]</p>
+<h3>Configuration Files in Source</h3>
+<p>[TODO: What context they provide]
+- <code>CODEOWNERS</code>: Service ownership mapping
+- <code>team.yaml</code> or similar: Team structure and contact info
+- Service manifests: Deployment configuration</p>
+<p>[TODO: Why config-as-code is valuable - version control, discoverability]</p>
+<h3>Custom Database Tables</h3>
+<p>[TODO: What context they provide]
+- Team rosters and membership
+- On-call rotations
+- Service registry and metadata
+- Historical analytics</p>
+<p>[TODO: When to use database vs config files]</p>
+<h3>CI Server APIs</h3>
+<p>[TODO: What context they provide]
+- Build status and test results
+- Deployment history
+- Artifact locations
+- Performance metrics</p>
+<p>[TODO: Common patterns - Jenkins, GitHub Actions, CircleCI]</p>
+<h3>Cloud Storage Buckets</h3>
+<p>[TODO: What context they provide]
+- Build artifacts and logs
+- Historical data and analytics
+- Backup configurations</p>
+<p>[TODO: Access patterns and caching considerations]</p>
+<h2>Building a CLI Tool: Complete Example</h2>
+<p>[TODO: Introduce the use case]</p>
+<p>Let's build a practical tool that notifies teams about their open PRs that are ready to merge. This demonstrates all three phases: fetch from GitHub, enrich with team ownership data, and notify via Slack.</p>
+<h3>Project Structure</h3>
+<p>[TODO: Show directory layout]</p>
+<div class="highlight"><pre><span></span><code>pr-notifier/
+├── pr_notifier/
+│   ├── __init__.py
+│   ├── cli.py           # Entry point
+│   ├── enrichment.py    # Context enrichment logic
+│   ├── clients/
+│   │   ├── github.py    # GitHub API wrapper
+│   │   ├── slack.py     # Slack API wrapper
+│   │   └── ownership.py # Ownership config parser
+│   └── models.py        # Data models
+├── config.yaml          # Configuration
+├── requirements.txt
+└── README.md
+</code></pre></div>
+
+<h3>Configuration Schema</h3>
+<p>[TODO: Show example config.yaml]</p>
+<div class="highlight"><pre><span></span><code><span class="nt">github</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${GITHUB_TOKEN}</span>
+<span class="w">  </span><span class="nt">org</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">your-org</span>
+<span class="w">  </span><span class="nt">repos</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo1</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo2</span>
+
+<span class="nt">slack</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${SLACK_TOKEN}</span>
+<span class="w">  </span><span class="nt">default_channel</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;#dev-notifications&quot;</span>
+
+<span class="nt">ownership</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">config_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;.github/CODEOWNERS&quot;</span>
+<span class="w">  </span><span class="nt">team_mapping</span><span class="p">:</span>
+<span class="w">    </span><span class="s">&quot;@org/platform&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;#platform-team&quot;</span>
+<span class="w">    </span><span class="s">&quot;@org/frontend&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;#frontend-team&quot;</span>
+</code></pre></div>
+
+<h3>Core Implementation</h3>
+<p>[TODO: Write complete, runnable code example - 100-150 lines]</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># pr_notifier/enrichment.py</span>
+
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">EnrichedPR</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A PR with additional context from multiple sources.&quot;&quot;&quot;</span>
+    <span class="n">pr_number</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">author</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">repo</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">url</span><span class="p">:</span> <span class="nb">str</span>
+
+    <span class="c1"># Enriched context</span>
+    <span class="n">owner_team</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">slack_channel</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">ci_status</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">ready_to_merge</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="n">blocking_reasons</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+
+<span class="k">class</span> <span class="nc">PREnricher</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Enriches PR data with context from multiple sources.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">github_client</span><span class="p">,</span> <span class="n">ownership_config</span><span class="p">,</span> <span class="n">ci_client</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">github</span> <span class="o">=</span> <span class="n">github_client</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ownership</span> <span class="o">=</span> <span class="n">ownership_config</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ci</span> <span class="o">=</span> <span class="n">ci_client</span>
+
+    <span class="k">def</span> <span class="nf">enrich</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pr_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnrichedPR</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Take raw PR data and enrich with context.</span>
+
+<span class="sd">        This is where the magic happens - we combine data from</span>
+<span class="sd">        multiple sources to build a complete picture.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># [TODO: Implement enrichment logic]</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">is_ready_to_merge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pr_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Determine if PR is ready to merge and why/why not.</span>
+
+<span class="sd">        Returns: (ready, blocking_reasons)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">blocking_reasons</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Check approvals</span>
+        <span class="c1"># [TODO: Check if PR has required approvals]</span>
+
+        <span class="c1"># Check CI status</span>
+        <span class="c1"># [TODO: Check if all CI checks pass]</span>
+
+        <span class="c1"># Check for merge conflicts</span>
+        <span class="c1"># [TODO: Check mergeable state]</span>
+
+        <span class="c1"># Check for DO NOT MERGE labels</span>
+        <span class="c1"># [TODO: Check labels]</span>
+
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">blocking_reasons</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">blocking_reasons</span>
+
+<span class="c1"># pr_notifier/cli.py</span>
+
+<span class="kn">import</span> <span class="nn">click</span>
+<span class="kn">from</span> <span class="nn">pr_notifier.clients.github</span> <span class="kn">import</span> <span class="n">GitHubClient</span>
+<span class="kn">from</span> <span class="nn">pr_notifier.clients.slack</span> <span class="kn">import</span> <span class="n">SlackClient</span>
+<span class="kn">from</span> <span class="nn">pr_notifier.clients.ownership</span> <span class="kn">import</span> <span class="n">OwnershipConfig</span>
+<span class="kn">from</span> <span class="nn">pr_notifier.enrichment</span> <span class="kn">import</span> <span class="n">PREnricher</span>
+
+<span class="nd">@click</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+<span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s1">&#39;--config&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;config.yaml&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Path to config file&#39;</span><span class="p">)</span>
+<span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s1">&#39;--dry-run&#39;</span><span class="p">,</span> <span class="n">is_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Print notifications without sending&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">config</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dry_run</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Notify teams about their open PRs that are ready to merge.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># [TODO: Load configuration]</span>
+
+    <span class="c1"># [TODO: Initialize clients]</span>
+    <span class="n">github</span> <span class="o">=</span> <span class="n">GitHubClient</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;github&#39;</span><span class="p">])</span>
+    <span class="n">slack</span> <span class="o">=</span> <span class="n">SlackClient</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;slack&#39;</span><span class="p">])</span>
+    <span class="n">ownership</span> <span class="o">=</span> <span class="n">OwnershipConfig</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;ownership&#39;</span><span class="p">])</span>
+
+    <span class="c1"># [TODO: Initialize enricher]</span>
+    <span class="n">enricher</span> <span class="o">=</span> <span class="n">PREnricher</span><span class="p">(</span><span class="n">github</span><span class="p">,</span> <span class="n">ownership</span><span class="p">,</span> <span class="n">ci_client</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="c1"># [TODO: Fetch open PRs]</span>
+    <span class="n">open_prs</span> <span class="o">=</span> <span class="n">github</span><span class="o">.</span><span class="n">get_open_prs</span><span class="p">(</span><span class="n">org</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;github&#39;</span><span class="p">][</span><span class="s1">&#39;org&#39;</span><span class="p">])</span>
+
+    <span class="c1"># [TODO: Enrich each PR]</span>
+    <span class="n">enriched_prs</span> <span class="o">=</span> <span class="p">[</span><span class="n">enricher</span><span class="o">.</span><span class="n">enrich</span><span class="p">(</span><span class="n">pr</span><span class="p">)</span> <span class="k">for</span> <span class="n">pr</span> <span class="ow">in</span> <span class="n">open_prs</span><span class="p">]</span>
+
+    <span class="c1"># [TODO: Group by team]</span>
+    <span class="n">by_team</span> <span class="o">=</span> <span class="n">group_prs_by_team</span><span class="p">(</span><span class="n">enriched_prs</span><span class="p">)</span>
+
+    <span class="c1"># [TODO: Send notifications]</span>
+    <span class="k">for</span> <span class="n">team</span><span class="p">,</span> <span class="n">prs</span> <span class="ow">in</span> <span class="n">by_team</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">ready_prs</span> <span class="o">=</span> <span class="p">[</span><span class="n">pr</span> <span class="k">for</span> <span class="n">pr</span> <span class="ow">in</span> <span class="n">prs</span> <span class="k">if</span> <span class="n">pr</span><span class="o">.</span><span class="n">ready_to_merge</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">ready_prs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">dry_run</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Would notify </span><span class="si">{</span><span class="n">team</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">ready_prs</span><span class="p">)</span><span class="si">}</span><span class="s2"> PRs ready&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">slack</span><span class="o">.</span><span class="n">notify_team</span><span class="p">(</span><span class="n">team</span><span class="p">,</span> <span class="n">ready_prs</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">group_prs_by_team</span><span class="p">(</span><span class="n">prs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">EnrichedPR</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">EnrichedPR</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Group PRs by owning team.&quot;&quot;&quot;</span>
+    <span class="c1"># [TODO: Implement grouping logic]</span>
+    <span class="k">pass</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</code></pre></div>
+
+<p>[TODO: Add more implementation details - GitHub client, Slack client, etc.]</p>
+<h3>Running the Tool</h3>
+<p>[TODO: Show usage examples]</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Install dependencies</span>
+pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+
+<span class="c1"># Run with dry-run to test</span>
+python<span class="w"> </span>-m<span class="w"> </span>pr_notifier.cli<span class="w"> </span>--dry-run
+
+<span class="c1"># Run for real</span>
+python<span class="w"> </span>-m<span class="w"> </span>pr_notifier.cli
+
+<span class="c1"># Use custom config</span>
+python<span class="w"> </span>-m<span class="w"> </span>pr_notifier.cli<span class="w"> </span>--config<span class="w"> </span>prod-config.yaml
+</code></pre></div>
+
+<h2>From CLI to Production: Deployment Models</h2>
+<p>[TODO: Intro - same core logic, different deployment]</p>
+<p>The beauty of starting with a CLI tool is that the core logic remains the same across deployment models. Let's explore how to adapt this tool for different production scenarios.</p>
+<h3>Deployment Model 1: Cron Job</h3>
+<p>[TODO: When to use - scheduled checks, low volume]</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Run every 15 minutes during business hours (9 AM - 6 PM EST)</span>
+*/15<span class="w"> </span><span class="m">9</span>-18<span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span><span class="m">1</span>-5<span class="w"> </span>/usr/local/bin/pr-notifier<span class="w"> </span>--config<span class="w"> </span>/etc/pr-notifier.yaml
+</code></pre></div>
+
+<p><strong>Key Considerations:</strong></p>
+<p>[TODO: State management]
+- How to avoid duplicate notifications
+- Tracking what's already been sent</p>
+<p>[TODO: Error handling]
+- What happens if the job fails
+- Logging and alerting</p>
+<p>[TODO: Code example of state tracking]</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># pr_notifier/state.py</span>
+
+<span class="k">class</span> <span class="nc">NotificationState</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Track which PRs have already been notified.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state_file</span> <span class="o">=</span> <span class="n">state_file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">notified_prs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">has_notified</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pr_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if we&#39;ve already notified about this PR.&quot;&quot;&quot;</span>
+        <span class="c1"># [TODO: Implement check]</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">mark_notified</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pr_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Mark PR as notified.&quot;&quot;&quot;</span>
+        <span class="c1"># [TODO: Implement marking]</span>
+        <span class="k">pass</span>
+</code></pre></div>
+
+<h3>Deployment Model 2: CI Pipeline</h3>
+<p>[TODO: When to use - integrated with development workflow]</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># .github/workflows/notify-prs.yml</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PR Notifications</span>
+
+<span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">schedule</span><span class="p">:</span>
+<span class="w">    </span><span class="c1"># Run every 2 hours during business hours</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">cron</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;0</span><span class="nv"> </span><span class="s">9-17/2</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">1-5&#39;</span>
+<span class="w">  </span><span class="nt">workflow_dispatch</span><span class="p">:</span><span class="w">  </span><span class="c1"># Allow manual trigger</span>
+
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">notify</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v3</span>
+
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Set up Python</span>
+<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v4</span>
+<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;3.11&#39;</span>
+
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install dependencies</span>
+<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">          </span><span class="no">pip install -r requirements.txt</span>
+
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run PR notifier</span>
+<span class="w">        </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">GITHUB_TOKEN</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.GITHUB_TOKEN }}</span>
+<span class="w">          </span><span class="nt">SLACK_TOKEN</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.SLACK_TOKEN }}</span>
+<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">          </span><span class="no">python -m pr_notifier.cli</span>
+</code></pre></div>
+
+<p><strong>Key Considerations:</strong></p>
+<p>[TODO: Secrets management]
+- Using GitHub secrets vs external secret stores
+- Rotating tokens</p>
+<p>[TODO: Rate limits]
+- GitHub Actions has API rate limit considerations
+- How to handle them gracefully</p>
+<p>[TODO: State persistence]
+- Where to store state in CI (artifacts, external DB)</p>
+<h3>Deployment Model 3: Long-Running Service</h3>
+<p>[TODO: When to use - real-time webhooks, high volume]</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># pr_notifier/server.py</span>
+
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">request</span>
+<span class="kn">from</span> <span class="nn">pr_notifier.enrichment</span> <span class="kn">import</span> <span class="n">PREnricher</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/webhook/pr&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">handle_pr_event</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Handle GitHub PR webhook events.</span>
+
+<span class="sd">    This runs in real-time when PRs are opened/updated.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">event</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">json</span>
+    <span class="n">event_type</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;X-GitHub-Event&#39;</span><span class="p">)</span>
+
+    <span class="c1"># [TODO: Filter for relevant events]</span>
+    <span class="k">if</span> <span class="n">event_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;pull_request&#39;</span><span class="p">,</span> <span class="s1">&#39;pull_request_review&#39;</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;ignored&#39;</span><span class="p">},</span> <span class="mi">200</span>
+
+    <span class="c1"># [TODO: Enrich the PR]</span>
+    <span class="n">enriched</span> <span class="o">=</span> <span class="n">enricher</span><span class="o">.</span><span class="n">enrich</span><span class="p">(</span><span class="n">event</span><span class="p">[</span><span class="s1">&#39;pull_request&#39;</span><span class="p">])</span>
+
+    <span class="c1"># [TODO: Decide if notification is needed]</span>
+    <span class="k">if</span> <span class="n">should_notify</span><span class="p">(</span><span class="n">enriched</span><span class="p">):</span>
+        <span class="n">slack</span><span class="o">.</span><span class="n">notify_team</span><span class="p">(</span><span class="n">enriched</span><span class="o">.</span><span class="n">owner_team</span><span class="p">,</span> <span class="p">[</span><span class="n">enriched</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;processed&#39;</span><span class="p">},</span> <span class="mi">200</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/health&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">health</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Health check endpoint.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;healthy&#39;</span><span class="p">},</span> <span class="mi">200</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;0.0.0.0&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8080</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Key Considerations:</strong></p>
+<p>[TODO: Reliability and error handling]
+- Webhook retries from GitHub
+- Dead letter queues for failed processing</p>
+<p>[TODO: Scaling]
+- Handling high webhook volume
+- Async processing with queues</p>
+<p>[TODO: Event deduplication]
+- GitHub may send duplicate webhooks
+- Idempotency keys</p>
+<p>[TODO: Deployment infrastructure]</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># docker-compose.yml</span>
+<span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;3.8&#39;</span>
+<span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">pr-notifier</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span>
+<span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;8080:8080&quot;</span>
+<span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GITHUB_TOKEN=${GITHUB_TOKEN}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SLACK_TOKEN=${SLACK_TOKEN}</span>
+<span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">unless-stopped</span>
+</code></pre></div>
+
+<h3>Deployment Model 4: Hybrid Approach</h3>
+<p>[TODO: When to use - combination of real-time and scheduled]</p>
+<p>Often, the best solution combines multiple deployment models:</p>
+<ul>
+<li><strong>CLI tool</strong>: For ad-hoc queries and debugging</li>
+<li><strong>Cron job</strong>: For scheduled digest notifications</li>
+<li><strong>Webhook service</strong>: For real-time critical alerts</li>
+<li><strong>CI pipeline</strong>: For periodic health checks</li>
+</ul>
+<p>[TODO: Example architecture showing how they work together]</p>
+<p>[TODO: Code example of shared core with different entry points]</p>
+<h2>Technical Challenges and Solutions</h2>
+<p>[TODO: Intro - real problems you'll encounter]</p>
+<p>Building production integration tools surfaces several recurring technical challenges. Here are solutions to the most common ones.</p>
+<h3>Challenge 1: API Rate Limiting</h3>
+<p>[TODO: Problem statement - example with GitHub's 5000 req/hour limit]</p>
+<p><strong>Problem:</strong> GitHub allows 5,000 requests per hour for authenticated requests. If you need to query 1,000 repositories with multiple API calls each, you'll quickly hit limits.</p>
+<p><strong>Solutions:</strong></p>
+<p>[TODO: Solution 1 - Caching]</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Example: Redis-backed cache with TTL</span>
+<span class="kn">import</span> <span class="nn">redis</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="k">class</span> <span class="nc">CachedGitHubClient</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">github_client</span><span class="p">,</span> <span class="n">redis_client</span><span class="p">,</span> <span class="n">ttl</span><span class="o">=</span><span class="mi">300</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">github</span> <span class="o">=</span> <span class="n">github_client</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cache</span> <span class="o">=</span> <span class="n">redis_client</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ttl</span> <span class="o">=</span> <span class="n">ttl</span>  <span class="c1"># 5 minutes</span>
+
+    <span class="k">def</span> <span class="nf">get_pr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">pr_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="n">cache_key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;pr:</span><span class="si">{</span><span class="n">repo</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">pr_number</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="c1"># Try cache first</span>
+        <span class="n">cached</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cache_key</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">cached</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">cached</span><span class="p">)</span>
+
+        <span class="c1"># Fetch from API</span>
+        <span class="n">pr_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">get_pr</span><span class="p">(</span><span class="n">repo</span><span class="p">,</span> <span class="n">pr_number</span><span class="p">)</span>
+
+        <span class="c1"># Cache for next time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">setex</span><span class="p">(</span><span class="n">cache_key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ttl</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">pr_data</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">pr_data</span>
+</code></pre></div>
+
+<p>[TODO: Solution 2 - GraphQL for batching]
+[TODO: Solution 3 - Conditional requests with ETags]
+[TODO: Solution 4 - Strategic pagination]</p>
+<h3>Challenge 2: Identity Mapping Across Systems</h3>
+<p>[TODO: Problem statement - GitHub user != Slack user != Jira user]</p>
+<p><strong>Problem:</strong> Your automation needs to map the same person across different systems, but each system uses different identifiers:
+- GitHub: <code>@octocat</code>
+- Slack: <code>U01234ABCD</code>
+- Jira: <code>john.doe@company.com</code></p>
+<p><strong>Solutions:</strong></p>
+<p>[TODO: Solution 1 - Mapping file in source]</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># team-mapping.yaml</span>
+<span class="nt">users</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">github</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">octocat</span>
+<span class="w">    </span><span class="nt">slack</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">U01234ABCD</span>
+<span class="w">    </span><span class="nt">jira</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">john.doe@company.com</span>
+<span class="w">    </span><span class="nt">email</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">john.doe@company.com</span>
+</code></pre></div>
+
+<p>[TODO: Solution 2 - Database table for dynamic updates]
+[TODO: Solution 3 - SCIM/IdP integration]
+[TODO: Solution 4 - Heuristic matching with fallbacks]</p>
+<h3>Challenge 3: Configuration Management</h3>
+<p>[TODO: Problem statement - teams change, repos change, ownership changes]</p>
+<p><strong>Problem:</strong> Service ownership and team structure changes frequently. How do you keep configuration up-to-date without manual maintenance?</p>
+<p><strong>Solutions:</strong></p>
+<p>[TODO: Solution 1 - CODEOWNERS file]
+[TODO: Solution 2 - Service catalog/registry]
+[TODO: Solution 3 - Validation in CI]
+[TODO: Solution 4 - Self-service updates]</p>
+<h3>Challenge 4: Graceful Degradation</h3>
+<p>[TODO: Problem statement - one API down shouldn't break everything]</p>
+<p><strong>Problem:</strong> Your tool integrates 5 different APIs. When Jira goes down, should the entire tool fail?</p>
+<p><strong>Solutions:</strong></p>
+<p>[TODO: Solution - Partial enrichment pattern]</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">ResilientEnricher</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">enrich</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pr_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnrichedPR</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Enrich with whatever data is available.&quot;&quot;&quot;</span>
+        <span class="n">enriched</span> <span class="o">=</span> <span class="n">EnrichedPR</span><span class="o">.</span><span class="n">from_pr</span><span class="p">(</span><span class="n">pr_data</span><span class="p">)</span>
+
+        <span class="c1"># Try each enrichment independently</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">enriched</span><span class="o">.</span><span class="n">owner_team</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ownership</span><span class="o">.</span><span class="n">get_owner</span><span class="p">(</span><span class="n">pr_data</span><span class="p">[</span><span class="s1">&#39;repo&#39;</span><span class="p">])</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to enrich ownership: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">enriched</span><span class="o">.</span><span class="n">owner_team</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">enriched</span><span class="o">.</span><span class="n">jira_tickets</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">jira</span><span class="o">.</span><span class="n">find_tickets</span><span class="p">(</span><span class="n">pr_data</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to enrich Jira tickets: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">enriched</span><span class="o">.</span><span class="n">jira_tickets</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Continue with partial data</span>
+        <span class="k">return</span> <span class="n">enriched</span>
+</code></pre></div>
+
+<p>[TODO: Circuit breaker pattern]
+[TODO: Fallback values and defaults]</p>
+<h3>Challenge 5: Testing Against Live APIs</h3>
+<p>[TODO: Problem statement - hard to test, expensive, slow]</p>
+<p><strong>Problem:</strong> Running tests against real GitHub/Slack/Jira APIs is slow, expensive, and unreliable.</p>
+<p><strong>Solutions:</strong></p>
+<p>[TODO: Solution 1 - Record/replay with VCR.py]
+[TODO: Solution 2 - Mock services]
+[TODO: Solution 3 - Contract testing]
+[TODO: Solution 4 - Integration test environments]</p>
+<h2>Real-World Example: Extending Fleetshift</h2>
+<p>[TODO: Tie back to the Spotify example from introduction]</p>
+<p>Let's see how this pattern applies to a real system. At Spotify, Fleetshift generates 750+ PRs per day across thousands of repositories. Without context, teams would drown in notifications.</p>
+<p>[TODO: Describe what you might build]</p>
+<p>Here's how you might extend Fleetshift with contextual notifications:</p>
+<h3>Architecture</h3>
+<p>[TODO: Diagram showing Fleetshift → Enrichment → Slack]</p>
+<h3>Key Enrichments</h3>
+<p>[TODO: List specific enrichments relevant to Fleetshift]
+1. <strong>Ownership mapping</strong>: Which team owns the affected repo
+2. <strong>Change classification</strong>: Is this a security patch, dependency update, or refactor?
+3. <strong>Blast radius</strong>: How many services are affected?
+4. <strong>Merge status</strong>: Can this auto-merge or needs review?
+5. <strong>Historical success rate</strong>: Do similar PRs usually succeed?</p>
+<h3>Notification Strategy</h3>
+<p>[TODO: Describe notification routing]
+- <strong>Auto-mergeable PRs</strong>: Silent, log to team channel only
+- <strong>Blocked PRs</strong>: Direct notification to owners with blocking reasons
+- <strong>High-impact PRs</strong>: Escalate to team leads
+- <strong>Failed auto-merges</strong>: Immediate notification with error details</p>
+<h3>Impact</h3>
+<p>[TODO: Hypothetical results - reduced noise, faster response, etc.]</p>
+<h2>Lessons and Recommendations</h2>
+<p>[TODO: Distill key learnings]</p>
+<p>After building systems like this across multiple projects, here are the patterns that consistently work:</p>
+<h3>Start Simple, Evolve Gradually</h3>
+<p>[TODO: CLI → Cron → Service progression]</p>
+<p>Don't build a full microservice architecture on day one. Start with a CLI tool you can run manually, then:
+1. Add it to cron for scheduled runs
+2. Move to CI for better integration
+3. Add webhooks for real-time events when needed</p>
+<h3>Config in Source When Possible</h3>
+<p>[TODO: Benefits of config-as-code]</p>
+<p>Store team mappings, ownership, and configuration in Git:
+- <strong>Discoverability</strong>: Developers can find it
+- <strong>Version control</strong>: Changes are tracked and reviewable
+- <strong>Self-service</strong>: Teams can update their own config</p>
+<p>Use databases for:
+- High-frequency updates (on-call rotations)
+- Data that needs complex querying
+- User-specific preferences</p>
+<h3>Cache Aggressively, Invalidate Carefully</h3>
+<p>[TODO: Caching strategy recommendations]</p>
+<ul>
+<li>Cache reference data (teams, repos) for hours</li>
+<li>Cache API responses for minutes</li>
+<li>Use conditional requests (ETags) for frequent polls</li>
+<li>Invalidate on webhooks when possible</li>
+</ul>
+<h3>Build Observability from Day One</h3>
+<p>[TODO: Metrics and logging recommendations]</p>
+<p>Don't wait until production to add logging:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Log structured data for each enrichment</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;pr.enriched&quot;</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="p">{</span>
+    <span class="s2">&quot;pr_number&quot;</span><span class="p">:</span> <span class="n">pr</span><span class="o">.</span><span class="n">number</span><span class="p">,</span>
+    <span class="s2">&quot;repo&quot;</span><span class="p">:</span> <span class="n">pr</span><span class="o">.</span><span class="n">repo</span><span class="p">,</span>
+    <span class="s2">&quot;owner_team&quot;</span><span class="p">:</span> <span class="n">enriched</span><span class="o">.</span><span class="n">owner_team</span><span class="p">,</span>
+    <span class="s2">&quot;enrichment_time_ms&quot;</span><span class="p">:</span> <span class="n">elapsed</span><span class="p">,</span>
+    <span class="s2">&quot;data_sources_used&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;github&quot;</span><span class="p">,</span> <span class="s2">&quot;ownership&quot;</span><span class="p">,</span> <span class="s2">&quot;jira&quot;</span><span class="p">]</span>
+<span class="p">})</span>
+</code></pre></div>
+
+<p>Key metrics to track:
+- Enrichment latency per source
+- API error rates
+- Cache hit rates
+- Notifications sent per team
+- False positive rate (notifications users ignore)</p>
+<h3>Make It Easy to Run Locally</h3>
+<p>[TODO: Developer experience recommendations]</p>
+<p>Your teammates should be able to:
+- Run the tool locally with <code>--dry-run</code>
+- Test against production data safely
+- Debug enrichment logic step-by-step</p>
+<p>[TODO: Example of good local dev experience]</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Easy setup</span>
+git<span class="w"> </span>clone<span class="w"> </span>...
+pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+cp<span class="w"> </span>.env.example<span class="w"> </span>.env
+<span class="c1"># Edit .env with your tokens</span>
+
+<span class="c1"># Test without side effects</span>
+./pr-notifier<span class="w"> </span>--dry-run<span class="w"> </span>--verbose
+
+<span class="c1"># Debug specific PR</span>
+./pr-notifier<span class="w"> </span>--pr<span class="w"> </span><span class="m">12345</span><span class="w"> </span>--explain
+</code></pre></div>
+
+<h2>Conclusion</h2>
+<p>[TODO: Wrap up the key message]</p>
+<p>Building context-aware automation isn't about the specific technologies—it's about the pattern: <strong>fetch → enrich → act</strong>. Whether you're extending Fleetshift, building PR notifications, or creating deployment dashboards, the same principles apply.</p>
+<p>[TODO: Key takeaways as bullet list]</p>
+<p><strong>Key takeaways:</strong>
+- Start with a CLI tool, evolve to production gradually
+- Enrich data from multiple sources to enable intelligent decisions
+- Cache aggressively and handle failures gracefully
+- Config in source, databases for dynamic data
+- Build observability from day one
+- Make it easy to run and debug locally</p>
+<p>[TODO: Call to action or forward-looking statement]</p>
+<p>The difference between automation that creates noise and automation that provides value is context. By thoughtfully integrating disparate systems, we can build tools that understand not just <em>what</em> changed, but <em>why it matters</em> and <em>who should care</em>.</p>
+<hr>
+<p><strong>Further Reading:</strong></p>
+<p>[TODO: Add links to relevant resources]
+- Spotify Engineering Blog: Fleet Management Series
+- GitHub API Documentation
+- Slack API Best Practices
+- [Add other relevant links]</p>
+      </div><!-- /.entry-content -->
+
+    </article>
+  </section>
+                <section id="extras" class="body">
+                                <div class="social">
+                                        <h2>social</h2>
+                                        <ul>
+                                                        <li><a href="https://langstonsoftware.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                                                        <li><a href="https://www.linkedin.com/in/thomaslangston/">LinkedIn</a></li>
+                                                        <li><a href="https://github.com/thomaslangston">GitHub</a></li>
+                                        </ul>
+                                </div><!-- /.social -->
+                </section><!-- /#extras -->
+
+                <footer id="contentinfo" class="body">
+                        <address id="about" class="vcard body">
+                                Proudly powered by <a rel="nofollow" href="https://getpelican.com/">Pelican</a>, which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                        </address><!-- /#about -->
+
+                        <p>The theme is by <a rel="nofollow" href="https://www.smashingmagazine.com/2009/08/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+                </footer><!-- /#contentinfo -->
+
+        </body>
+</html>

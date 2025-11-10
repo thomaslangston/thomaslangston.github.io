@@ -4,7 +4,7 @@
                         <meta charset="utf-8" />
                         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
                         <meta name="generator" content="Pelican" />
-                        <title>Langston Software - React</title>
+                        <title>Langston Software - Development Tools</title>
                         <link rel="stylesheet" href="https://langstonsoftware.com/theme/css/main.css" />
                                 <link href="https://langstonsoftware.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Langston Software Atom Feed" />
         </head>
@@ -18,7 +18,7 @@
                                                 <li><a href="https://langstonsoftware.com/category/bazel/">Bazel</a></li>
                                                 <li><a href="https://langstonsoftware.com/category/c/">C#</a></li>
                                                 <li><a href="https://langstonsoftware.com/category/career/">Career</a></li>
-                                                <li><a href="https://langstonsoftware.com/category/development-tools/">Development Tools</a></li>
+                                                <li class="active"><a href="https://langstonsoftware.com/category/development-tools/">Development Tools</a></li>
                                                 <li><a href="https://langstonsoftware.com/category/frameworks-libraries/">Frameworks & Libraries</a></li>
                                                 <li><a href="https://langstonsoftware.com/category/git/">Git</a></li>
                                                 <li><a href="https://langstonsoftware.com/category/javascript/">JavaScript</a></li>
@@ -33,23 +33,22 @@
 
                 <aside id="featured" class="body">
                     <article>
-                        <h1 class="entry-title"><a href="https://langstonsoftware.com/2017/08/06/how-i-am-learning-react">How I Am Learning React</a></h1>
+                        <h1 class="entry-title"><a href="https://langstonsoftware.com/2025/11/10/claude-commands-are-buttons-agents-are-functions-skills-are-mixins">Claude Commands Are Buttons, Agents Are Functions, Skills Are Mixins</a></h1>
 <footer class="post-info">
-        <abbr class="published" title="2017-08-06T11:29:00-04:00">
-                Published: Sun 06 August 2017
+        <abbr class="published" title="2025-11-10T12:00:00-05:00">
+                Published: Mon 10 November 2025
         </abbr>
 
                 <address class="vcard author">
                         By                                 <a class="url fn" href="https://langstonsoftware.com/author/thomas-langston.html">Thomas Langston</a>
                 </address>
-        <p>In <a href="https://langstonsoftware.com/category/javascript/">JavaScript</a>.</p>
-<p>tags: <a href="https://langstonsoftware.com/tag/react/">React</a> </p>        
-</footer><!-- /.post-info --><p>I’ve recently gotten a new project where I’m having to pick up a slew of new skills, including <a href="https://facebook.github.io/react/">Facebook’s React JS library</a>. As with learning any new library, it can be easy to get “tutorialized”, but harder to get truly proficient. Effectively you need to move to a <a href="https://en.wikipedia.org/wiki/Second-system_effect">third system or Goldilocks architectural thinking</a> with any new tool as soon as possible, which means trying out the tool multiple times to get a feel for it.</p>
-<p>I wanted a way to practice the React skills I picked up in <a href="https://facebook.github.io/react/tutorial/tutorial.html">Facebook’s tutorials</a> to that end. And I wanted a way to see the basics of HTML 5 local storage, which I’ve long read about but never used. And I wanted to quickly flip through different versions of the code that used different skills.</p>
-<p>But the tutorials hid their important bits in multiple different demos, with links buried within paragraphs of text. Their Git repos required you to setup either multiple repos, piece together changes from logs, or switch between branches to see the differences at a glace. You couldn’t see the shape of the program grow in the tutorial. You missed the forest for the trees.</p>
-<p>There had to be a way to put everything together in one place. Easily indexed and referenced. You could see a project grow organically over time, using additional concepts as they were required. The code wouldn’t be lost in the text.</p>
-<p>That’s when I decided to make this collection of versions of my React TODO app. It is a very basic app, much like many that you can already find on Codepen.io. But instead of a single complete demo, I’m snapshotting each new feature I make into a separate pen in the collection. So you can flip from the most basic, to my most advanced. The app is also intentionally CSS starved at the moment, to focus on the mechanics of React and local storage, making it a better tutorial app than other demos. I feel much better about my understanding of React now, and I bet my app could help other’s learn React too. I plan to continue adding to these demos for a while, so remember to check them out again in a couple of weeks if you find them useful.</p>
-<p><a href="https://codepen.io/collection/DNdPRZ/"><em>Check out the React TODO app collection.</em></a></p>                    </article>
+        <p>In <a href="https://langstonsoftware.com/category/development-tools/">Development Tools</a>.</p>
+<p>tags: <a href="https://langstonsoftware.com/tag/ai/">ai</a> <a href="https://langstonsoftware.com/tag/claude/">claude</a> <a href="https://langstonsoftware.com/tag/automation/">automation</a> </p>        
+</footer><!-- /.post-info --><p>Claude Code has three extension mechanisms that initially seem confusing: <a href="https://code.claude.com/docs/en/slash-commands#custom-slash-commands">slash commands</a>, <a href="https://code.claude.com/docs/en/sub-agents">subagents</a>, and <a href="https://www.claude.com/blog/skills">skills</a>. The mental model that makes them clear is simple: <strong>commands are buttons, subagents are functions, and skills are <a href="https://en.wikipedia.org/wiki/Mixin">mixins</a></strong>.</p>
+<p><strong>Commands</strong> are buttons you click to trigger predefined prompts. They live in <code>.claude/commands/</code> as markdown files. When you type <code>/review-pr</code>, Claude receives that file's text as its prompt. They're perfect for team-wide standardized workflows: commit them to your repo and everyone gets the same code review checklist or testing procedure. But like buttons, they're static—no parameters, no conditional logic, just text expansion.</p>
+<p><strong>Subagents</strong> are function calls that accept input parameters and return values. They're <strong>explicitly invoked</strong> in prompts—the main agent deliberately calls them by name to delegate specific work. When invoked, the main agent describes the task (the input), the subagent executes autonomously with access to tools (Read, Edit, Bash, etc.), then reports back its results (the return value). The <code>Explore</code> subagent searches codebases, the <code>general-purpose</code> subagent handles complex multi-step work—each is a specialized function with its own signature and behavior. Note that <strong>subagents cannot access skills</strong>—skills are only available to the main agent, not to spawned subagents.</p>
+<p><strong>Skills</strong> are mixins that add reusable functionality without inheritance. Unlike subagents which are explicitly invoked, skills are <strong>implicitly loaded</strong> based on context—Claude automatically activates them when their description matches the current task. Just as a <code>ThreadingMixIn</code> class adds threading behavior to Python's <code>TCPServer</code> without making it "a kind of" threading server, Claude Skills are packages of "instructions, scripts, and resources that Claude can load when needed." They compose automatically—multiple skills activate together when relevant—and work across Claude apps, Claude Code, and the API. Skills like Excel manipulation or PDF generation inject specialized capabilities into Claude's base functionality, exactly like mixins inject methods into classes.</p>
+<p>Understanding this model clarifies when to use each: commands for repeated user invoked prompts, subagents for explicity invoked complex tasks to limit context size and scope, and skills for implicity invoked adding of domain-specific expertise in the main agent that composes across different use cases.</p>                    </article>
                 </aside><!-- /#featured -->
                 <section id="extras" class="body">
                                 <div class="social">

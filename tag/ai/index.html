@@ -4,7 +4,7 @@
                         <meta charset="utf-8" />
                         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
                         <meta name="generator" content="Pelican" />
-                        <title>Langston Software - Tags</title>
+                        <title>Langston Software - ai</title>
                         <link rel="stylesheet" href="https://langstonsoftware.com/theme/css/main.css" />
                                 <link href="https://langstonsoftware.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Langston Software Atom Feed" />
         </head>
@@ -31,30 +31,25 @@
                         </ul></nav>
                 </header><!-- /#banner -->
 
-    <section id="content" class="body">
-        <h1>Tags for Langston Software</h1>
-        <ul>
-                <li><a href="https://langstonsoftware.com/tag/ai/">ai</a> (1)</li>
-                <li><a href="https://langstonsoftware.com/tag/automation/">automation</a> (1)</li>
-                <li><a href="https://langstonsoftware.com/tag/bamboo/">Bamboo</a> (1)</li>
-                <li><a href="https://langstonsoftware.com/tag/c/">C#</a> (1)</li>
-                <li><a href="https://langstonsoftware.com/tag/claude/">claude</a> (1)</li>
-                <li><a href="https://langstonsoftware.com/tag/continuous-integration/">Continuous Integration</a> (1)</li>
-                <li><a href="https://langstonsoftware.com/tag/frameworks-libraries/">Frameworks & Libraries</a> (1)</li>
-                <li><a href="https://langstonsoftware.com/tag/html/">html</a> (1)</li>
-                <li><a href="https://langstonsoftware.com/tag/javascript/">JavaScript</a> (2)</li>
-                <li><a href="https://langstonsoftware.com/tag/markdown/">markdown</a> (1)</li>
-                <li><a href="https://langstonsoftware.com/tag/monorepo/">monorepo</a> (1)</li>
-                <li><a href="https://langstonsoftware.com/tag/moq/">Moq</a> (1)</li>
-                <li><a href="https://langstonsoftware.com/tag/pelican/">pelican</a> (1)</li>
-                <li><a href="https://langstonsoftware.com/tag/politics/">Politics</a> (1)</li>
-                <li><a href="https://langstonsoftware.com/tag/powershell/">PowerShell</a> (1)</li>
-                <li><a href="https://langstonsoftware.com/tag/react/">React</a> (1)</li>
-                <li><a href="https://langstonsoftware.com/tag/unit-testing/">Unit Testing</a> (1)</li>
-                <li><a href="https://langstonsoftware.com/tag/wordpress/">wordpress</a> (1)</li>
-        </ul>
-    </section>
+                <aside id="featured" class="body">
+                    <article>
+                        <h1 class="entry-title"><a href="https://langstonsoftware.com/2025/11/10/claude-commands-are-buttons-agents-are-functions-skills-are-mixins">Claude Commands Are Buttons, Agents Are Functions, Skills Are Mixins</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2025-11-10T12:00:00-05:00">
+                Published: Mon 10 November 2025
+        </abbr>
 
+                <address class="vcard author">
+                        By                                 <a class="url fn" href="https://langstonsoftware.com/author/thomas-langston.html">Thomas Langston</a>
+                </address>
+        <p>In <a href="https://langstonsoftware.com/category/development-tools/">Development Tools</a>.</p>
+<p>tags: <a href="https://langstonsoftware.com/tag/ai/">ai</a> <a href="https://langstonsoftware.com/tag/claude/">claude</a> <a href="https://langstonsoftware.com/tag/automation/">automation</a> </p>        
+</footer><!-- /.post-info --><p>Claude Code has three extension mechanisms that initially seem confusing: <a href="https://code.claude.com/docs/en/slash-commands#custom-slash-commands">slash commands</a>, <a href="https://code.claude.com/docs/en/sub-agents">subagents</a>, and <a href="https://www.claude.com/blog/skills">skills</a>. The mental model that makes them clear is simple: <strong>commands are buttons, subagents are functions, and skills are <a href="https://en.wikipedia.org/wiki/Mixin">mixins</a></strong>.</p>
+<p><strong>Commands</strong> are buttons you click to trigger predefined prompts. They live in <code>.claude/commands/</code> as markdown files. When you type <code>/review-pr</code>, Claude receives that file's text as its prompt. They're perfect for team-wide standardized workflows: commit them to your repo and everyone gets the same code review checklist or testing procedure. But like buttons, they're static—no parameters, no conditional logic, just text expansion.</p>
+<p><strong>Subagents</strong> are function calls that accept input parameters and return values. They're <strong>explicitly invoked</strong> in prompts—the main agent deliberately calls them by name to delegate specific work. When invoked, the main agent describes the task (the input), the subagent executes autonomously with access to tools (Read, Edit, Bash, etc.), then reports back its results (the return value). The <code>Explore</code> subagent searches codebases, the <code>general-purpose</code> subagent handles complex multi-step work—each is a specialized function with its own signature and behavior. Note that <strong>subagents cannot access skills</strong>—skills are only available to the main agent, not to spawned subagents.</p>
+<p><strong>Skills</strong> are mixins that add reusable functionality without inheritance. Unlike subagents which are explicitly invoked, skills are <strong>implicitly loaded</strong> based on context—Claude automatically activates them when their description matches the current task. Just as a <code>ThreadingMixIn</code> class adds threading behavior to Python's <code>TCPServer</code> without making it "a kind of" threading server, Claude Skills are packages of "instructions, scripts, and resources that Claude can load when needed." They compose automatically—multiple skills activate together when relevant—and work across Claude apps, Claude Code, and the API. Skills like Excel manipulation or PDF generation inject specialized capabilities into Claude's base functionality, exactly like mixins inject methods into classes.</p>
+<p>Understanding this model clarifies when to use each: commands for repeated user invoked prompts, subagents for explicity invoked complex tasks to limit context size and scope, and skills for implicity invoked adding of domain-specific expertise in the main agent that composes across different use cases.</p>                    </article>
+                </aside><!-- /#featured -->
                 <section id="extras" class="body">
                                 <div class="social">
                                         <h2>social</h2>
